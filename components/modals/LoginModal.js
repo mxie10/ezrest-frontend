@@ -32,7 +32,6 @@ const LoginModal = () => {
             login(username, password)
             .then(res => {
                 if (res.user) {
-                    console.log('res:',res);
                     updateUser(res.user);
                     loginModal.onClose();
                     router.push('/');                    

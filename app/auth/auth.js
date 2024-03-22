@@ -13,6 +13,8 @@ export const register = (username, password, email) => {
       username: username,
       password: password,
       email: email,
+      profile:'',
+      favoriteItems:[]
     })
   })
     .then((response) => response.json())
@@ -28,7 +30,7 @@ export const register = (username, password, email) => {
     });
 }
 
-export const login = ( username, password) => {
+export const login = (username, password) => {
 
   return fetch(`${baseUrl}/api/auth/login`, {
     method: 'POST',
@@ -47,13 +49,13 @@ export const login = ( username, password) => {
         return responseJson;
       }
       return "error";
-      
+
     })
     .catch((error) => {
       console.error(error);
       return "error";
     }
-  );
+    );
 }
 
 export const getUser = async () => {
