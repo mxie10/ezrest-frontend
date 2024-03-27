@@ -220,8 +220,8 @@ export default function Home() {
                           />
                       <div className="flex flex-row">
                         <div className="flex flex-col justify-between w-2/3 ml-4">
-                            <h3 className="text-lg font-semibold">Rock 'n' House - Unique Modern Escape with Views</h3>
-                            <p className="text-justify text-gray-700">Escape to Rock 'n' House, a marvel featured in Architectural Digest, nestled on a 14-acre estate down a secluded road - 2 hrs from NYC. This architectural wonder with panoramic views and circular design offers seamless integration with nature. Inside, the main level offers open concept living, sunken lounge and dining for 10, with radiant heat & central air to ensure your comfort. Outdoors enjoy stunning vistas from the outdoor firepit and porch table.</p>
+                            <h3 className="text-lg font-semibold">Rock n House - Unique Modern Escape with Views</h3>
+                            <p className="text-justify text-gray-700">Escape to Rock n House, a marvel featured in Architectural Digest, nestled on a 14-acre estate down a secluded road - 2 hrs from NYC. This architectural wonder with panoramic views and circular design offers seamless integration with nature. Inside, the main level offers open concept living, sunken lounge and dining for 10, with radiant heat & central air to ensure your comfort. Outdoors enjoy stunning vistas from the outdoor firepit and porch table.</p>
                             
                             <div className="bottom-0 flex flex-row">
                                 <span className="mt-2"><CiLocationOn /></span>
@@ -277,7 +277,7 @@ export default function Home() {
                       <div className="flex flex-row">
                         <div className="flex flex-col justify-between w-2/3 ml-4">
                             <h3 className="text-lg font-semibold">Roxbury Dome House 4BR w/ Mtn Views & Fire Pit</h3>
-                            <p className="text-justify text-gray-700">Stay in a light-filled modern architectural wonder unlike anything else you'll find in the Catskills— just 5 miles outside of the town of Roxbury and 7 miles outside the town of Margaretville! The Shell House half dome, featured in Dwell and other design magazines, was built to be in harmony with the environment and boasts a beautiful view of the Catskills from every room. Extraordinary communal spaces and unique rooms will make this a stay you won't soon forget.</p>
+                            <p className="text-justify text-gray-700">Stay in a light-filled modern architectural wonder unlike anything else you will find in the Catskills— just 5 miles outside of the town of Roxbury and 7 miles outside the town of Margaretville! The Shell House half dome, featured in Dwell and other design magazines, was built to be in harmony with the environment and boasts a beautiful view of the Catskills from every room. Extraordinary communal spaces and unique rooms will make this a stay you will not soon forget.</p>
                             
                             <div className="bottom-0 flex flex-row">
                                 <span className="mt-2"><CiLocationOn /></span>
