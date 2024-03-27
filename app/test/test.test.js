@@ -1,3 +1,9 @@
+/**
+ * calculate rent cost
+ * the total cost is calculated by cost * data.nights + (cost * nights) * 0.03 + 100 + cost * nights * 0.1 
+ * @author Mingyuan Xie
+ **/
+
 const calculatTotalCost = require('./calculateTotalCost');
 
 describe('calculat Total Cost', () => {

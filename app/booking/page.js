@@ -54,7 +54,7 @@ const BookingScreen = () => {
           >
 
             {
-              bookings.map((booking, index) => {
+              bookings && bookings.map((booking, index) => {
                 return (
                   <BookingCard onClick={handleBookingOnClick} booking={booking} key={index}/>
                 )
