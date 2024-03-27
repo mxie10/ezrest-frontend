@@ -1,19 +1,5 @@
 'use client'
-
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {canadianProvinces} from '../public/static/state';
 import { CiLocationOn } from "react-icons/ci";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MdOutlineCoffeeMaker, MdPaid, MdLocalLaundryService} from "react-icons/md";
 import { GiHotSurface,GiHanger,GiDesk} from "react-icons/gi";
 import { BiSolidFridge, BiSolidBlanket} from "react-icons/bi";
@@ -31,6 +17,8 @@ import { Tb24Hours,TbLadder } from "react-icons/tb";
 import { FaFirstAid, FaFireExtinguisher} from "react-icons/fa";
 import { IoIosExit } from "react-icons/io";
 import { MdOutlineSecurity } from "react-icons/md";
+import SearchBar from '../components/SearchBar';
+import CategoryFilter from '../components/CategoryFilter';
 
 const iconsMap = [
   { name: "Wifi", icon: <FaWifi /> },
@@ -75,32 +63,6 @@ const safetyFeatures = ["Smoke Alarm", "24/7 Security", "First Aid Kit", "Fire E
 
 export default function Home() {
 
-  const SearchBar = () => {
-    return (
-      <div
-        className='absolute flex flex-row w-full gap-2 text-center transform -translate-x-1/2 -translate-y-1/2 md:w-1/2 top-1/2 left-1/2'
-      >
-        <div className="flex flex-row w-5/6 gap-2">
-          <Input type="text" placeholder="City eg: Toronto" className='w-4/6' />
-          <Select>
-            <SelectTrigger className="w-[170px]">
-              <SelectValue placeholder="Select a state" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>State</SelectLabel>
-                {canadianProvinces.map((item,index)=>(
-                   <SelectItem value={item} key={index}>{item}</SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <Button type="submit" className='w-3/12'>Search</Button>
-      </div>
-    )
-  }
-
   return (
     <div
       className='
@@ -112,12 +74,17 @@ export default function Home() {
         className='relative w-full border-b-2 '
       >
         <img
-          className='w-full h-60 filter brightness-50'
+          className='w-full h-full filter brightness-50 bg-cover'
           alt="header image"
-          src='/images/background.png'
+          src='/images/bg5.png'
         />
         <SearchBar/>
       </div>
+
+      <div className="p-4">
+        <CategoryFilter/>
+      </div>
+
       <div className="flex">
         <div className="h-screen p-4 mt-4 mb-20 ml-4 mr-4 bg-white rounded-lg shadow-lg xl:w-1/6 sm:w-2/6 shadow-gray-500">
           <h1 className="mb-4 text-lg font-bold">Filter Options</h1>
