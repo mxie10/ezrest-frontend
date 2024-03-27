@@ -82,7 +82,7 @@ const LoginModal = () => {
             >
                 <div className='justify-center text-center flex flex-row item-cen gap-2'>
                     <div>
-                        Don't have an account?
+                        Do not have an account?
                     </div>
                     <div
                         onClick={toggle}
