@@ -54,7 +54,7 @@ const HelpCenterScreen = () => {
                 {
                     helpDescription.map((item, index) => {
                         return (
-                            <Accordion>
+                            <Accordion key={index}>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="panel1-content"
