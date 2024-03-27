@@ -17,7 +17,8 @@ const testData = {
   imageSrc: 'https://a0.muscache.com/im/pictures/a4140371-0e56-4554-b593-4f64242d5419.jpg?im_w=720',
   createdAt: { "$date": { "$numberLong": "1689606868828" } },
   userId: { "$oid": "65d79834c2f97225f93c136b" },
-  cost: 120,
+  cost: 360,
+  nights: 2,
   startDate: 'Sep 24, 2024',
   endDate: 'Oct 30, 2024'
 }
@@ -51,6 +52,7 @@ const PaymentScreen = () => {
   }
 
   const BookingDetailsScreen = () => {
+
     return (
       <div className={`flex flex-col transition-opacity duration-500 ease-in-out ${step === 0 ? 'block opacity-100' : 'hidden opacity-0'}`}>
         {/* header */}
@@ -64,8 +66,20 @@ const PaymentScreen = () => {
   }
 
   const MakePaymentScreen = () => {
+
     return (
-      <div className={`flex flex-col transition-opacity duration-500 ease-in-out gap-3 ${step === 1 ? 'block opacity-100' : 'hidden opacity-0'}`}>
+      <div 
+        className={`
+            flex 
+            flex-col 
+            transition-opacity 
+            duration-500 
+            ease-in-out 
+            gap-3 
+            ${step === 1 ? 'block opacity-100' : 'hidden opacity-0'}
+          `
+        }
+      >
         <Title title='Confirm and pay' fontSize='text-2xl' />
         <div className='flex flex-row justify-between border-b-2 text-neutral-600'>
           <div>Total</div>

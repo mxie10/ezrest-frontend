@@ -23,8 +23,6 @@ const RegisterModal = () => {
         loginModal.onOpen();
     },[loginModal,registerModal])
 
-    console.log('username:',username);
-
     const handleRegister = () => {
         if (username === '' || password === ''|| email === '') {
           setMessage('Please fill in all fields');
@@ -36,13 +34,17 @@ const RegisterModal = () => {
         // }
         register(username, password, email)
             .then(res => {
-            if (res === 'success') {
-                router.push('/');
-            } 
-          }
-          ).catch(err => {
+                console.log('res is:',res);
+                if (res === 'success') {
+                    console.log('in???');
+                    registerModal.onClose();
+                    loginModal.onOpen();
+                    router.push('/');
+                } 
+            }
+        ).catch(err => {
             setMessage(err.message);
-          })
+        })
       }
 
     const bodyContent = (
