@@ -18,6 +18,7 @@ import { FaFirstAid, FaFireExtinguisher} from "react-icons/fa";
 import { IoIosExit } from "react-icons/io";
 import { MdOutlineSecurity } from "react-icons/md";
 import SearchBar from '../components/SearchBar';
+import SearchBarAlt from '../components/SearchBarAlt';
 import CategoryFilter from '../components/CategoryFilter';
 
 const iconsMap = [
@@ -70,18 +71,10 @@ export default function Home() {
           mx-auto
         '
     >
-      <div
-        className='relative w-full border-b-2 '
-      >
-        <img
-          className='w-full h-full filter brightness-50 bg-cover'
-          alt="header image"
-          src='/images/bg4.png'
-        />
-        <SearchBar/>
+      <div className="flex flex-row justify-center">
+        <SearchBarAlt/>
       </div>
-
-      <div className="p-4">
+      <div className="pb-4 px-4">
         <CategoryFilter/>
       </div>
 
