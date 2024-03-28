@@ -8,7 +8,7 @@ import useLoginModal from '../../hooks/useLoginModal'
 import { useRouter } from 'next/navigation';
 import Input from './components/InputAlt'
 import { Context } from '@/app/context/useContext';
-import { login } from '../../app/auth/auth';
+import { login } from '../../auth/auth';
 
 const LoginModal = () => {
     const router = useRouter();

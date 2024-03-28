@@ -1,14 +1,14 @@
 'use client'
 import React from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import ClientRendering from '../components/ClientRendering';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import ClientRendering from './components/ClientRendering';
 import { FaAlignJustify } from "react-icons/fa";
-import useSidebar from '../hooks/useSideBar';
-import SideBar from '@/components/SideBar';
-import LoginModal from '@/components/modals/LoginModal';
-import RegisterModal from '@/components/modals/RegisterModal';
-import BookingDetailsModal from '@/components/modals/BookingDetailsModal';
+import useSidebar from './hooks/useSideBar';
+import SideBar from '@/app/components/SideBar';
+import LoginModal from '@/app/components/modals/LoginModal';
+import RegisterModal from '@/app/components/modals/RegisterModal';
+import BookingDetailsModal from '@/app/components/modals/BookingDetailsModal';
 import { ContextProvider } from './context/useContext';
 import "./globals.css";
 

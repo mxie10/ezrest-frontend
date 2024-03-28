@@ -6,7 +6,7 @@ import useLoginModal from '../../hooks/useLoginModal';
 import Modal from './Modal';
 import Heading from './components/Heading';
 import Input from './components/InputAlt';
-import { register } from '../../app/auth/auth';
+import { register } from '../../auth/auth';
 
 const RegisterModal = () => {
     const router = useRouter();
