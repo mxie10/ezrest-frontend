@@ -92,7 +92,7 @@ const CategoryFilter = () => {
                             <div key={bedroom}>
                                 more than 7
                             </div> :
-                            <div>
+                            <div key={bedroom}>
                                 {bedroom} bedrooms
                             </div>
                     })}
@@ -104,7 +104,7 @@ const CategoryFilter = () => {
     return (
         <>
             <div
-                className='flex flex-col gap-5 px-4 mt-2'
+                className='flex flex-col gap-7 px-4 mt-2'
             >
                 <Location />
                 <ListingPrice />
