@@ -6,7 +6,7 @@ const CategoryBox = (props) => {
 
     return (
         <div className='flex flex-row items-center'>
-            <Icon size={25}/>
+            <Icon size={30}/>
             <div className='text-sm'>
                 {label}
             </div>

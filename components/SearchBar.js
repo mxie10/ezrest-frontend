@@ -8,7 +8,7 @@ const SearchBar = () => {
             className='
                 absolute 
                 flex 
-                flex-row 
+                flex-col
                 w-full 
                 text-center 
                 transform 
@@ -21,6 +21,9 @@ const SearchBar = () => {
                 font-serif
             '
         >
+            <div className='text-white text-4xl mb-10'>
+                Discover Your Dream Stay: Find Your Perfect Getaway!
+            </div>
             <div className="flex flex-row w-full items-center">
                 <Input type="text" placeholder="Enter an address, ciy or ZIP code" className='w-full h-14 text-lg' />
                 <FaSearch className="absolute right-5" size={20} />
