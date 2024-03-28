@@ -22,12 +22,12 @@ const SearchBarAlt = () => {
             <Input
                 type="text"
                 placeholder="Enter an address, ciy or ZIP code"
-                className='w-3/12 h-14 text-lg border-2 rounded-3xl border-red-200'
+                className='w-3/12 h-14 text-lg border-2 rounded-3xl border-red-300'
             />
             <div className='flex flex-row items-center'>
                 <DatePicker
                     selected={startDate}
-                    className='h-14 pl-3 rounded-3xl border-2 border-red-200'
+                    className='h-14 pl-3 rounded-3xl border-2 border-red-300'
                 />
                 <FaCalendarAlt className='-ml-10' size={17} />
             </div>

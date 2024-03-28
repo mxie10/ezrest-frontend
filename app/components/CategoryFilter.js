@@ -104,7 +104,7 @@ const CategoryFilter = () => {
     return (
         <>
             <div
-                className='flex flex-col gap-7 px-4 mt-2'
+                className='flex flex-col gap-7 px-6 mt-2'
             >
                 <Location />
                 <ListingPrice />
