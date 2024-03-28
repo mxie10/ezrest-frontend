@@ -76,7 +76,7 @@ export default function Home() {
         <img
           className='w-full h-full filter brightness-50 bg-cover'
           alt="header image"
-          src='/images/bg5.png'
+          src='/images/bg4.png'
         />
         <SearchBar/>
       </div>

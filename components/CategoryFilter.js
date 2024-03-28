@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef,useState,useEffect } from 'react'
 import {
     Select,
     SelectContent,
@@ -16,7 +16,7 @@ const CategoryFilter = () => {
 
     const Location = () => (
         <div className='flex flex-row gap-2 text-neutral-600 items-center font-serif'>
-            <div>
+            <div className='text-md'>
                 Province:
             </div>
             <div>
@@ -40,7 +40,7 @@ const CategoryFilter = () => {
 
     const Category = () => (
         <div className='flex flex-row gap-2 text-neutral-600 items-center font-serif'>
-            <div>
+            <div className='text-md'>
                 Category:
             </div>
             <div className='flex flex-row gap-4'>
@@ -79,8 +79,10 @@ const CategoryFilter = () => {
 
     return (
         <>
-            <div className='flex flex-col gap-4 pt-4 bg-white p-4 mt-2 rounded-lg shadow-md'>
-            <Category />
+            <div 
+                className='flex flex-col gap-4 pt-4 p-4 mt-2' 
+            >
+                <Category />
                 <Location />
                 <ListingPrice/>   
             </div>
