@@ -81,3 +81,7 @@ export const categories = [
         description: 'This property is luxurious!'
     },
 ]
+
+export const pricesRange = ['Less than $200', '$200 - $500', '$500 - $1000', '$1000 - $1500', '$1500 - $2000', 'More than $2000']
+
+export const bedRooms = ['1','2','3','4','5','6','7+'];

@@ -1,4 +1,4 @@
-import React, { useRef,useState,useEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import {
     Select,
     SelectContent,
@@ -8,21 +8,20 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { canadianProvinces } from '../public/static/province';
-import { pricesRange } from '../public/static/listingPrices';
-import { categories } from '../public/static/listingCategories';
+import { pricesRange, categories, bedRooms } from '../public/static/listingFilterOptions';
 import CategoryBox from './CategoryBox';
 
 const CategoryFilter = () => {
 
     const Location = () => (
         <div className='flex flex-row gap-2 text-neutral-600 items-center font-serif'>
-            <div className='text-md'>
+            <div className='text-md font-semibold'>
                 Province:
             </div>
             <div>
                 <Select>
-                    <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Ontario" />
+                    <SelectTrigger className="w-[180px] border-2 border-neutral-300">
+                        <SelectValue placeholder="Ontario"/>
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
@@ -40,7 +39,7 @@ const CategoryFilter = () => {
 
     const Category = () => (
         <div className='flex flex-row gap-2 text-neutral-600 items-center font-serif'>
-            <div className='text-md'>
+            <div className='text-md font-semibold'>
                 Category:
             </div>
             <div className='flex flex-row gap-4'>
@@ -60,10 +59,10 @@ const CategoryFilter = () => {
 
     const ListingPrice = () => (
         <div className='flex flex-row gap-2 text-neutral-600 items-center font-serif'>
-            <div className='font-serif'>
+            <div className='font-serif font-semibold'>
                 Price:
             </div>
-             <div className='flex flex-row gap-2 text-neutral-600 items-center'>
+            <div className='flex flex-row gap-2 text-neutral-600 items-center'>
                 <div className='flex flex-row gap-5'>
                     {pricesRange.map((price) => {
                         return (
@@ -77,14 +76,40 @@ const CategoryFilter = () => {
         </div>
     )
 
+    const ListingBedrooms = () => (
+        <div className='flex flex-row gap-2 text-neutral-600 items-center font-serif'>
+            <div className='font-serif font-semibold'>
+                Bedrooms:
+            </div>
+            <div className='flex flex-row gap-2 text-neutral-600 items-center'>
+                <div className='flex flex-row gap-5'>
+                    {bedRooms.map((bedroom) => {
+                        return bedroom === '1' ? 
+                            <div key={bedroom}>
+                                Only 1
+                            </div> : 
+                            bedroom === '7+' ?
+                            <div key={bedroom}>
+                                more than 7
+                            </div> :
+                            <div>
+                                {bedroom} bedrooms
+                            </div>
+                    })}
+                </div>
+            </div>
+        </div>
+    )
+
     return (
         <>
-            <div 
-                className='flex flex-col gap-4 pt-4 p-4 mt-2' 
+            <div
+                className='flex flex-col gap-5 px-4 mt-2'
             >
-                <Category />
                 <Location />
-                <ListingPrice/>   
+                <ListingPrice />
+                <ListingBedrooms/>
+                <Category />
             </div>
         </>
     )

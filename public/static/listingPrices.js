@@ -1,1 +1,0 @@
-export const pricesRange = ['Less than $200', '$200 - $500', '$500 - $1000', '$1000 - $1500', '$1500 - $2000', 'More than $2000']
