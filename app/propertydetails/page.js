@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { useRouter } from 'next/navigation';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/app/components/ui/avatar";
 import { MdOutlineCoffeeMaker, MdPaid, MdLocalLaundryService} from "react-icons/md";
 import { GiHotSurface,GiHanger,GiDesk} from "react-icons/gi";
 import { BiSolidFridge, BiSolidBlanket} from "react-icons/bi";

@@ -6,9 +6,9 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
-import { canadianProvinces } from '../public/static/province';
-import { pricesRange, categories, bedRooms } from '../public/static/listingFilterOptions';
+} from "@/app/components/ui/select"
+import { canadianProvinces } from '../../public/static/province';
+import { pricesRange, categories, bedRooms } from '../../public/static/listingFilterOptions';
 import CategoryBox from './CategoryBox';
 
 const CategoryFilter = () => {

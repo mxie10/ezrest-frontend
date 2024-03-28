@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image';
 import TextField from '@mui/material/TextField';
-import Button from '@/components/Button';
+import Button from '@/app/components/Button';
 
 const imageAddress = [
     'https://a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_mastercard.f18379cf1f27d22abd9e9cf44085d149.svg',

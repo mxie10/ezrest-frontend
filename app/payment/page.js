@@ -1,8 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import BookingCard from '../../components/BookingCard';
+import BookingCard from '../components/BookingCard';
 import { MdArrowForwardIos } from "react-icons/md";
-import Title from '../../components/Title';
+import Title from '../components/Title';
 import TripDetails from './TripDetails';
 import PriceDetails from './PriceDetails';
 import PaymentMethod from './PaymentMethod';

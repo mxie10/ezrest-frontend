@@ -1,13 +1,13 @@
 'use client'
 import React, { useState } from 'react'
-import Title from '../../components/Title';
+import Title from '../components/Title';
 import EditLegalNameForm from './EditLegalNameForm';
 import EditEmailAddress from './EditEmailAddress';
 import EditPhoneNumber from './EditPhoneNumber';
 import EditAddress from './EditAddress';
 import EditEmergencyContact from './EditEmergencyContact';
 import AddPaymentMethodForm from './AddPaymentMethodForm';
-import Button from '@/components/Button';
+import Button from '@/app/components/Button';
 
 const AccountSettingScreen = () => {
 

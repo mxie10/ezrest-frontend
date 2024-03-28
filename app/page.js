@@ -17,9 +17,9 @@ import { Tb24Hours,TbLadder } from "react-icons/tb";
 import { FaFirstAid, FaFireExtinguisher} from "react-icons/fa";
 import { IoIosExit } from "react-icons/io";
 import { MdOutlineSecurity } from "react-icons/md";
-import SearchBar from '../components/SearchBar';
-import SearchBarAlt from '../components/SearchBarAlt';
-import CategoryFilter from '../components/CategoryFilter';
+import SearchBar from './components/SearchBar';
+import SearchBarAlt from './components/SearchBarAlt';
+import CategoryFilter from './components/CategoryFilter';
 
 const iconsMap = [
   { name: "Wifi", icon: <FaWifi /> },

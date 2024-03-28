@@ -4,8 +4,8 @@ import React, { useContext } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import useLoginModal from '../hooks/useLoginModal';
-import useRegisterModal from '@/hooks/useRegisterModal';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import useRegisterModal from '@/app/hooks/useRegisterModal';
+import { Avatar, AvatarFallback, AvatarImage } from "@/app/components/ui/avatar";
 import { FaUserCircle } from "react-icons/fa";
 import {
   DropdownMenu,
@@ -13,8 +13,8 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {Context} from '../app/context/useContext'
+} from "@/app/components/ui/dropdown-menu";
+import {Context} from '../context/useContext'
 
 const Header = () => {
   //for test purpose

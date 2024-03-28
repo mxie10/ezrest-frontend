@@ -1,5 +1,5 @@
 import React from 'react'
-import ListingCard from '../../components/WishListingCard.js'
+import ListingCard from '../components/WishListingCard.js'
 import { listings } from '../../public/static/testData.js';
 
 const Page = () => {

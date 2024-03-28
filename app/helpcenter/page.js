@@ -4,7 +4,7 @@ import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Title from '@/components/Title.js';
+import Title from '@/app/components/Title.js';
 import Button from '@mui/material/Button';
 
 const helpDescription = [

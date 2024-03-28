@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import BookingCard from '../../components/BookingCard';
-import useBookingDetailsModal from '@/hooks/useBookingDetailsModal'
+import BookingCard from '../components/BookingCard';
+import useBookingDetailsModal from '@/app/hooks/useBookingDetailsModal'
 import { bookings } from '@/public/static/testBookingData';
 
 const BookingScreen = () => {
