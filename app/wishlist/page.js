@@ -1,11 +1,31 @@
-import React from 'react'
-import ListingCard from '../components/WishListingCard.js'
+'use client'
+
+import React, { useContext } from 'react'
+import Listing from '../components/Listing';
 import { listings } from '../../public/static/testData.js';
+import useFetchWishLists from '../hooks/requests/useFetchWishLists';
+import { useSelector } from "react-redux";
+import { Context } from '../context/useContext';
 
 const Page = () => {
 
+  const { user } = useContext(Context);
+  if(!user) {
+    return <>...Loading</>
+  }
+  useFetchWishLists(user._id);
+  const wishLists = useSelector(state => state.wishLists.data);
+  const isLoading = useSelector(state => state.wishLists.isLoading)
+  const listingArray = wishLists?.data || [];
+  console.log('wishLists:',wishLists);
+  
+  if(isLoading){
+    return <>...Loading</>
+  }
+ 
+
   return (
-    <div className='bg-neutral-50'>
+    <div className='bg-neutral-50 min-h-screen'>
       <div
         className='
           flex
@@ -43,19 +63,11 @@ const Page = () => {
               mt-7
         '
           >
-            {/* <ListingCard />
-          <ListingCard />
-          <ListingCard />
-          <ListingCard />
-          <ListingCard />
-          <ListingCard />
-          <ListingCard />
-          <ListingCard /> */}
             {
-              listings && listings.map((listing, index) => {
+              listingArray && listingArray.map((listing, index) => {
                 return (
                   <div key={index}>
-                    <ListingCard listing={listing} />
+                    <Listing listing = {listing}/>
                   </div>
                 )
               })

@@ -1,15 +1,18 @@
 'use client'
 
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { updateFavoriteList } from '../api/user';
+import { Context } from '../context/useContext';
 
 const Listing = (props) => {
 
   const [like, setLike] = useState(false);
+  const { user } = useContext(Context);
   const { address, startDate, weekdayPrice, weekendPrice, imageSrc } = props.listing;
 
   const navigateToListingDetails = () => {
@@ -18,7 +21,7 @@ const Listing = (props) => {
 
   const addOrRemoveFavoriteListing = () => {
     setLike(!like);
-
+    updateFavoriteList(user._id, props.listing._id);
   }
 
   return (
@@ -43,12 +46,11 @@ const Listing = (props) => {
             </IconButton>
           </div>
           <div className='font-serif text-sm text-neutral-500'>
-            Avilable from {startDate}
+            Avilable from {startDate ?? startDate}
           </div>
           <div className='font-bold text-sm'>
             ${weekdayPrice} a night
           </div>
-
         </div>
       </CardContent>
     </Card>
