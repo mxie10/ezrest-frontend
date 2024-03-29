@@ -1,30 +1,28 @@
 'use client'
 
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import React, {useState} from 'react';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
-
 const Listing = (props) => {
 
+  const [like, setLike] = useState(false);
   const { address, startDate, weekdayPrice, weekendPrice, imageSrc } = props.listing;
 
+  const navigateToListingDetails = () => {
+    setLike(!like);
+  }
+
+  const addOrRemoveFavoriteListing = () => {
+    setLike(!like);
+
+  }
+
   return (
-    <Card sx={{ maxWidth: 328 }} className='rounded-lg'>
+    <Card sx={{ maxWidth: 328 }} className='rounded-lg' onClick={navigateToListingDetails}>
       <CardMedia
         component="img"
         image={imageSrc}
@@ -38,7 +36,10 @@ const Listing = (props) => {
               {address.city} {address.state} {address.country}
             </div>
             <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
+              <FavoriteIcon 
+                style={like ? { color: 'red' } : {}} 
+                onClick={addOrRemoveFavoriteListing} 
+              />
             </IconButton>
           </div>
           <div className='font-serif text-sm text-neutral-500'>
