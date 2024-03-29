@@ -46,17 +46,14 @@ export const login = (username, password) => {
     .then(async (responseJson) => {
       if (responseJson.token) {
         await setToken(responseJson.token);
-        console.log('responseJson',responseJson);
         return responseJson;
       }
       return "error";
-
     })
     .catch((error) => {
       console.error(error);
       return "error";
-    }
-    );
+    });
 }
 
 export const getUser = async () => {
