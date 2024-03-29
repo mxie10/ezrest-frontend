@@ -66,11 +66,27 @@ const Page = () => {
   const router = useRouter();
 
   const navigateToCheckout = () => {
+    if (totalGuests === 0 || guests.adults === 0) {
+      alert("Please select at least one adult guest.");
+      return;
+    }
     router.push('/payment'); 
   };
 
+
   const [startDate, setStartDate] = useState(null); 
   const [endDate, setEndDate] = useState(null); 
+
+  const handleStartDateChange = (date) => {
+    if (endDate && date > endDate) {
+      setEndDate(date); 
+    }
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+  };
 
   const [guests, setGuests] = useState({
     adults: 1,
@@ -386,17 +402,22 @@ const Page = () => {
                     <div className="w-1/2 border-r border-gray-500">
                       <DatePicker
                         selected={startDate}
-                        onChange={(date) => setStartDate(date)}
-                        placeholderText='Check-in'
-                        className='w-full ml-2 bg-transparent'
+                        onChange={handleStartDateChange}
+                        selectsStart
+                        startDate={startDate}
+                        endDate={endDate}
+                        placeholderText="Start Date"
                       />
                     </div>
                     <div className="w-1/2">
                       <DatePicker
                         selected={endDate}
-                        onChange={(date) => setEndDate(date)}
-                        placeholderText='Check-out'
-                        className='w-full mb-2 ml-2 bg-transparent'
+                        onChange={handleEndDateChange}
+                        selectsEnd
+                        startDate={startDate}
+                        endDate={endDate}
+                        minDate={startDate} 
+                        placeholderText="End Date"
                       />
                     </div>
                   </div>
