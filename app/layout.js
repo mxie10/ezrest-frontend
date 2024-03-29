@@ -10,6 +10,8 @@ import LoginModal from '@/app/components/modals/LoginModal';
 import RegisterModal from '@/app/components/modals/RegisterModal';
 import BookingDetailsModal from '@/app/components/modals/BookingDetailsModal';
 import { ContextProvider } from './context/useContext';
+import { Provider } from 'react-redux';
+import store from './redux/state/store';
 import "./globals.css";
 
 export default function RootLayout({ children }) {
@@ -38,25 +40,27 @@ export default function RootLayout({ children }) {
   }
 
   return (
-    <html lang="en">
-      <body>
-        <div className="bg-neutral-50 flex flex-col min-h-screen relative z-10">
-          <ContextProvider>
-            <ClientRendering>
-              <ToggleIcon />
-              <SideBar />
-              <LoginModal />
-              <RegisterModal />
-              <BookingDetailsModal/>
-              <Header />
-              <div className="mt-12">
-                {children}
-              </div>
-              <Footer />
-            </ClientRendering>
-          </ContextProvider>
-        </div>
-      </body>
-    </html>
+    <Provider store={store}>
+      <html lang="en">
+        <body>
+          <div className="bg-neutral-50 flex flex-col min-h-screen relative z-10">
+            <ContextProvider>
+              <ClientRendering>
+                <ToggleIcon />
+                <SideBar />
+                <LoginModal />
+                <RegisterModal />
+                <BookingDetailsModal/>
+                <Header />
+                <div className="mt-12">
+                  {children}
+                </div>
+                <Footer />
+              </ClientRendering>
+            </ContextProvider>
+          </div>
+        </body>
+      </html>
+    </Provider>
   );
 }
