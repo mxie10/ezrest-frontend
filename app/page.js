@@ -6,21 +6,12 @@ import SearchBarAlt from './components/SearchBarAlt';
 import CategoryFilter from './components/CategoryFilter';
 import Listing from './components/Listing';
 
-
-
-const features = ["Wifi", "Free Parking", "Laundry Facilities", "Heating", "AC", "Paid Parking", "Coffee Maker", "Essential Kitchen Applicances", "Stove", "Kitchen Utensils", "Fridge", "Tvs", "Beddings", "Hangers"];
-const amenities = ["Hot Tub", "BBQ Grill", "Patio", "Outdoor/ Backyard Dinning Area", "Lake Access", "Mountain View", "GYM", "Pool Table", "Fireplace", "Swimming Pool", "Sauna"];
-const safetyFeatures = ["Smoke Alarm", "24/7 Security", "First Aid Kit", "Fire Extinguisher", "Emergency Exit", "Security System", "Fire Escape Ladder"];
-
-
 export default function Home() {
 
   useFetchListings();
   const listings = useSelector(state => state.listings.data);
-  const isLoading = useSelector(state => state.listings.isLoading)
+  const isLoading = useSelector(state => state.listings.isLoading);
   const listingArray = listings?.data || [];
-  console.log("listing type:", typeof listings)
-  console.log("listings:", listings);
 
   if (isLoading) {
     return (
@@ -42,7 +33,7 @@ export default function Home() {
         <CategoryFilter />
       </div>
 
-      <hr/>
+      <hr />
 
       <div className='flex items-center justify-center'>
         <div
@@ -62,7 +53,8 @@ export default function Home() {
             listingArray.map((listing, index) => {
               return (
                 <Listing
-                  listing = {listing}
+                  listing={listing}
+                  key={index}
                 />
               )
             })

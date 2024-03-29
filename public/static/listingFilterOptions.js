@@ -85,3 +85,7 @@ export const categories = [
 export const pricesRange = ['Less than $200', '$200 - $500', '$500 - $1000', '$1000 - $1500', '$1500 - $2000', 'More than $2000']
 
 export const bedRooms = ['1','2','3','4','5','6','7+'];
+
+export const features = ["Wifi", "Free Parking", "Laundry Facilities", "Heating", "AC", "Paid Parking", "Coffee Maker", "Essential Kitchen Applicances", "Stove", "Kitchen Utensils", "Fridge", "Tvs", "Beddings", "Hangers"];
+export const amenities = ["Hot Tub", "BBQ Grill", "Patio", "Outdoor/ Backyard Dinning Area", "Lake Access", "Mountain View", "GYM", "Pool Table", "Fireplace", "Swimming Pool", "Sauna"];
+export const safetyFeatures = ["Smoke Alarm", "24/7 Security", "First Aid Kit", "Fire Extinguisher", "Emergency Exit", "Security System", "Fire Escape Ladder"];

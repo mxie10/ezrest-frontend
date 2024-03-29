@@ -13,6 +13,7 @@ import { ContextProvider } from './context/useContext';
 import { Provider } from 'react-redux';
 import store from './redux/state/store';
 import "./globals.css";
+import 'react-datepicker/dist/react-datepicker.css';
 
 export default function RootLayout({ children }) {
 

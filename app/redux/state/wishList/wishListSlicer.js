@@ -1,25 +1,25 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchListings } from '../../actions/listings';
+import { fetchWishLists } from '../../actions/wishLists';
 
-const listingsSlice = createSlice({
-    name:'listings',
+const wishListsSlice = createSlice({
+    name:'wishLists',
     initialState:{
         isLoading: false,
         data: null,
         error: false
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchListings.pending, (state,action) => {
+        builder.addCase(fetchWishLists.pending, (state) => {
             state.isLoading = true
         });
-        builder.addCase(fetchListings.fulfilled, (state,action) => {
+        builder.addCase(fetchWishLists.fulfilled, (state,action) => {
             state.isLoading = false;
             state.data = action.payload
         });
-        builder.addCase(fetchListings.rejected, (state,action) => {
+        builder.addCase(fetchWishLists.rejected, (state) => {
             state.error = true;
         });
     }
 })
 
-export default listingsSlice.reducer;
+export default wishListsSlice.reducer;
