@@ -61,7 +61,7 @@ const Header = () => {
           <DropdownMenuContent>
             <DropdownMenuItem className='cursor-pointer font-bold' onClick={() => router.push('/accountsettings')}>Account Setting</DropdownMenuItem>
             <DropdownMenuItem className='cursor-pointer' onClick={() => router.push('/helpcenter')}>Help Center</DropdownMenuItem>
-            <DropdownMenuItem className='cursor-pointer text-blue-700' onClick={() => router.push('/propertydetails')}>Property Detail(for testing)</DropdownMenuItem>
+            <DropdownMenuItem className='cursor-pointer text-blue-700' onClick={() => router.push('/listingdetails')}>Property Detail(for testing)</DropdownMenuItem>
             <DropdownMenuItem className='cursor-pointer text-blue-700' onClick={() => router.push('/payment')}>Make payment(for testing)</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem 

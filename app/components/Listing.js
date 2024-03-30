@@ -1,6 +1,7 @@
 'use client'
 
 import React, {useContext, useState, useRef, useEffect} from 'react';
+import { useRouter } from 'next/navigation';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -13,18 +14,17 @@ const Listing = (props) => {
 
   const [like, setLike] = useState(false);
   const iconRef = useRef(null);
-  const { user, isRefreshing, setIsRefreshing } = useContext(Context);
+  const router = useRouter();
+  const { user } = useContext(Context);
   const { _id, address, startDate, weekdayPrice, weekendPrice, imageSrc } = props.listing;
   const { liked } = props;
-
-  console.log('liked:',liked);
 
   useEffect(() => {
     liked && liked == true ? setLike(true) : setLike(false);
   },[liked])
 
   const navigateToListingDetails = () => {
-    setLike(!like);
+    router.push(`/listingDetails?listingID=${_id}`);
   }
 
   const addOrRemoveFavoriteListing = () => {
@@ -38,7 +38,10 @@ const Listing = (props) => {
   }
 
   return (
-    <Card sx={{ maxWidth: 328 }} className='rounded-lg' onClick={navigateToListingDetails}>
+    <Card sx={{ maxWidth: 328 }} 
+      className='rounded-lg cursor-pointer' 
+      onClick={navigateToListingDetails}
+    >
       <CardMedia
         component="img"
         image={imageSrc}

@@ -9,3 +9,12 @@ export const fetchListings = createAsyncThunk("fetchListings", async () => {
         console.log(error);
     }
 })
+
+export const fetchListing = createAsyncThunk("fetchListing", async (listingID) => {
+    try{
+        const res = await api.fetchListing(listingID);
+        return res.data;
+    }catch(error){
+        console.log(error);
+    }
+})
