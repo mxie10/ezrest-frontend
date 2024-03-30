@@ -79,6 +79,7 @@ const Page = () => {
     }
   });
   const router = useRouter();
+  const {user} = useContext(Context);
   const searchParams = useSearchParams();
   const [showDropdown, setShowDropdown] = useState(true); 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -109,7 +110,10 @@ const Page = () => {
       setError('Guests number cannot be 0!');
       return;
     }
-    const queryString = `?listingData=${JSON.stringify(listingData)}&reservation=${JSON.stringify(reservation)}`;
+    const encodedListingData = encodeURIComponent(JSON.stringify(listingData));
+    const encodedReservationData = encodeURIComponent(JSON.stringify(reservation));
+    const ecodedUserID = encodeURIComponent(JSON.stringify(user._id));
+    const queryString = `?listingData=${encodedListingData}&reservation=${encodedReservationData}&userID=${ecodedUserID}`;
     router.push(`/payment${queryString}`);  
   };
 

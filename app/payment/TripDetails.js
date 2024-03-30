@@ -2,6 +2,7 @@ import React from 'react'
 import Title from '../components/Title';
 
 const TripDetails = () => {
+
     return (
         <div className='flex flex-col gap-2 border-b-2 pb-4'>
             <Title title='Your trip' fontSize='text-xl' />
@@ -12,8 +13,7 @@ const TripDetails = () => {
                     <div className='underline font-bold cursor-pointer'>Edit</div>
                 </div>
                 <div className='flex flex-row gap-3'>
-                    <div className='text-neutral-500'>Check in: Sep 19, 2024</div>
-                    <div className='text-neutral-500'>Check out: Sep 19, 2024</div>
+                    <div className='text-neutral-500'> Sep 19, 2024 to Sep 21, 2024</div>
                 </div>
             </div>
             {/* address */}
