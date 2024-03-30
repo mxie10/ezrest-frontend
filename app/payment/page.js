@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import BookingCard from '../components/BookingCard';
+import { useRouter,useSearchParams } from 'next/navigation';
 import { MdArrowForwardIos } from "react-icons/md";
 import Title from '../components/Title';
 import TripDetails from './TripDetails';
@@ -9,23 +10,15 @@ import PaymentMethod from './PaymentMethod';
 import CancellationPolicy from './CancellationPolicy';
 import { Transition } from '@headlessui/react';
 
-const testData = {
-  _id: { "$oid": "65dd20ca73b370c075e7f464" },
-  status: 'Reservation Confirmed',
-  confirmationCode: "HMAMNBWYF5",
-  description: "House",
-  imageSrc: 'https://a0.muscache.com/im/pictures/a4140371-0e56-4554-b593-4f64242d5419.jpg?im_w=720',
-  createdAt: { "$date": { "$numberLong": "1689606868828" } },
-  userId: { "$oid": "65d79834c2f97225f93c136b" },
-  cost: 360,
-  nights: 2,
-  startDate: 'Sep 24, 2024',
-  endDate: 'Oct 30, 2024'
-}
-
 const PaymentScreen = () => {
 
   const [step, setStep] = useState(0);
+  const searchParams = useSearchParams();
+  const listingData = JSON.parse(searchParams.get('listingData'));
+  const reservation = JSON.parse(searchParams.get('reservation'));
+
+  console.log('listingData:',listingData);
+  console.log('reservation:',reservation);
 
   const Button = (props) => {
     const { actionLabel, position, onClick } = props;
@@ -141,7 +134,7 @@ const PaymentScreen = () => {
             </div>
           </div>
           <div className='hidden md:block md:w-1/3'>
-            <BookingCard booking={testData} />
+            {/* <BookingCard booking={testData} /> */}
           </div>
         </div>
 
