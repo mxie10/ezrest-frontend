@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import BookingCard from '../components/BookingCard';
-import { useRouter,useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { MdArrowForwardIos } from "react-icons/md";
 import Title from '../components/Title';
 import TripDetails from './TripDetails';
@@ -16,6 +16,29 @@ const PaymentScreen = () => {
   const searchParams = useSearchParams();
   const listingData = JSON.parse(searchParams.get('listingData'));
   const reservation = JSON.parse(searchParams.get('reservation'));
+
+  const [tripDetails, setTripDetails] = useState({
+    userID:'',
+    listingID:'',
+    checkinDate:'',
+    checkoutDate:'',
+    guests:{
+      adults: 0,
+      children: 0,
+      infants: 0,
+      pets: 0
+    },
+    nights:0,
+    listingPrice:0,
+    confirmationCode:'',
+    payment:{
+      method:'',
+      cardNumber:'',
+      name:'',
+      expirayDate:''
+    },
+    totalPrice:''
+  })
 
   console.log('listingData:',listingData);
   console.log('reservation:',reservation);
@@ -58,10 +81,10 @@ const PaymentScreen = () => {
     )
   }
 
-  const MakePaymentScreen = () => {
+  const SelectPaymentMethodScreen = () => {
 
     return (
-      <div 
+      <div
         className={`
             flex 
             flex-col 
@@ -70,15 +93,61 @@ const PaymentScreen = () => {
             ease-in-out 
             gap-3 
             ${step === 1 ? 'block opacity-100' : 'hidden opacity-0'}
+            mb-6
+          `
+        }
+      >
+        <Title title='How would you like to pay?' fontSize='text-2xl' borderBottom />
+        <PaymentMethod />
+      </div>
+    )
+  }
+
+  const ConfirmPaymentScreen = () => {
+
+    return (
+      <div
+        className={`
+            flex 
+            flex-col 
+            transition-opacity 
+            duration-500 
+            ease-in-out 
+            gap-3 
+            ${step === 2 ? 'block opacity-100' : 'hidden opacity-0'}
           `
         }
       >
         <Title title='Confirm and pay' fontSize='text-2xl' />
-        <div className='flex flex-row justify-between border-b-2 text-neutral-600'>
+        <div className='flex flex-row justify-between border-b-2 text-neutral-600 font-bold'>
           <div>Total</div>
           <div>$1320</div>
         </div>
-        <PaymentMethod />
+        <div className='flex flex-col gap-4 w-full'>
+          <div className='flex flex-row gap-10 w-full'>
+            <div className='flex flex-col gap-2 w-4/5'>
+              <div>Card Number:</div>
+              <input
+                type='text'
+                className='border-2 border-neutral-300  rounded-md'
+              />
+            </div>
+            <div className='flex flex-col gap-2 w-1/5'>
+              <div>CVV:</div>
+              <input
+                type='text'
+                className='border-2 border-neutral-300  rounded-md'
+              />
+            </div>
+          </div>
+          <div className='flex flex-col gap-2 w-3/5'>
+            <div>Name on Card:</div>
+            <input
+              type='text'
+              className='border-2 border-neutral-300  rounded-md'
+            />
+          </div>
+        </div>
         <CancellationPolicy />
         <div className='text-neutral-500 pb-4'>
           I agree to the <span className='text-sky-600'>House Rules, Cancellation policy</span>,
@@ -101,36 +170,22 @@ const PaymentScreen = () => {
       <div className='w-10/12 md:w-2/3 mt-2'>
         <div className='flex flex-row justify-between gap-8'>
           <div className='flex flex-col md:w-2/3 w-full relative'>
-            <Transition
-              show={step === 0}
-              enter="transition-opacity duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="transition-opacity duration-300"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <BookingDetailsScreen />
-            </Transition>
-            
-            <Transition
-              show={step === 1}
-              enter="transition-opacity duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="transition-opacity duration-300"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <MakePaymentScreen />
-            </Transition>
-
+            {
+              step === 0 ? <BookingDetailsScreen /> :
+                step === 1 ? <SelectPaymentMethodScreen /> :
+                  step === 2 ? <ConfirmPaymentScreen /> : <></>
+            }
             <div className='mt-10'>
-              {step === 1 ?
-                <Button actionLabel='Back' position='left-0 -bottom-2' onClick={() => setStep(0)} />
-                : null
+              {
+                step !== 0 ?
+                  <Button actionLabel='Back' position='left-0 -bottom-2' onClick={() => setStep(pre => pre - 1)} />
+                  : null
               }
-              <Button actionLabel={step === 0 ? 'Next' : 'Confirm'} position='right-0 -bottom-2' onClick={() => setStep(1)} />
+              <Button
+                actionLabel={step === 0 || step === 1 ? 'Next' : 'Confirm'}
+                position='right-0 -bottom-2'
+                onClick={() => setStep(pre => pre + 1)}
+              />
             </div>
           </div>
           <div className='hidden md:block md:w-1/3'>

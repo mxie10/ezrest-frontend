@@ -11,7 +11,10 @@ const TripDetails = () => {
                     <div className='font-bold'>Dates</div>
                     <div className='underline font-bold cursor-pointer'>Edit</div>
                 </div>
-                <div className='text-neutral-500'>Sep 19, 2024</div>
+                <div className='flex flex-row gap-3'>
+                    <div className='text-neutral-500'>Check in: Sep 19, 2024</div>
+                    <div className='text-neutral-500'>Check out: Sep 19, 2024</div>
+                </div>
             </div>
             {/* address */}
             <div className='flex flex-col gap-2'>
