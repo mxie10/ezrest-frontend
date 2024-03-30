@@ -9,11 +9,12 @@ import BookingDetailsScreen from './screens/BookingDetailsScreen';
 import SelectPaymentMethodScreen from './screens/SelectPaymentMethodScreen';
 import Button from './Button';
 import { Context } from '../context/useContext';
+import { makeReservation } from '../api/reservation';
 
 const PaymentScreen = () => {
 
   const [step, setStep] = useState(0);
-  const [test, setTest] = useState('');
+  const [error, setError] = useState('');
   const searchParams = useSearchParams();
   const { user } = useContext(Context);
 
@@ -43,7 +44,7 @@ const PaymentScreen = () => {
       cardNumber: '',
       name: '',
       cvv: '',
-      expirayDate: ''
+      expirayDate: '',
     },
     totalPrice: ''
   })
@@ -93,9 +94,9 @@ const PaymentScreen = () => {
       totalPrice += listingPrice;
     }
     if(children > 1){
-      totalPrice += listingPrice*0.5 + (children-1) * (listingPrice * 0.5 * 0.5)
+      totalPrice += listingPrice * 0.5 + (children-1) * (listingPrice * 0.5 * 0.5)
     }else if(children === 1){
-      totalPrice += listingPrice*0.5
+      totalPrice += listingPrice * 0.5
     }
     if(infants >= 1){
       totalPrice += 50
@@ -121,8 +122,21 @@ const PaymentScreen = () => {
   const confirmAndPay = () => {
     if (step !== 2) {
       setStep(pre => pre + 1)
-    } else {
-
+    }else {
+      if(tripDetails.payment.cardNumber === '' || tripDetails.payment.cvv === '' ||
+          tripDetails.payment.expirayDate === '' || tripDetails.payment.method === ''
+      ){
+        alert('Please fill out card info');
+        return;
+      }else{
+        setTripDetails((prevDetails)=>({
+          ...prevDetails,
+          payment:{
+            ...prevDetails.payment,
+          }
+        }))
+        makeReservation(tripDetails);
+      }
     }
   }
 
@@ -159,11 +173,13 @@ const PaymentScreen = () => {
                   <Button actionLabel='Back' position='left-0 -bottom-2' onClick={() => setStep(pre => pre - 1)} />
                   : null
               }
-              <Button
-                actionLabel={step === 0 || step === 1 ? 'Next' : 'Confirm'}
-                position='right-0 -bottom-2'
-                onClick={confirmAndPay}
-              />
+              <div>
+                <Button
+                  actionLabel={step === 0 || step === 1 ? 'Next' : 'Confirm'}
+                  position='right-0 -bottom-2'
+                  onClick={confirmAndPay}
+                />
+              </div>
             </div>
           </div>
           <div className='hidden md:block md:w-1/3'>
