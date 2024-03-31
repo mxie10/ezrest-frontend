@@ -10,6 +10,10 @@ const Page = () => {
 
   const { user } = useContext(Context);
 
+  if(!user){
+    return;
+  }
+
   useFetchWishLists(user._id);
   const wishLists = useSelector(state => state.wishLists.data);
   const isLoading = useSelector(state => state.wishLists.isLoading)
