@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import Modal from './Modal';
 import { useRouter } from 'next/navigation';
 import CardMedia from '@mui/material/CardMedia';
-import useBookingDetailsModal from '@/app/hooks/useBookingDetailsModal';
+import useBookingDetailsModal from '@/app/hooks/useReservationDetailsModal';
 import { RiMessage2Fill } from "react-icons/ri";
 import { FaHome } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";

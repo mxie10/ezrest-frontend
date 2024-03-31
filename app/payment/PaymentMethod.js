@@ -29,7 +29,7 @@ const PaymentMethod = (props) => {
         {
           paymentTypeIcons.map((method) => {
             return (
-              <div className='flex flex-row'>
+              <div className='flex flex-row' key={method.title}>
                 <Radio
                   checked={selectedValue === method.title}
                   onChange={handleChange}

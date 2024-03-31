@@ -46,7 +46,7 @@ export default function RootLayout({ children }) {
         <body>
           <div className="bg-neutral-50 flex flex-col min-h-screen relative z-10">
             <ContextProvider>
-              <ClientRendering>
+              {/* <ClientRendering> */}
                 <ToggleIcon />
                 <SideBar />
                 <LoginModal />
@@ -57,7 +57,7 @@ export default function RootLayout({ children }) {
                   {children}
                 </div>
                 <Footer />
-              </ClientRendering>
+              {/* </ClientRendering> */}
             </ContextProvider>
           </div>
         </body>

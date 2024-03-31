@@ -1,15 +1,32 @@
 'use client';
-import React from 'react';
+import React, { useContext } from 'react';
 import BookingCard from '../components/BookingCard';
-import useBookingDetailsModal from '@/app/hooks/useBookingDetailsModal'
+import useReservationDetailsModal from '@/app/hooks/useReservationDetailsModal'
 import { bookings } from '@/public/static/testBookingData';
+import { useSelector } from "react-redux";
+import useFetchReservations from '../hooks/requests/useFetchReservations';
+import { Context } from '../context/useContext';
 
 const BookingScreen = () => {
 
-  const useBooking = useBookingDetailsModal();
+  const { user } = useContext(Context);
+  if(!user) return <>...Loading</> ;
+
+  useFetchReservations(user._id);
+  const useReservation = useReservationDetailsModal();
+  const isLoading = useSelector(state => state.reservations.isLoading);
+
+  const reservations = useSelector(state => state.reservations.data);
+  const reservationData = reservations?.data || [];
+
+  console.log('reservations:',reservationData);
 
   const handleBookingOnClick = () => {
-    useBooking.onOpen();
+    useReservation.onOpen();
+  }
+
+  if(isLoading){
+    return <>...Loading</>
   }
 
   return (
@@ -37,7 +54,7 @@ const BookingScreen = () => {
               text-3xl
             '
           >
-            My Bookings
+            My Reservations
           </div>
           <div
             className='
@@ -54,9 +71,9 @@ const BookingScreen = () => {
           >
 
             {
-              bookings && bookings.map((booking, index) => {
+              reservationData && reservationData.map((reservation, index) => {
                 return (
-                  <BookingCard onClick={handleBookingOnClick} booking={booking} key={index}/>
+                  <BookingCard onClick={handleBookingOnClick} reservation={reservation} key={index}/>
                 )
               })
             }

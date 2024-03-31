@@ -28,6 +28,8 @@ const PaymentScreen = () => {
   const [tripDetails, setTripDetails] = useState({
     userID: '',
     listingID: '',
+    listingSrc:'',
+    listingAddress:'',
     checkinDate: '',
     checkoutDate: '',
     guests: {
@@ -53,11 +55,15 @@ const PaymentScreen = () => {
 
     let nights = calculateNight(reservation.checkinDate,reservation.checkoutDate);
     let totalPrice = calculateTotalPrice(listingData.weekdayPrice,reservation,nights);
+    let listingAddress = listingData.address.addressLine1 + ',' + listingData.address.addressLine2 + 
+    listingData.address.city + ',' + listingData.address.state + ',' + listingData.address.country 
 
     setTripDetails((prevDetails) => ({
       ...prevDetails,
       userID:userID,
       listingID:listingData._id,
+      listingImageSrc:listingData.imageSrc,
+      listingAddress:listingAddress,
       checkinDate:reservation.checkinDate,
       checkoutDate:reservation.checkoutDate,
       guests:{
