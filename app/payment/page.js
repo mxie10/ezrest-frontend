@@ -77,6 +77,7 @@ const PaymentScreen = () => {
       listingPrice: listingData.weekdayPrice,
       totalPrice:totalPrice
     }))
+    
   },[user])
 
   const calculateNight = (startDate, endDate) => {

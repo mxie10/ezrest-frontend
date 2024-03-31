@@ -1,23 +1,26 @@
 'use client'
 
-import React, { useContext } from 'react'
+import React, { useContext,useEffect } from 'react'
 import Listing from '../components/Listing';
-import useFetchWishLists from '../hooks/requests/useFetchWishLists';
+// import useFetchWishLists from '../hooks/requests/useFetchWishLists';
 import { useSelector } from "react-redux";
 import { Context } from '../context/useContext';
+import { useDispatch } from "react-redux";
+import { fetchWishLists } from '@/app/redux/actions/wishLists';
 
 const Page = () => {
 
   const { user } = useContext(Context);
-
-  if(!user){
-    return;
-  }
-
-  useFetchWishLists(user._id);
+  const dispatch = useDispatch();
   const wishLists = useSelector(state => state.wishLists.data);
   const isLoading = useSelector(state => state.wishLists.isLoading)
   const listingArray = wishLists?.data || [];
+
+  useEffect(() => {
+    if(user) {
+      dispatch(fetchWishLists(user._id));
+    }
+  }, [dispatch,user]);
 
   if(isLoading){
     return <>...Loading</>
