@@ -1,17 +1,17 @@
 import axios from 'axios';
 
-const url = 'http://localhost:4000/api/wishList';
+const url = process.env.NEXT_PUBLIC_API_URL;
 
-export const getWishList = (userID) => axios.get(`${url}/${userID}`);
+export const getWishList = (userID) => axios.get(`${url}/api/wishList/${userID}`);
 
 export const addWishList = (userID, listingID) => {
     const requestData = {
         userID: userID,
         listingID: listingID
     };
-    return axios.post(url, requestData);
+    return axios.post(`${url}/api/wishList`, requestData);
 }
 
 export const deleteWishList = (listingID) => {
-    return axios.delete(`${url}/${listingID}`);
+    return axios.delete(`${url}/api/wishList/${listingID}`);
 }

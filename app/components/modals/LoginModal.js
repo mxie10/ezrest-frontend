@@ -32,11 +32,12 @@ const LoginModal = () => {
             login(username, password)
             .then(res => {
                 if (res.user) {
+                    setMessage(null);
                     updateUser(res.user);
                     loginModal.onClose();
                     router.push('/');                    
                 } else {
-                    setMessage(res.message);
+                    setMessage('Wrong username or password, please try again.');
                 }
             }).catch(err => {
                 setMessage(err.message);
@@ -45,27 +46,30 @@ const LoginModal = () => {
     }
 
     const bodyContent = (
-        <div className='flex flex-col gap-4'>
-            <Heading
-                title="Welcome back"
-                subtitle='Login to your account'
-            />
-            <Input
-                id="userName"
-                label="Username"
-                disabled={isLoading}
-                required
-                onChangeValue={text => setUsername(text)}
-            />
-            <Input
-                id="password"
-                type="password"
-                label="Password"
-                disabled={isLoading}
-                required
-                onChangeValue={text => setPassword(text)}
-            />
-            {/* Hello Modal Body */}
+        <div className='flex flex-col'>
+            <div className='flex flex-col gap-4'>
+                <Heading
+                    title="Welcome back"
+                    subtitle='Login to your account'
+                />
+                <Input
+                    id="userName"
+                    label="Username"
+                    disabled={isLoading}
+                    required
+                    onChangeValue={text => setUsername(text)}
+                />
+                <Input
+                    id="password"
+                    type="password"
+                    label="Password"
+                    disabled={isLoading}
+                    required
+                    onChangeValue={text => setPassword(text)}
+                />
+                {/* Hello Modal Body */}
+            </div>
+            <div className='text-red-600 text-center mt-3'>{message}</div>
         </div>
     )
 
