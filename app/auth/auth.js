@@ -1,22 +1,22 @@
 import { setToken, getToken } from '../utils/functions';
 
-const baseUrl = "http://localhost:4000";
+const url = process.env.NEXT_PUBLIC_API_URL;
 
-export const register = (username, password, email) => {
+export const register = async (username, password, email) => {
 
-  return fetch(`${baseUrl}/api/auth/register`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      username: username,
-      password: password,
-      email: email,
-      profile:'',
-      favoriteItems:[]
+  return fetch(`${url}/api/auth/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+        email: email,
+        profile:'',
+        favoriteItems:[]
+      })
     })
-  })
     .then((response) => response.json())
     .then((responseJson) => {
       if (responseJson.message) {
@@ -32,7 +32,7 @@ export const register = (username, password, email) => {
 
 export const login = (username, password) => {
 
-  return fetch(`${baseUrl}/api/auth/login`, {
+  return fetch(`${url}/api/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -59,7 +59,7 @@ export const login = (username, password) => {
 export const getUser = async () => {
   const token = await getToken();
   try {
-    const response = await fetch(`${baseUrl}/api/auth/getUser`, {
+    const response = await fetch(`${url}/api/auth/getUser`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

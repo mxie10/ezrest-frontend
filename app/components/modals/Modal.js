@@ -127,7 +127,7 @@ const Modal = ({
                                 </div>
                             </div>
                             {/* Body */}
-                            <div className="relative p-6 flex-auto">
+                            <div className="relative px-6 pt-6 flex-auto">
                                 {body}
                             </div>
                             {/* Footer */}

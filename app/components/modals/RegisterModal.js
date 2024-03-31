@@ -1,6 +1,6 @@
 'use client'
 import {useRouter} from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useRegisterModal from '../../hooks/useRegisterModal';
 import useLoginModal from '../../hooks/useLoginModal';
 import Modal from './Modal';
@@ -17,6 +17,7 @@ const RegisterModal = () => {
     const [password, setPassword] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
     const [email, setEmail] = useState('');
+    const [message, setMessage] = useState(null);
 
     const toggle = useCallback(()=>{
         registerModal.onClose();
@@ -24,67 +25,71 @@ const RegisterModal = () => {
     },[loginModal,registerModal])
 
     const handleRegister = () => {
-        if (username === '' || password === ''|| email === '') {
+        if (username.trim() === '' || password.trim() === ''|| email.trim() === '') {
           setMessage('Please fill in all fields');
           return;
         }
-        if (password !== confirmedPassword) {
+        if (password.trim() !== confirmedPassword.trim()) {
           setMessage('Passwords do not match');
           return;
         }
         register(username, password, email)
             .then(res => {
-                console.log('res is:',res);
                 if (res === 'success') {
+                    setMessage(null);
                     registerModal.onClose();
                     loginModal.onOpen();
                     router.push('/');
                 }else{
-                    setMessage(res.message);
+                    setMessage('Username or email address already exists.');
                 }
             }
         ).catch(err => {
-            setMessage(err.message);
+            console.log(err);
         })
       }
 
     const bodyContent = (
-        <div className='flex flex-col gap-4'>
-            <Heading
-                title="Welcome to EZRent"
-                subtitle='Create an account'
-            />
-             <Input
-                id="username"
-                label="User Name"
-                disabled={isLoading}
-                required
-                onChangeValue={text => setUsername(text)}
-            />
-            <Input
-                id="password"
-                type="password"
-                label="Password"
-                disabled={isLoading}
-                required
-                onChangeValue={text => setPassword(text)}
-            />
-            <Input
-                id="conirmPassword"
-                type="password"
-                label="Confirm Password"
-                disabled={isLoading}
-                required
-                onChangeValue={text => setConfirmedPassword(text)}
-            />
-            <Input
-                id="emailaddress"
-                label="Email"
-                disabled={isLoading}
-                required
-                onChangeValue={text => setEmail(text)}
-            />
-            {/* Hello Modal Body */}
+        <div className='flex flex-col'>
+            <div className='flex flex-col gap-4'>
+                <Heading
+                    title="Welcome to EZRent"
+                    subtitle='Create an account'
+                />
+                <Input
+                    id="username"
+                    label="User Name"
+                    disabled={isLoading}
+                    required
+                    onChangeValue={text => setUsername(text)}
+                />
+                <Input
+                    id="password"
+                    type="password"
+                    label="Password"
+                    disabled={isLoading}
+                    required
+                    onChangeValue={text => setPassword(text)}
+                />
+                <Input
+                    id="conirmPassword"
+                    type="password"
+                    label="Confirm Password"
+                    disabled={isLoading}
+                    required
+                    onChangeValue={text => setConfirmedPassword(text)}
+                />
+                <Input
+                    id="emailaddress"
+                    label="Email"
+                    disabled={isLoading}
+                    required
+                    onChangeValue={text => setEmail(text)}
+                />
+                {/* Hello Modal Body */}
+               
+            </div>
+             <div className='text-red-600 text-center mt-3'>{message}</div>
         </div>
     )
 

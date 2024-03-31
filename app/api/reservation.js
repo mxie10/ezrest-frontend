@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const url = 'http://localhost:4000/api/reservation';
+const url = process.env.NEXT_PUBLIC_API_URL;
 
 export const makeReservation = (requestData) => {
-    return axios.post(url, requestData);
+    return axios.post(`${url}/api/reservation`, requestData);
 }
 
 export const getReservation = (userID) => {
-    return axios.get(`${url}/${userID}`);
+    return axios.get(`${url}/api/reservation/${userID}`);
 }

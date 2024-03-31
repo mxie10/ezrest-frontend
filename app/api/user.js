@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'http://localhost:4000/api/user';
+const url = process.env.NEXT_PUBLIC_API_URL;
 
 export const updateFavoriteList = (userID,listingID) => {
 
@@ -8,7 +8,7 @@ export const updateFavoriteList = (userID,listingID) => {
         listingID: listingID
     }
 
-    return axios.put(`${url}/addFavorite/${userID}`,updateData)
+    return axios.put(`${url}/api/user/addFavorite/${userID}`,updateData)
         .then(res=>{
             console.log('Favorite list updated successfully:', res.data);
             return res.data; 
