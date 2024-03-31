@@ -45,7 +45,7 @@ const Footer = () => {
     let mobileClasses = `fixed inset-0 w-full h-full bg-neutral-200 transform transition-transform duration-300 ease-in-out overflow-auto shadow-inner rounded-md z-40 ${slidingWindowClasses}`;
 
     // Use a media query to apply different styles based on the screen size
-    let slidingWindowStyles = Window.innerWidth >= 768 ? desktopClasses : mobileClasses;
+    // let slidingWindowStyles = window.innerWidth >= 768 ? desktopClasses : mobileClasses;
 
     // JSX for the modal's close button
     let closeButton = (
@@ -126,19 +126,17 @@ const Footer = () => {
                     </SectionContainer>
                 </SectionContainer>
             </div>
-            <div className={`${slidingWindowStyles} shadow-none border-none`}>
-                {/* Enhanced Close Button at the top left corner */}
+            {/* <div className={`${slidingWindowStyles} shadow-none border-none`}>
                 <button
                     className="absolute z-50 p-3 text-lg leading-none text-gray-700 bg-white border border-gray-300 rounded-full top-2 left-2 hover:bg-gray-100"
                     onClick={onClose}
-                    aria-label="Close" // Accessibility label for screen readers
+                    aria-label="Close" 
                 >
-                    &#10005; {/* '✕' symbol for closing the modal */}
+                    &#10005; 
                 </button>
                 <div className='relative'>
-                    {/* ...existing sliding window content... */}
                 </div>
-            </div>
+            </div> */}
 
         </div>
 
