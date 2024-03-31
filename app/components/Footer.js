@@ -45,7 +45,7 @@ const Footer = () => {
     let mobileClasses = `fixed inset-0 w-full h-full bg-neutral-200 transform transition-transform duration-300 ease-in-out overflow-auto shadow-inner rounded-md z-40 ${slidingWindowClasses}`;
 
     // Use a media query to apply different styles based on the screen size
-    let slidingWindowStyles = window.innerWidth >= 768 ? desktopClasses : mobileClasses;
+    let slidingWindowStyles = Window.innerWidth >= 768 ? desktopClasses : mobileClasses;
 
     // JSX for the modal's close button
     let closeButton = (

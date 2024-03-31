@@ -14,7 +14,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/components/ui/dropdown-menu";
-import {Context} from '../context/useContext'
+import { Context } from '../context/useContext';
+import { removeToken } from '../utils/functions';
 
 const Header = () => {
   //for test purpose
@@ -35,6 +36,7 @@ const Header = () => {
 
   const handleLogOut = () => {
     setUser(null);
+    removeToken();
     setIsRefreshing(pre=>!pre);
   }
 
