@@ -32,14 +32,6 @@ const SearchBarAlt = () => {
                 />
                 <FaCalendarAlt className='-ml-8 z-20' size={17} />
             </div>
-            <div className='flex flex-row items-center'>
-                <DatePicker
-                    placeholderText='Check out date'
-                    selected={startDate}
-                    className='h-14 pl-3 w-40 rounded-3xl border-2 border-red-300 ml-4'
-                />
-                <FaCalendarAlt className='-ml-8 z-20' size={17} />
-            </div>
             <div 
                 className='
                     w-22 

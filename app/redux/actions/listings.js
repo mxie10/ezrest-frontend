@@ -1,9 +1,9 @@
 import {  createAsyncThunk } from "@reduxjs/toolkit";
 import * as api from '../../api/listings';
 
-export const fetchListings = createAsyncThunk("fetchListings", async () => {
+export const fetchListings = createAsyncThunk("fetchListings", async (params) => {
     try{
-        const res = await api.fetchListings();
+        const res = await api.fetchListings(params);
         return res.data;
     }catch(error){
         console.log(error);

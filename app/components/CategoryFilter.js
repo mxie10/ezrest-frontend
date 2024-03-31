@@ -22,15 +22,13 @@ const priceRanges = [
 
 const CategoryFilter = (props) => {
 
-    const { setFilterOptions } = props;
-    const [selectedPriceIndex, setSelectedPriceIndex] = useState(-1);
-    const [selectedBedroomIndex, setSelectedBedroomIndex] = useState(-1);
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const {setFilterOptions,selectedPriceIndex,selectedBedroomIndex,selectedCategory,setSelectedPriceIndex,setSelectedBedroomIndex,setSelectedCategory} = props;
 
     const handlePriceFilterOptions = (index) => {
         setSelectedPriceIndex(index);
         setFilterOptions((previousValue) => ({
             ...previousValue,
+            apply:true,
             price: priceRanges[index] || { min: 0, max: -1 },
         }));
     };
@@ -39,6 +37,7 @@ const CategoryFilter = (props) => {
         setSelectedBedroomIndex(index);
         setFilterOptions((previousValue) => ({
             ...previousValue,
+            apply:true,
             bedrooms: index + 1
         }));
     }
@@ -47,6 +46,7 @@ const CategoryFilter = (props) => {
         setSelectedCategory(category);
         setFilterOptions((previousValue) => ({
             ...previousValue,
+            apply:true,
             category: category
         }));
     }
@@ -54,6 +54,7 @@ const CategoryFilter = (props) => {
     const clearFilterOptions = () => {
         setFilterOptions((previousValue) => ({
             ...previousValue,
+            apply:false,
             province: '',
             price: {
                 min: 0,
@@ -75,11 +76,11 @@ const CategoryFilter = (props) => {
             <div>
                 <Select>
                     <SelectTrigger className="w-[180px] border-2 border-neutral-300">
-                        <SelectValue placeholder="Ontario" />
+                        <SelectValue placeholder="Unselected" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                            {canadianProvinces.map((province, index) => {
+                            {canadianProvinces.map((province) => {
                                 return <SelectItem value={province} key={province}>{province}</SelectItem>
                             })}
                         </SelectGroup>

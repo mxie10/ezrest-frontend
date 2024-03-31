@@ -1,30 +1,46 @@
 'use client'
-import React, { useState } from 'react';
-import { useSelector } from "react-redux";
-import useFetchListings from './hooks/requests/useFetchListings';
+import React, { useEffect, useState } from 'react';
 import SearchBarAlt from './components/SearchBarAlt';
 import CategoryFilter from './components/CategoryFilter';
 import Listing from './components/Listing';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchListings } from '@/app/redux/actions/listings';
 
 export default function Home() {
 
-  useFetchListings();
+  const dispatch = useDispatch();
   const listings = useSelector(state => state.listings.data);
   const isLoading = useSelector(state => state.listings.isLoading);
   const listingArray = listings?.data || [];
-  const [filterOptions, setFilterOptions] = useState(
-    {
-      province:'',
-      price:{
-        min: 0,
-        max:0
-      },
-      bedrooms:0,
-      category:''
-    }
-  );
+  const [pageNumber, setPageNumber] = useState(1);
+  const [selectedPriceIndex, setSelectedPriceIndex] = useState(-1);
+  const [selectedBedroomIndex, setSelectedBedroomIndex] = useState(-1);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   
-  console.log('filterOptions:',filterOptions);
+  const [filterOptions, setFilterOptions] = useState({
+    apply:false,
+    checkinDate: '',
+    location: '',
+    province: '',
+    price: {
+      min: 0,
+      max: 0
+    },
+    bedrooms: 0,
+    category: ''
+  });
+
+  useEffect(() => {
+    const params = {
+      pageNumber:pageNumber,
+      filterOptions:filterOptions
+    }
+    dispatch(fetchListings(params));
+  }, [dispatch,pageNumber,filterOptions])
+
+  console.log('filterOptions:', filterOptions);
 
   if (isLoading) {
     return (
@@ -43,7 +59,15 @@ export default function Home() {
         <SearchBarAlt />
       </div>
       <div className="pb-4 px-4">
-        <CategoryFilter setFilterOptions = {setFilterOptions}/>
+        <CategoryFilter 
+          setFilterOptions={setFilterOptions} 
+          selectedBedroomIndex={selectedBedroomIndex}
+          setSelectedBedroomIndex={setSelectedBedroomIndex}
+          selectedPriceIndex={selectedPriceIndex}
+          setSelectedPriceIndex = {setSelectedPriceIndex}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
       </div>
 
       <hr />
@@ -69,9 +93,15 @@ export default function Home() {
                   listing={listing}
                   key={index}
                 />
-              )})
+              )
+            })
           }
         </div>
+      </div>
+      <div className='flex justify-center mb-10'>
+        <Stack spacing={10}>
+          <Pagination count={15} color="primary" />
+        </Stack>
       </div>
     </div>
   );

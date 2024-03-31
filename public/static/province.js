@@ -1,6 +1,7 @@
 import { Bs0CircleFill } from "react-icons/bs";
 
 export const canadianProvinces = [
+    "Unselected",
     "Alberta",
     "British Columbia",
     "Manitoba",
