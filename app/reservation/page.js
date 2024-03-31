@@ -1,24 +1,27 @@
 'use client';
-import React, { useContext } from 'react';
+import React, { useContext,useEffect } from 'react';
 import BookingCard from '../components/BookingCard';
 import useReservationDetailsModal from '@/app/hooks/useReservationDetailsModal'
 import { bookings } from '@/public/static/testBookingData';
 import { useSelector } from "react-redux";
-import useFetchReservations from '../hooks/requests/useFetchReservations';
 import { Context } from '../context/useContext';
+import { useDispatch } from "react-redux";
+import { fetchReservations } from '@/app/redux/actions/reservations';
 
 const BookingScreen = () => {
 
   const { user } = useContext(Context);
-
-  useFetchReservations(user._id);
+  const dispatch = useDispatch();
   const useReservation = useReservationDetailsModal();
   const isLoading = useSelector(state => state.reservations.isLoading);
-
   const reservations = useSelector(state => state.reservations.data);
   const reservationData = reservations?.data || [];
 
-  console.log('reservations:',reservationData);
+  useEffect(() => {
+    if(user) {
+      dispatch(fetchReservations(user._id));
+    }
+  }, [dispatch,user]);
 
   const handleBookingOnClick = () => {
     useReservation.onOpen();

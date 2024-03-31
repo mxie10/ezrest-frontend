@@ -10,7 +10,7 @@ const useFetchWishLists = (userID) => {
 
         dispatch(fetchWishLists(userID));
 
-    }, [dispatch])
+    }, [dispatch,userID])
 }
 
 export default useFetchWishLists;
