@@ -26,21 +26,22 @@ const RegisterModal = () => {
     const handleRegister = () => {
         if (username === '' || password === ''|| email === '') {
           setMessage('Please fill in all fields');
-          return
+          return;
         }
-        // if (password !== confirmedPassword) {
-        //   setMessage('Passwords do not match');
-        //   return
-        // }
+        if (password !== confirmedPassword) {
+          setMessage('Passwords do not match');
+          return;
+        }
         register(username, password, email)
             .then(res => {
                 console.log('res is:',res);
                 if (res === 'success') {
-                    console.log('in???');
                     registerModal.onClose();
                     loginModal.onOpen();
                     router.push('/');
-                } 
+                }else{
+                    setMessage(res.message);
+                }
             }
         ).catch(err => {
             setMessage(err.message);

@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { fetchWishLists } from '../../actions/wishLists';
 
 const wishListsSlice = createSlice({

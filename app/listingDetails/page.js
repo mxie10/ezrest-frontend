@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useSelector } from "react-redux";
 import DatePicker from 'react-datepicker';
 import { useRouter,useSearchParams } from 'next/navigation';
@@ -77,9 +77,15 @@ const Page = () => {
       infants: 0,
       pets: 0
     }
-  })
+  });
   const router = useRouter();
+  const {user} = useContext(Context);
   const searchParams = useSearchParams();
+  const [showDropdown, setShowDropdown] = useState(true); 
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [showAmenities, setShowAmenities] = useState(false);
+  const [showMore, setShowMore] = useState(false);
+  const [ error,setError ] = useState(null);
   const listingID = searchParams.get('listingID');
   useFetchListing(listingID);
 
@@ -87,8 +93,27 @@ const Page = () => {
   const isLoading = useSelector(state => state.listing.isLoading)
   const listingData = listing?.data || [];
 
+  const totalGuests = reservation.guests.adults + reservation.guests.children + reservation.guests.infants + reservation.guests.pets;
+
+  useEffect(() => {
+    if(reservation.checkinDate !== '' && reservation.checkoutDate !== '' && totalGuests !== 0){
+      setError(null);
+    }
+  },[reservation.guests,reservation.checkinDate,reservation.checkoutDate])
+
   const navigateToCheckout = () => {
-    const queryString = `?listingData=${JSON.stringify(listingData)}&reservation=${JSON.stringify(reservation)}`;
+    if(reservation.checkinDate === '' || reservation.checkoutDate === ''){
+      setError('Check-in date and check-out date cannot be empty!');
+      return;
+    }
+    if(totalGuests === 0){
+      setError('Guests number cannot be 0!');
+      return;
+    }
+    const encodedListingData = encodeURIComponent(JSON.stringify(listingData));
+    const encodedReservationData = encodeURIComponent(JSON.stringify(reservation));
+    const ecodedUserID = encodeURIComponent(JSON.stringify(user._id));
+    const queryString = `?listingData=${encodedListingData}&reservation=${encodedReservationData}&userID=${ecodedUserID}`;
     router.push(`/payment${queryString}`);  
   };
 
@@ -106,9 +131,6 @@ const Page = () => {
     }));
   }
 
-  const totalGuests = reservation.adults + reservation.children + reservation.infants + reservation.pets;
-
-  const [showDropdown, setShowDropdown] = useState(true); 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
@@ -135,8 +157,6 @@ const Page = () => {
     }));
   };
 
-  const [selectedImage, setSelectedImage] = useState(null);
-
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
   };
@@ -145,15 +165,11 @@ const Page = () => {
     setSelectedImage(null);
   };
 
-  const [showMore, setShowMore] = useState(false);
-
   const description = "Escape to Rock 'n' House, a marvel featured in Architectural Digest, nestled on a 14-acre estate down a secluded road - 2 hrs from NYC. This architectural wonder with panoramic views and circular design offers seamless integration with nature. Inside, the main level offers open concept living, sunken lounge and dining for 10, with radiant heat & central air to ensure your comfort. Outdoors enjoy stunning vistas from the outdoor firepit and porch table.";
 
   const toggleShowMore = () => {
     setShowMore(!showMore);
   };
-
-  const [showAmenities, setShowAmenities] = useState(false);
 
   const toggleShowAmenities = () => {
     setShowAmenities(!showAmenities);
@@ -354,7 +370,6 @@ const Page = () => {
                 <h1 className='flex justify-start ml-5 text-lg font-semibold'>$300 CAD</h1>
                 <p className='mt-1 ml-2 text-gray-500'>night</p>
               </div>
-
               <div className='flex flex-col justify-center'>
                 <div className='flex flex-col border border-gray-500 rounded-lg p-2 bg-transparent ml-5 mt-4 w-[90%]'>
                   <div className='flex flex-row mt-4 mb-4 border-b border-gray-500'>
@@ -378,10 +393,10 @@ const Page = () => {
                   <div className='flex flex-col'>
                     <div className='relative mt-2'>
                       <div className='flex justify-between'>
-                        <h1 className='ml-2 cursor-pointer' o>
+                        <h1 className='ml-2 cursor-pointer'>
                           Guests: 
                         </h1>
-                        <p className='text-gray-500 ml-2 text-sm mt-[2px]' o>
+                        <p className='text-gray-500 ml-2 text-sm mt-[2px]'>
                           Total Guests: {totalGuests}
                         </p>
                         <span className='mr-5 hover:cursor-pointer' onClick={toggleDropdown}>{showDropdown ? '▲' : '▼'}</span>
@@ -473,6 +488,9 @@ const Page = () => {
                       Reserve
                     </button>
                   </div>
+                  {
+                    error != null ? <div className='text-red-600'>{error}</div> : null
+                  } 
                 </div>
 
                 <div className='flex flex-row justify-center mt-4'>

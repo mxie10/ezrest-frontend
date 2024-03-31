@@ -49,7 +49,7 @@ const Header = () => {
           items-center
         '
       >
-        <div className={listItemStyle} onClick={() => router.push(`/booking`)}>My Bookings</div>
+        <div className={listItemStyle} onClick={() => router.push(`/reservation`)}>My Reservations</div>
         <div className={listItemStyle} onClick={() => router.push(`/wishlist`)}>Wish List</div>
         <DropdownMenu>
           <DropdownMenuTrigger>

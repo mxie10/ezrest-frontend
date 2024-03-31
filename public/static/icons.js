@@ -16,6 +16,12 @@ import { FaFirstAid, FaFireExtinguisher } from "react-icons/fa";
 import { IoIosExit } from "react-icons/io";
 import { MdOutlineSecurity } from "react-icons/md";
 
+import paypal from '../../public/images/paymentMethod/paypal.png';
+import visa from '../../public/images/paymentMethod/visa.png';
+import biance from '../../public/images/paymentMethod/binance.png';
+import wechat from '../../public/images/paymentMethod/wechat.png';
+import banktransfer from '../../public/images/paymentMethod/banktransfer.png';
+
 const iconsMap = [
     { name: "Wifi", icon: <FaWifi /> },
     { name: "Free Parking", icon: <FaParking /> },
@@ -51,3 +57,36 @@ const iconsMap = [
     { name: "Security System", icon: <MdOutlineSecurity /> },
     { name: "Fire Escape Ladder", icon: <TbLadder /> }
   ];
+
+export const paymentTypeIcons = [
+  {
+    title: 'paypal',
+    src: paypal,
+    width: 130,
+    height: 100
+  },
+  {
+    title: 'visa',
+    src: visa,
+    width: 300,
+    height: 100
+  },
+  {
+    title: 'biance',
+    src: biance,
+    width: 130,
+    height: 100
+  },
+  {
+    title: 'wechat',
+    src: wechat,
+    width: 330,
+    height: 100
+  },
+  {
+    title: 'banktransfer',
+    src: banktransfer,
+    width: 130,
+    height: 100
+  }
+]

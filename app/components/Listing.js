@@ -27,7 +27,8 @@ const Listing = (props) => {
     router.push(`/listingDetails?listingID=${_id}`);
   }
 
-  const addOrRemoveFavoriteListing = () => {
+  const addOrRemoveFavoriteListing = (e) => {
+    e.stopPropagation();
     if(!liked){
       addWishList(user._id, props.listing._id);
       setLike(true);
@@ -56,7 +57,7 @@ const Listing = (props) => {
             </div>
             <IconButton 
               aria-label="add to favorites" 
-              onClick={addOrRemoveFavoriteListing} 
+              onClick={(e)=>addOrRemoveFavoriteListing(e)} 
             >
               <FavoriteIcon 
                 ref = {iconRef}

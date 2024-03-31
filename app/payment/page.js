@@ -1,92 +1,149 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import BookingCard from '../components/BookingCard';
-import { useRouter,useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { MdArrowForwardIos } from "react-icons/md";
-import Title from '../components/Title';
-import TripDetails from './TripDetails';
-import PriceDetails from './PriceDetails';
-import PaymentMethod from './PaymentMethod';
-import CancellationPolicy from './CancellationPolicy';
 import { Transition } from '@headlessui/react';
+import ConfirmPaymentScreen from './screens/ConfirmPaymentScreen';
+import BookingDetailsScreen from './screens/BookingDetailsScreen';
+import SelectPaymentMethodScreen from './screens/SelectPaymentMethodScreen';
+import Button from './Button';
+import { Context } from '../context/useContext';
+import { makeReservation } from '../api/reservation';
 
 const PaymentScreen = () => {
 
   const [step, setStep] = useState(0);
+  const [error, setError] = useState('');
   const searchParams = useSearchParams();
-  const listingData = JSON.parse(searchParams.get('listingData'));
-  const reservation = JSON.parse(searchParams.get('reservation'));
+  const { user } = useContext(Context);
 
-  console.log('listingData:',listingData);
-  console.log('reservation:',reservation);
+  const listingData = JSON.parse(decodeURIComponent(searchParams.get('listingData')));
+  const reservation = JSON.parse(decodeURIComponent(searchParams.get('reservation')));
+  const userID = JSON.parse(decodeURIComponent(searchParams.get('userID')));
 
-  const Button = (props) => {
-    const { actionLabel, position, onClick } = props;
-    return (
-      <div
-        className={`
-          bg-red-500 
-          p-2 
-          rounded-lg 
-          text-white 
-          w-1/4 
-          text-center 
-          font-bold 
-          absolute 
-          ${position}
-          cursor-pointer
-         hover:bg-red-600
-        `}
-        onClick={onClick}
-      >
-        {actionLabel}
-      </div>
-    )
+  console.log('listingData:', listingData);
+  console.log('reservation:', reservation);
+
+  const [tripDetails, setTripDetails] = useState({
+    userID: '',
+    listingID: '',
+    listingSrc:'',
+    listingAddress:'',
+    checkinDate: '',
+    checkoutDate: '',
+    guests: {
+      adults: 0,
+      children: 0,
+      infants: 0,
+      pets: 0
+    },
+    nights: 0,
+    listingPrice: 0,
+    confirmationCode: '',
+    payment: {
+      method: 'visa',
+      cardNumber: '',
+      name: '',
+      cvv: '',
+      expirayDate: '',
+    },
+    totalPrice: ''
+  })
+
+  useEffect(() => {
+
+    let nights = calculateNight(reservation.checkinDate,reservation.checkoutDate);
+    let totalPrice = calculateTotalPrice(listingData.weekdayPrice,reservation,nights);
+    let listingAddress = listingData.address.addressLine1 + ',' + listingData.address.addressLine2 + 
+    listingData.address.city + ',' + listingData.address.state + ',' + listingData.address.country 
+
+    setTripDetails((prevDetails) => ({
+      ...prevDetails,
+      userID:userID,
+      listingID:listingData._id,
+      listingImageSrc:listingData.imageSrc,
+      listingAddress:listingAddress,
+      checkinDate:reservation.checkinDate,
+      checkoutDate:reservation.checkoutDate,
+      guests:{
+        ...prevDetails.guests,
+        adults:reservation.guests.adults,
+        children:reservation.guests.children,
+        infants:reservation.guests.infants,
+        pets:reservation.guests.pets
+      },
+      nights:nights,
+      listingPrice: listingData.weekdayPrice,
+      totalPrice:totalPrice
+    }))
+  },[user])
+
+  const calculateNight = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const timeDifference = end.getTime() - start.getTime();
+    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    return daysDifference;
   }
 
-  const BookingDetailsScreen = () => {
+  const calculateTotalPrice = (listingPrice, reservation, nights) => {
+    let totalPrice = 0;
+    let adults = reservation.guests.adults;
+    let children = reservation.guests.children;
+    let infants = reservation.guests.infants;
+    let pets = reservation.guests.pets;
 
-    return (
-      <div className={`flex flex-col transition-opacity duration-500 ease-in-out ${step === 0 ? 'block opacity-100' : 'hidden opacity-0'}`}>
-        {/* header */}
-        <Title title='Trip details' fontSize='text-2xl' borderBottom />
-        {/* trip details */}
-        <TripDetails />
-        {/* Price details */}
-        <PriceDetails />
-      </div>
-    )
+    if(adults > 1){
+      totalPrice += listingPrice + (adults-1) * (listingPrice * 0.5)
+    }else if(adults === 1){
+      totalPrice += listingPrice;
+    }
+    if(children > 1){
+      totalPrice += listingPrice * 0.5 + (children-1) * (listingPrice * 0.5 * 0.5)
+    }else if(children === 1){
+      totalPrice += listingPrice * 0.5
+    }
+    if(infants >= 1){
+      totalPrice += 50
+    }
+    if(pets >= 1){
+      totalPrice += 50
+    }
+    return totalPrice * nights;
   }
 
-  const MakePaymentScreen = () => {
+  const updateFields = (e) => {
+    setTripDetails((prevDetails) => ({
+      ...prevDetails,
+      payment: {
+        ...prevDetails.payment,
+        [e.target.name]: e.target.value
+      }
+    }))
+  }
 
-    return (
-      <div 
-        className={`
-            flex 
-            flex-col 
-            transition-opacity 
-            duration-500 
-            ease-in-out 
-            gap-3 
-            ${step === 1 ? 'block opacity-100' : 'hidden opacity-0'}
-          `
-        }
-      >
-        <Title title='Confirm and pay' fontSize='text-2xl' />
-        <div className='flex flex-row justify-between border-b-2 text-neutral-600'>
-          <div>Total</div>
-          <div>$1320</div>
-        </div>
-        <PaymentMethod />
-        <CancellationPolicy />
-        <div className='text-neutral-500 pb-4'>
-          I agree to the <span className='text-sky-600'>House Rules, Cancellation policy</span>,
-          and the <span className='text-sky-600'>Guest refind policy</span>. I also agree to pay total amount
-          shown, which includes service fees.
-        </div>
-      </div>
-    )
+  console.log('tripDetails:', tripDetails);
+
+  const confirmAndPay = () => {
+    if (step !== 2) {
+      setStep(pre => pre + 1)
+    }else {
+      if(tripDetails.payment.cardNumber === '' || tripDetails.payment.cvv === '' ||
+          tripDetails.payment.expirayDate === '' || tripDetails.payment.method === ''
+      ){
+        alert('Please fill out card info');
+        return;
+      }else{
+        setTripDetails((prevDetails)=>({
+          ...prevDetails,
+          payment:{
+            ...prevDetails.payment,
+          }
+        }))
+        makeReservation(tripDetails);
+      }
+    }
   }
 
   return (
@@ -101,43 +158,40 @@ const PaymentScreen = () => {
       <div className='w-10/12 md:w-2/3 mt-2'>
         <div className='flex flex-row justify-between gap-8'>
           <div className='flex flex-col md:w-2/3 w-full relative'>
-            <Transition
-              show={step === 0}
-              enter="transition-opacity duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="transition-opacity duration-300"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <BookingDetailsScreen />
-            </Transition>
-            
-            <Transition
-              show={step === 1}
-              enter="transition-opacity duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="transition-opacity duration-300"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <MakePaymentScreen />
-            </Transition>
-
+            {
+              step === 0 ? <BookingDetailsScreen step={step} /> :
+                step === 1 ?
+                  <SelectPaymentMethodScreen
+                    tripDetails={tripDetails}
+                    setTripDetails={setTripDetails}
+                    step={step}
+                  /> :
+                step === 2 ?
+                  <ConfirmPaymentScreen
+                    updateFields={updateFields}
+                    step={step}
+                  /> :
+                <></>
+            }
             <div className='mt-10'>
-              {step === 1 ?
-                <Button actionLabel='Back' position='left-0 -bottom-2' onClick={() => setStep(0)} />
-                : null
+              {
+                step !== 0 ?
+                  <Button actionLabel='Back' position='left-0 -bottom-2' onClick={() => setStep(pre => pre - 1)} />
+                  : null
               }
-              <Button actionLabel={step === 0 ? 'Next' : 'Confirm'} position='right-0 -bottom-2' onClick={() => setStep(1)} />
+              <div>
+                <Button
+                  actionLabel={step === 0 || step === 1 ? 'Next' : 'Confirm'}
+                  position='right-0 -bottom-2'
+                  onClick={confirmAndPay}
+                />
+              </div>
             </div>
           </div>
           <div className='hidden md:block md:w-1/3'>
             {/* <BookingCard booking={testData} /> */}
           </div>
         </div>
-
       </div>
     </div>
   )
