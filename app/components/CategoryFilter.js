@@ -13,6 +13,8 @@ import CategoryBox from './CategoryBox';
 
 const CategoryFilter = () => {
 
+    
+
     const Location = () => (
         <div className='flex flex-row gap-2 text-neutral-600 items-center font-serif'>
             <div className='text-md font-semibold'>
@@ -45,7 +47,10 @@ const CategoryFilter = () => {
             <div className='flex flex-row gap-4'>
                 {categories.map((category) => {
                     return (
-                        <div key={category.label} className='flex flex-col items-center'>
+                        <div 
+                            key={category.label} 
+                            className='flex flex-col items-center cursor-pointer hover:bg-neutral-200 p-1 rounded-md'
+                        >
                             <CategoryBox
                                 label={category.label}
                                 icon={category.icon}
@@ -66,7 +71,7 @@ const CategoryFilter = () => {
                 <div className='flex flex-row gap-5'>
                     {pricesRange.map((price) => {
                         return (
-                            <div key={price}>
+                            <div key={price} className='cursor-pointer hover:bg-neutral-200 p-1 rounded-md'>
                                 {price}
                             </div>
                         )
@@ -85,14 +90,14 @@ const CategoryFilter = () => {
                 <div className='flex flex-row gap-5'>
                     {bedRooms.map((bedroom) => {
                         return bedroom === '1' ? 
-                            <div key={bedroom}>
+                            <div key={bedroom} className='cursor-pointer hover:bg-neutral-200 p-1 rounded-md'>
                                 Only 1
                             </div> : 
                             bedroom === '7+' ?
-                            <div key={bedroom}>
-                                more than 7
+                            <div key={bedroom} className='cursor-pointer hover:bg-neutral-200 p-1 rounded-md'>
+                                More than 7
                             </div> :
-                            <div key={bedroom}>
+                            <div key={bedroom} className='cursor-pointer hover:bg-neutral-200 p-1 rounded-md'>
                                 {bedroom} bedrooms
                             </div>
                     })}
@@ -110,6 +115,22 @@ const CategoryFilter = () => {
                 <ListingPrice />
                 <ListingBedrooms/>
                 <Category />
+            </div>
+            <div 
+                className='
+                    p-1 
+                    ml-6 
+                    mt-2 
+                    w-44 
+                    bg-red-600 
+                    text-center 
+                    rounded-md 
+                    text-white 
+                    cursor-pointer 
+                    hover:bg-red-500
+                '
+            >
+                X Clear Filter
             </div>
         </>
     )

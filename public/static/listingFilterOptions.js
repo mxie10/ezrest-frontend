@@ -41,11 +41,6 @@ export const categories = [
         description: 'This property is close to a lake!'
     },
     {
-        label: 'Sking',
-        icon: FaSkiing,
-        description: 'This property has skiing activities!'
-    },
-    {
         label: 'Castles',
         icon: GiCastle,
         description: 'This property is in a castle!'
@@ -59,11 +54,6 @@ export const categories = [
         label: 'Arctic',
         icon: BsSnow,
         description: 'This property has snow!'
-    },
-    {
-        label: 'Cave',
-        icon: GiCaveEntrance,
-        description: 'This property in a cave!'
     },
     {
         label: 'Desert',

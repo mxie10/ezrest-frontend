@@ -12,6 +12,11 @@ export default function Home() {
   const listings = useSelector(state => state.listings.data);
   const isLoading = useSelector(state => state.listings.isLoading);
   const listingArray = listings?.data || [];
+  const [filterOptions, setFilterOptions] = useState(
+    {
+      
+    }
+  );
 
   if (isLoading) {
     return (

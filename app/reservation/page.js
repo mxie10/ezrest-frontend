@@ -71,7 +71,6 @@ const BookingScreen = () => {
               mt-7
             '
           >
-
             {
               reservationData && reservationData.map((reservation, index) => {
                 return (
