@@ -10,7 +10,6 @@ import { Context } from '../context/useContext';
 const BookingScreen = () => {
 
   const { user } = useContext(Context);
-  if(!user) return <>...Loading</> ;
 
   useFetchReservations(user._id);
   const useReservation = useReservationDetailsModal();
