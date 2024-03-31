@@ -9,13 +9,12 @@ import { Context } from '../context/useContext';
 const Page = () => {
 
   const { user } = useContext(Context);
-  if(!user) return <>...Loading</> ;
 
   useFetchWishLists(user._id);
   const wishLists = useSelector(state => state.wishLists.data);
   const isLoading = useSelector(state => state.wishLists.isLoading)
   const listingArray = wishLists?.data || [];
-  
+
   if(isLoading){
     return <>...Loading</>
   }
