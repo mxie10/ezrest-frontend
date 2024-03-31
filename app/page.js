@@ -14,9 +14,17 @@ export default function Home() {
   const listingArray = listings?.data || [];
   const [filterOptions, setFilterOptions] = useState(
     {
-      
+      province:'',
+      price:{
+        min: 0,
+        max:0
+      },
+      bedrooms:0,
+      category:''
     }
   );
+  
+  console.log('filterOptions:',filterOptions);
 
   if (isLoading) {
     return (
@@ -35,7 +43,7 @@ export default function Home() {
         <SearchBarAlt />
       </div>
       <div className="pb-4 px-4">
-        <CategoryFilter />
+        <CategoryFilter setFilterOptions = {setFilterOptions}/>
       </div>
 
       <hr />
@@ -61,8 +69,7 @@ export default function Home() {
                   listing={listing}
                   key={index}
                 />
-              )
-            })
+              )})
           }
         </div>
       </div>
