@@ -5,67 +5,12 @@ import { useSelector,useDispatch } from "react-redux";
 import DatePicker from 'react-datepicker';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from "@/app/components/ui/avatar";
-import { MdOutlineCoffeeMaker, MdPaid, MdLocalLaundryService } from "react-icons/md";
-import { GiHotSurface, GiHanger, GiDesk } from "react-icons/gi";
-import { BiSolidFridge, BiSolidBlanket } from "react-icons/bi";
-import { FaWifi, FaParking } from "react-icons/fa";
-import { FaHotjar, FaKitchenSet } from "react-icons/fa6";
-import { TbAirConditioning, TbToolsKitchen3 } from "react-icons/tb";
-import { PiTelevisionBold } from "react-icons/pi";
-import { FaHotTub, FaWater, FaChair, FaMountain } from "react-icons/fa";
-import { MdOutdoorGrill, MdOutlineFireplace, MdDinnerDining } from "react-icons/md";
-import { FaWaterLadder } from "react-icons/fa6";
-import { GiPoolTableCorner, GiHeatHaze } from "react-icons/gi";
-import { CgGym } from "react-icons/cg";
-import { WiSmoke } from "react-icons/wi";
-import { Tb24Hours, TbLadder } from "react-icons/tb";
-import { FaFirstAid, FaFireExtinguisher } from "react-icons/fa";
-import { IoIosExit } from "react-icons/io";
-import { MdOutlineSecurity } from "react-icons/md";
 import ImagePresenter from './ImagePresenter';
 import { Context } from '../context/useContext';
 import { fetchListing } from '@/app/redux/actions/listings';
 import { fetchReservationByListingID } from '../redux/actions/reservations';
-
-const iconsMap = [
-  { name: "Wifi", icon: <FaWifi /> },
-  { name: "Free Parking", icon: <FaParking /> },
-  { name: "Laundry Facilities", icon: <MdLocalLaundryService /> },
-  { name: "Heating", icon: <FaHotjar /> },
-  { name: "AC", icon: <TbAirConditioning /> },
-  { name: "Paid Parking", icon: <MdPaid /> },
-  { name: "Coffee Maker", icon: <MdOutlineCoffeeMaker /> },
-  { name: "Stove", icon: <GiHotSurface /> },
-  { name: "Fridge", icon: <BiSolidFridge /> },
-  { name: "Essential Kitchen Applicances", icon: <FaKitchenSet /> },
-  { name: "Kitchen Utensils", icon: <TbToolsKitchen3 /> },
-  { name: "Tvs", icon: <PiTelevisionBold /> },
-  { name: "Beddings", icon: <BiSolidBlanket /> },
-  { name: "Hangers", icon: <GiHanger /> },
-  { name: "Work Space", icon: <GiDesk /> },
-  { name: "Hot Tub", icon: <FaHotTub /> },
-  { name: "BBQ Grill", icon: <MdOutdoorGrill /> },
-  { name: "Patio", icon: <FaChair /> },
-  { name: "Outdoor/ Backyard Dinning Area", icon: <MdDinnerDining /> },
-  { name: "Lake Access", icon: <FaWater /> },
-  { name: "Mountain View", icon: <FaMountain /> },
-  { name: "GYM", icon: <CgGym /> },
-  { name: "Pool Table", icon: <GiPoolTableCorner /> },
-  { name: "Fireplace", icon: <MdOutlineFireplace /> },
-  { name: "Swimming Pool", icon: <FaWaterLadder /> },
-  { name: "Sauna", icon: <GiHeatHaze /> },
-  { name: "Smoke Alarm", icon: <WiSmoke /> },
-  { name: "24/7 Security", icon: <Tb24Hours /> },
-  { name: "First Aid Kit", icon: <FaFirstAid /> },
-  { name: "Fire Extinguisher", icon: <FaFireExtinguisher /> },
-  { name: "Emergency Exit", icon: <IoIosExit /> },
-  { name: "Security System", icon: <MdOutlineSecurity /> },
-  { name: "Fire Escape Ladder", icon: <TbLadder /> }
-];
-
-const features = ["Wifi", "Free Parking", "Laundry Facilities", "Heating", "AC", "Paid Parking", "Coffee Maker", "Essential Kitchen Applicances", "Stove", "Kitchen Utensils", "Fridge", "Tvs", "Beddings", "Hangers"];
-const amenities = ["Hot Tub", "BBQ Grill", "Patio", "Outdoor/ Backyard Dinning Area", "Lake Access", "Mountain View", "GYM", "Pool Table", "Fireplace", "Swimming Pool", "Sauna"];
-const safetyFeatures = ["Smoke Alarm", "24/7 Security", "First Aid Kit", "Fire Extinguisher", "Emergency Exit", "Security System", "Fire Escape Ladder"];
+import AmenitiesModal from './amenitiesModal';
+import { iconsMap } from '../../public/static/icons';
 
 const Page = () => {
 
@@ -81,7 +26,7 @@ const Page = () => {
   });
   const router = useRouter();
   const dispatch = useDispatch();
-  const { user } = useContext(Context);
+  const {user} = useContext(Context);
   const searchParams = useSearchParams();
   const listingID = searchParams.get('listingID');
   const [showDropdown, setShowDropdown] = useState(true);
@@ -103,35 +48,20 @@ const Page = () => {
 
   const totalGuests = reservation.guests.adults + reservation.guests.children + reservation.guests.infants + reservation.guests.pets;
 
-  console.log('listingReservationsData:',listingReservationsData);
+  console.log('listingData:',listingData);
 
   useEffect(() => {
     if(user) {
       dispatch(fetchListing(listingID));
-    }
-  }, [dispatch,user]);
-
-  useEffect(() => {
-    if(user) {
       dispatch(fetchReservationByListingID({listingID:listingID,userID:user._id}));
     }
-  }, [dispatch,user])
+  }, [dispatch,user]);
 
   useEffect(() => {
     if (reservation.checkinDate !== '' && reservation.checkoutDate !== '' && totalGuests !== 0) {
       setError(null);
     }
   }, [reservation.guests, reservation.checkinDate, reservation.checkoutDate])
-
-  const getDatesBetween = (startDate, endDate) => {
-    const dates = [];
-    const currentDate = new Date(startDate);
-    while (currentDate <= endDate) {
-      dates.push(new Date(currentDate));
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    return dates;
-  }
 
   useEffect(() => {
     if(listingReservationsData && listingReservationsData.length > 0){
@@ -144,6 +74,16 @@ const Page = () => {
       setOccupiedDates(occupiedDates);
     }
   }, [listingReservationsData])
+
+  const getDatesBetween = (startDate, endDate) => {
+    const dates = [];
+    const currentDate = new Date(startDate);
+    while (currentDate <= endDate) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return dates;
+  }
 
   const navigateToCheckout = () => {
     if (reservation.checkinDate === '' || reservation.checkoutDate === '') {
@@ -221,30 +161,27 @@ const Page = () => {
 
   if (isLoadingListing || isLoadinglistingReservations) return <>...Loading</>
 
+  console.log('listingData.basicInformation:',listingData.basicInformation);
+
   return (
     <div className='flex justify-center min-h-screen'>
       <div className='justify-center 2xl:w-[60%] xl:w-3/4 sm:w-[90%] my-12 rounded-lg'>
-        <div className='relative justify-start mt-4'>
-          <h1 className='text-2xl font-semibold'>Lakefront detached house on the little lake</h1>
-        </div>
 
         <div className='flex mt-4'>
           <ImagePresenter
             handleImageClick={(imageUrl) => handleImageClick(imageUrl)}
             handleCloseFullScreen={handleCloseFullScreen}
             selectedImage={selectedImage}
+            imageSrc={listingData?.imageSrc}
           />
         </div>
 
         <div className='flex flex-row justify-between mt-6'>
           <div className='flex flex-col w-2/3'>
-            <h1 className='text-2xl font-semibold'>Entire home in Barrie, Canada</h1>
+            <h1 className='text-2xl font-semibold'>{listingData?.title}</h1>
             <div className='flex flex-row justify-between mr-2 border-b border-gray-300'>
               <div className='flex flex-row mt-2'>
-                <p className='mr-2'>2 Living rooms |</p>
-                <p className='mr-2'>3 Bedrooms |</p>
-                <p className='mr-2'>1 Kitchen |</p>
-                <p className=''>1 Bath</p>
+                {listingData?.basicInformation?.livingroom} Living rooms | {listingData?.basicInformation?.bedroom} Bedrooms | {listingData?.basicInformation?.kitchen} Kitchen | {listingData?.basicInformation?.bathroom} Bathroom 
               </div>
             </div>
 
@@ -255,7 +192,7 @@ const Page = () => {
               </Avatar>
 
               <div className='flex flex-col ml-4'>
-                <h1 className='font-semibold'>Hosted By User</h1>
+                <h1 className='font-semibold'>Hosted By {listingData?.landlordName}</h1>
 
                 <div className='flex flex-row'>
                   <p className='text-sm text-gray-500'>Host Rating:</p>
@@ -269,10 +206,10 @@ const Page = () => {
 
             <div className="relative mt-4 mr-2 border-t border-b border-gray-300">
               <div className={`overflow-hidden transition-all duration-500 ${showMore ? 'max-h-full' : 'max-h-20'}`}>
-                <p className="mt-2 mr-4 text-justify text-gray-500">{description}</p>
+                <p className="mt-2 mr-4 text-justify text-gray-500">{listingData?.description}</p>
               </div>
 
-              {description.length > 100 && (
+              {listingData?.description?.length > 100 && (
                 <button onClick={toggleShowMore} className="mt-2 mb-2 font-semibold text-black underline bg-transparent ">Show {showMore ? 'less...' : 'more...'}</button>
               )}
             </div>
@@ -283,7 +220,7 @@ const Page = () => {
 
             <div className="flex flex-row w-[50%] justify-between mt-4 mr-4">
               <div className="flex flex-col items-start">
-                {features.slice(0, 3).map(feature => {
+                {listingData.features?.slice(0, 3).map(feature => {
                   const icon = iconsMap.find(icon => icon.name === feature);
                   return (
                     <div key={feature} className="flex items-center mr-4">
@@ -294,7 +231,7 @@ const Page = () => {
                 })}
               </div>
               <div className="flex flex-col items-start ml-auto">
-                {amenities.slice(0, 3).map(amenity => {
+                {listingData.amenities?.slice(0, 3).map(amenity => {
                   const icon = iconsMap.find(icon => icon.name === amenity);
                   return (
                     <div key={amenity} className="flex items-center mr-4">
@@ -304,92 +241,6 @@ const Page = () => {
                   );
                 })}
               </div>
-
-              {showAmenities && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-                  <div className="w-1/3 h-auto p-6 bg-white rounded-lg">
-                    <h1 className='text-2xl font-semibold'>What this place offer</h1>
-                    <div className='flex flex-col justify-between'>
-                      <h1 className='mt-2 mb-4 text-xl font-semibold'>Features</h1>
-                      <div className="flex items-center mb-4">
-                        <div className="flex flex-col items-start">
-                          {features.slice(0, Math.ceil(features.length / 2)).map(feature => {
-                            const icon = iconsMap.find(icon => icon.name === feature);
-                            return (
-                              <div key={feature} className="flex items-center mr-4">
-                                {icon && icon.icon}
-                                <span className="ml-2">{feature}</span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                        <div className="flex flex-col items-start w-1/2 ml-auto">
-                          {features.slice(Math.ceil(features.length / 2)).map(feature => {
-                            const icon = iconsMap.find(icon => icon.name === feature);
-                            return (
-                              <div key={feature} className="flex items-center mr-4">
-                                {icon && icon.icon}
-                                <span className="ml-2">{feature}</span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                      <h1 className='mb-4 text-xl font-semibold'>Amenities</h1>
-                      <div className="flex items-center mb-4">
-                        <div className="flex flex-col items-start">
-                          {amenities.slice(0, Math.ceil(amenities.length / 2)).map(amenity => {
-                            const icon = iconsMap.find(icon => icon.name === amenity);
-                            return (
-                              <div key={amenity} className="flex items-center mr-4">
-                                {icon && icon.icon}
-                                <span className="ml-2">{amenity}</span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                        <div className="flex flex-col items-start w-1/2 ml-auto">
-                          {amenities.slice(Math.ceil(amenities.length / 2)).map(amenity => {
-                            const icon = iconsMap.find(icon => icon.name === amenity);
-                            return (
-                              <div key={amenity} className="flex items-center mr-4">
-                                {icon && icon.icon}
-                                <span className="ml-2">{amenity}</span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                      <h1 className='mb-4 text-xl font-semibold'>Safety</h1>
-                      <div className="flex items-center mb-4">
-                        <div className="flex flex-col items-start">
-                          {safetyFeatures.slice(0, Math.ceil(safetyFeatures.length / 2)).map(safety => {
-                            const icon = iconsMap.find(icon => icon.name === safety);
-                            return (
-                              <div key={safety} className="flex items-center mr-4">
-                                {icon && icon.icon}
-                                <span className="ml-2">{safety}</span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                        <div className="flex flex-col items-start w-1/2 ml-auto">
-                          {safetyFeatures.slice(Math.ceil(safetyFeatures.length / 2)).map(safety => {
-                            const icon = iconsMap.find(icon => icon.name === safety);
-                            return (
-                              <div key={safety} className="flex items-center mr-4">
-                                {icon && icon.icon}
-                                <span className="ml-2">{safety}</span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <button onClick={toggleShowAmenities} className="absolute text-white underline cursor-pointer top-4 right-4">Close X</button>
-                </div>
-              )}
             </div>
 
             <div>
@@ -401,7 +252,7 @@ const Page = () => {
 
           <div className='flex flex-col h-full py-4 rounded-lg shadow-md shadow-gray-500 2xl:w-1/3 '>
             <div className='flex flex-row'>
-              <h1 className='flex justify-start ml-5 text-lg font-semibold'>$300 CAD</h1>
+              <h1 className='flex justify-start ml-5 text-lg font-semibold'>{listingData.weekdayPrice} CAD</h1>
               <p className='mt-1 ml-2 text-gray-500'>night</p>
             </div>
             <div className='flex flex-col justify-center'>
@@ -542,6 +393,14 @@ const Page = () => {
 
         </div>
       </div>
+      <AmenitiesModal 
+        showAmenities={showAmenities}
+        features={listingData.features}
+        amenities={listingData.amenities}
+        safetyFeatures={listingData.safety}
+        toggleShowAmenities={toggleShowAmenities}
+        iconsMap={iconsMap}
+      />
     </div>
   )
 }

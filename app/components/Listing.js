@@ -69,7 +69,9 @@ const Listing = (props) => {
             Avilable from {startDate ?? startDate}
           </div>
           <div className='font-bold text-sm'>
-            ${weekdayPrice} a night
+            <div>
+              ${weekdayPrice} a night
+            </div>
           </div>
         </div>
       </CardContent>

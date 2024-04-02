@@ -161,7 +161,8 @@ const CategoryFilter = (props) => {
                                 className={`
                                     cursor-pointer 
                                     hover:bg-neutral-200 
-                                    p-1 
+                                    py-1
+                                    px-2 
                                     rounded-md
                                     ${selectedBedroomIndex === index ? 'text-green-600' : ''}
                                 `}
@@ -179,7 +180,7 @@ const CategoryFilter = (props) => {
     return (
         <>
             <div
-                className='flex flex-col gap-7 px-6 mt-2'
+                className='flex flex-col gap-6 px-6 mt-2'
             >
                 <Location />
                 <ListingPrice />
