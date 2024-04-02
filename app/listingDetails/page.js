@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useContext, useEffect } from 'react';
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import DatePicker from 'react-datepicker';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from "@/app/components/ui/avatar";
@@ -9,8 +9,9 @@ import ImagePresenter from './ImagePresenter';
 import { Context } from '../context/useContext';
 import { fetchListing } from '@/app/redux/actions/listings';
 import { fetchReservationByListingID } from '../redux/actions/reservations';
-import AmenitiesModal from './amenitiesModal';
+import AmenitiesModal from './AmenitiesModal';
 import { iconsMap } from '../../public/static/icons';
+import Map from './Map';
 
 const Page = () => {
 
@@ -26,7 +27,7 @@ const Page = () => {
   });
   const router = useRouter();
   const dispatch = useDispatch();
-  const {user} = useContext(Context);
+  const { user } = useContext(Context);
   const searchParams = useSearchParams();
   const listingID = searchParams.get('listingID');
   const [showDropdown, setShowDropdown] = useState(true);
@@ -35,7 +36,8 @@ const Page = () => {
   const [showMore, setShowMore] = useState(false);
   const [error, setError] = useState(null);
   const [occupiedDates, setOccupiedDates] = useState(null);
-  
+  const guestsCategory = ['adults', 'children', 'infants', 'pets'];
+
   //listing info
   const listing = useSelector(state => state.listing.data);
   const isLoadingListing = useSelector(state => state.listing.isLoading)
@@ -48,14 +50,14 @@ const Page = () => {
 
   const totalGuests = reservation.guests.adults + reservation.guests.children + reservation.guests.infants + reservation.guests.pets;
 
-  console.log('listingData:',listingData);
-
+  console.log('listingData:', listingData);
+  console.log('reservation:',reservation);
   useEffect(() => {
-    if(user) {
+    if (user) {
       dispatch(fetchListing(listingID));
-      dispatch(fetchReservationByListingID({listingID:listingID,userID:user._id}));
+      dispatch(fetchReservationByListingID({ listingID: listingID, userID: user._id }));
     }
-  }, [dispatch,user]);
+  }, [dispatch, user]);
 
   useEffect(() => {
     if (reservation.checkinDate !== '' && reservation.checkoutDate !== '' && totalGuests !== 0) {
@@ -64,7 +66,7 @@ const Page = () => {
   }, [reservation.guests, reservation.checkinDate, reservation.checkoutDate])
 
   useEffect(() => {
-    if(listingReservationsData && listingReservationsData.length > 0){
+    if (listingReservationsData && listingReservationsData.length > 0) {
       const occupiedDates = listingReservationsData.reduce((acc, reservation) => {
         const checkinDate = new Date(reservation.checkinDate);
         const checkoutDate = new Date(reservation.checkoutDate);
@@ -132,6 +134,7 @@ const Page = () => {
   };
 
   const increaseGuestCount = (type) => {
+    console.log('type:',type);
     setReservation(prevState => ({
       ...prevState,
       guests: {
@@ -149,8 +152,6 @@ const Page = () => {
     setSelectedImage(null);
   };
 
-  const description = "Escape to Rock 'n' House, a marvel featured in Architectural Digest, nestled on a 14-acre estate down a secluded road - 2 hrs from NYC. This architectural wonder with panoramic views and circular design offers seamless integration with nature. Inside, the main level offers open concept living, sunken lounge and dining for 10, with radiant heat & central air to ensure your comfort. Outdoors enjoy stunning vistas from the outdoor firepit and porch table.";
-
   const toggleShowMore = () => {
     setShowMore(!showMore);
   };
@@ -161,7 +162,7 @@ const Page = () => {
 
   if (isLoadingListing || isLoadinglistingReservations) return <>...Loading</>
 
-  console.log('listingData.basicInformation:',listingData.basicInformation);
+  console.log('listingData.basicInformation:', listingData.basicInformation);
 
   return (
     <div className='flex justify-center min-h-screen'>
@@ -181,27 +182,16 @@ const Page = () => {
             <h1 className='text-2xl font-semibold'>{listingData?.title}</h1>
             <div className='flex flex-row justify-between mr-2 border-b border-gray-300'>
               <div className='flex flex-row mt-2'>
-                {listingData?.basicInformation?.livingroom} Living rooms | {listingData?.basicInformation?.bedroom} Bedrooms | {listingData?.basicInformation?.kitchen} Kitchen | {listingData?.basicInformation?.bathroom} Bathroom 
+                {listingData?.basicInformation?.livingroom} Living rooms | {listingData?.basicInformation?.bedroom} Bedrooms | {listingData?.basicInformation?.kitchen} Kitchen | {listingData?.basicInformation?.bathroom} Bathroom
               </div>
             </div>
 
-            <div className='flex flex-row mt-4 '>
+            <div className='flex flex-row mt-4 items-center gap-2'>
               <Avatar className='mt-2'>
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-
-              <div className='flex flex-col ml-4'>
-                <h1 className='font-semibold'>Hosted By {listingData?.landlordName}</h1>
-
-                <div className='flex flex-row'>
-                  <p className='text-sm text-gray-500'>Host Rating:</p>
-                  <p className='ml-2 text-sm text-gray-500'>
-                    4.8
-                  </p>
-                  <svg className='mt-1 ml-2' width="12px" height="12px" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path clipRule="evenodd" d="M12.1904 2.64611C12.9026 1.09713 15.0974 1.09713 15.8096 2.64611L18.607 8.72957L25.2394 9.51836C26.9281 9.71921 27.6063 11.813 26.3578 12.9711L21.4543 17.5197L22.7559 24.0907C23.0874 25.7638 21.3118 27.0578 19.8279 26.2246L14 22.9523L8.17211 26.2246C6.6882 27.0578 4.91264 25.7638 5.24406 24.0907L6.54569 17.5197L1.64223 12.9711C0.3937 11.813 1.07191 9.71921 2.76065 9.51836L9.39298 8.72957L12.1904 2.64611ZM14.4543 4.4713C14.2758 4.08315 13.7242 4.08315 13.5457 4.4713L11.2026 9.56685C10.9123 10.1981 10.3159 10.6328 9.62762 10.7147L4.06902 11.3758C3.64578 11.4261 3.47555 11.949 3.78803 12.2388L7.89874 16.0521C8.40759 16.5241 8.63541 17.2274 8.50034 17.9093L7.40955 23.4159C7.32661 23.8346 7.77263 24.158 8.14481 23.949L13.0266 21.208C13.6314 20.8684 14.3686 20.8684 14.9734 21.208L19.8552 23.949C20.2274 24.158 20.6734 23.8346 20.5905 23.4159L19.4997 17.9093C19.3646 17.2274 19.5924 16.5241 20.1013 16.0521L24.212 12.2388C24.5244 11.949 24.3542 11.4261 23.931 11.3758L18.3724 10.7147C17.6841 10.6328 17.0877 10.1982 16.7974 9.56685L14.4543 4.4713Z" fill="#6b7280" fillRule="evenodd"></path></g></svg>
-                </div>
-              </div>
+              <h1 className='font-semibold'>Hosted By {listingData?.landlordName}</h1>
             </div>
 
             <div className="relative mt-4 mr-2 border-t border-b border-gray-300">
@@ -210,7 +200,9 @@ const Page = () => {
               </div>
 
               {listingData?.description?.length > 100 && (
-                <button onClick={toggleShowMore} className="mt-2 mb-2 font-semibold text-black underline bg-transparent ">Show {showMore ? 'less...' : 'more...'}</button>
+                <button onClick={toggleShowMore} className="mt-2 mb-2 font-semibold text-black underline bg-transparent ">
+                  Show {showMore ? 'less...' : 'more...'}
+                </button>
               )}
             </div>
 
@@ -244,35 +236,41 @@ const Page = () => {
             </div>
 
             <div>
-              <button onClick={toggleShowAmenities} className="px-4 py-2 mt-4 text-black border border-gray-500 rounded-lg hover:bg-gray-500 hover:text-white">Show all amenities</button>
+              <button
+                onClick={toggleShowAmenities}
+                className="px-4 py-2 mt-4 text-black border border-gray-500 rounded-lg hover:bg-gray-500 hover:text-white"
+              >
+                Show all amenities
+              </button>
             </div>
-
           </div>
 
 
           <div className='flex flex-col h-full py-4 rounded-lg shadow-md shadow-gray-500 2xl:w-1/3 '>
             <div className='flex flex-row'>
-              <h1 className='flex justify-start ml-5 text-lg font-semibold'>{listingData.weekdayPrice} CAD</h1>
-              <p className='mt-1 ml-2 text-gray-500'>night</p>
+              <h1 className='ml-5 text-lg font-semibold'>{listingData.weekdayPrice} CAD</h1>
+              <p className='mt-1 ml-2 text-gray-500'>/night</p>
             </div>
             <div className='flex flex-col justify-center'>
               <div className='flex flex-col border border-gray-500 rounded-lg p-2 bg-transparent ml-5 mt-4 w-[90%]'>
                 <div className='flex flex-row mt-4 mb-4 border-b border-gray-500'>
-                  <div className="w-1/2 border-r border-gray-500">
+                  <div className="border-r border-gray-500">
                     <DatePicker
                       selected={reservation.checkinDate}
                       onChange={(date) => setCheckinDate(date)}
                       placeholderText='Check-in'
-                      className='w-full ml-2 bg-transparent'
+                      className='w-4/5 h-6 ml-2 bg-transparent'
+                      minDate={new Date()}
                       excludeDates={occupiedDates}
                     />
                   </div>
-                  <div className="w-1/2">
+                  <div className="">
                     <DatePicker
                       selected={reservation.checkoutDate}
                       onChange={(date) => setCheckOutDate(date)}
                       placeholderText='Check-out'
-                      className='w-full mb-2 ml-2 bg-transparent'
+                      className='w-4/5 h-6 mb-2 ml-2 bg-transparent'
+                      minDate={new Date()}
                       excludeDates={occupiedDates}
                     />
                   </div>
@@ -286,92 +284,58 @@ const Page = () => {
                       <p className='text-gray-500 ml-2 text-sm mt-[2px]'>
                         Total Guests: {totalGuests}
                       </p>
-                      <span className='mr-5 hover:cursor-pointer' onClick={toggleDropdown}>{showDropdown ? '▲' : '▼'}</span>
+                      <span 
+                        className='mr-5 hover:cursor-pointer' 
+                        onClick={toggleDropdown}>{showDropdown ? '▲' : '▼'}
+                      </span>
                     </div>
-                    {showDropdown && (
-                      <div className='z-10 flex flex-col w-full p-2 mt-2 bg-transparent rounded shadow-md'>
-                        <div className='flex flex-row justify-between'>
-                          <div className='flex flex-col'>
-                            <p className=''>Adults:</p>
-                            <p className='mt-4'>Children:</p>
-                            <p className='mt-4'>Infants:</p>
-                            <p className='mt-4'>Pets:</p>
-                          </div>
-                          <div>
+                    <div className='z-10 flex flex-col gap-2 w-full p-2 mt-2 bg-transparent rounded shadow-md'>
+                      {guestsCategory.map((category) => {
+                        return (
+                          <div
+                            className='
+                                flex
+                                flex-row
+                                justify-between
+                            '
+                            key = {category}
+                          >
+                            <div className=''>{category}:</div>
                             <div className='flex flex-row items-center'>
                               <button
                                 className='px-3 py-1 text-black bg-gray-300 rounded hover:bg-gray-500 hover:text-white'
-                                onClick={() => decreaseGuestCount('adults')}
-                                disabled={reservation.guests.adults === 0}
+                                onClick={() => decreaseGuestCount(category)}
+                                disabled={reservation.guests?.adults === 0}
                               >
                                 -
                               </button>
-                              <span className='mx-2'>{reservation.guests.adults}</span>
+                              <span className='mx-2 w-3'>
+                                {
+                                  category === 'adults' ? reservation.guests?.adults :
+                                  category === 'children' ? reservation.guests?.children :
+                                  category === 'infants' ? reservation.guests?.infants :
+                                  reservation.guests?.pets
+                                }
+                              </span>
                               <button
                                 className='px-3 py-1 text-black bg-gray-300 rounded hover:bg-gray-500 hover:text-white'
-                                onClick={() => increaseGuestCount('adults')}
-                              >
-                                +
-                              </button>
-                            </div>
-                            <div className='flex flex-row items-center mt-2'>
-                              <button
-                                className='px-3 py-1 text-black bg-gray-300 rounded hover:bg-gray-500 hover:text-white'
-                                onClick={() => decreaseGuestCount('children')}
-                                disabled={reservation.guests.children === 0}
-                              >
-                                -
-                              </button>
-                              <span className='mx-2'>{reservation.guests.children}</span>
-                              <button
-                                className='px-3 py-1 text-black bg-gray-300 rounded hover:bg-gray-500 hover:text-white'
-                                onClick={() => increaseGuestCount('children')}
-                              >
-                                +
-                              </button>
-                            </div>
-                            <div className='flex flex-row items-center mt-2'>
-                              <button
-                                className='px-3 py-1 text-black bg-gray-300 rounded hover:bg-gray-500 hover:text-white'
-                                onClick={() => decreaseGuestCount('infants')}
-                                disabled={reservation.guests.infants === 0}
-                              >
-                                -
-                              </button>
-                              <span className='mx-2'>{reservation.guests.infants}</span>
-                              <button
-                                className='px-3 py-1 text-black bg-gray-300 rounded hover:bg-gray-500 hover:text-white'
-                                onClick={() => increaseGuestCount('infants')}
-                              >
-                                +
-                              </button>
-                            </div>
-                            <div className='flex flex-row items-center mt-2'>
-                              <button
-                                className='px-3 py-1 text-black bg-gray-300 rounded hover:bg-gray-500 hover:text-white'
-                                onClick={() => decreaseGuestCount('pets')}
-                                disabled={reservation.guests.pets === 0}
-                              >
-                                -
-                              </button>
-                              <span className='mx-2'>{reservation.guests.pets}</span>
-                              <button
-                                className='px-3 py-1 text-black bg-gray-300 rounded hover:bg-gray-500 hover:text-white'
-                                onClick={() => increaseGuestCount('pets')}
+                                onClick={() => increaseGuestCount(category)}
                               >
                                 +
                               </button>
                             </div>
                           </div>
-                        </div>
-
-                      </div>
-                    )}
+                        )
+                      })}
+                    </div>
                   </div>
                 </div>
 
                 <div className='flex justify-center mt-8'>
-                  <button onClick={navigateToCheckout} className='py-2 text-white bg-gray-700 border border-gray-700 rounded-lg lg:px-32 hover:bg-white hover:text-gray-700 sm:px-8'>
+                  <button 
+                    onClick={navigateToCheckout} 
+                    className='py-2 text-white bg-gray-700 border border-gray-700 rounded-lg lg:px-32 hover:bg-white hover:text-gray-700 sm:px-8'
+                  >
                     Reserve
                   </button>
                 </div>
@@ -390,10 +354,14 @@ const Page = () => {
               </div>
             </div>
           </div>
-
+        </div>
+        {/* map area */}
+        <div className='mt-5 w-full'>
+          <div className='text-xl font-bold border-b-2 border-neutral-200 py-1'>Find the place on map</div>
+          <Map/>
         </div>
       </div>
-      <AmenitiesModal 
+      <AmenitiesModal
         showAmenities={showAmenities}
         features={listingData.features}
         amenities={listingData.amenities}

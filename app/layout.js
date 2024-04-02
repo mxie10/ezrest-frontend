@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import store from './redux/state/store';
 import "./globals.css";
 import 'react-datepicker/dist/react-datepicker.css';
+import 'leaflet/dist/leaflet.css'
 
 export default function RootLayout({ children }) {
 

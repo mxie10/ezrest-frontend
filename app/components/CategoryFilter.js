@@ -191,7 +191,7 @@ const CategoryFilter = (props) => {
                 className='
                     p-1 
                     ml-6 
-                    mt-2 
+                    mt-4
                     w-44 
                     bg-red-600 
                     text-center 

@@ -142,9 +142,12 @@ const BookingDetailsModal = (props) => {
                     <div>Total cost: ${reservationInfo?.totalPrice} CAD</div>
                 </div>
                 {/* Show listing */}
-                <div className='flex flex-row gap-3 items-center py-4 justify-center cursor-pointer hover:bg-neutral-200'>
+                <div 
+                    className='flex flex-row gap-3 items-center py-4 justify-center cursor-pointer hover:bg-neutral-200'
+                    onClick={(e) => navigateToListingDetails(e,reservationInfo?.listingID)}
+                >
                     <FaHome />
-                    <div onClick={(e) => navigateToListingDetails(e,reservationInfo?.listingID)}>
+                    <div>
                         Show listing
                     </div>
                     <MdKeyboardArrowRight size={20} />
