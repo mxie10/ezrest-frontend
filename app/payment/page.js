@@ -13,8 +13,8 @@ import { makeReservation } from '../api/reservation';
 
 const PaymentScreen = () => {
 
+  const router = useRouter();
   const [step, setStep] = useState(0);
-  const [error, setError] = useState('');
   const searchParams = useSearchParams();
   const { user } = useContext(Context);
 
@@ -143,6 +143,7 @@ const PaymentScreen = () => {
           }
         }))
         makeReservation(tripDetails);
+        router.push('/appreciate');
       }
     }
   }

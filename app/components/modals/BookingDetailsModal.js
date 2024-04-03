@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Modal from './Modal';
 import { useRouter } from 'next/navigation';
 import CardMedia from '@mui/material/CardMedia';
@@ -7,12 +7,17 @@ import { RiMessage2Fill } from "react-icons/ri";
 import { FaHome } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import TextField from '@mui/material/TextField';
+import { deleteReservation } from '../../api/reservation'
 import Button from './components/ButtonAlt';
-
+import { Context } from '@/app/context/useContext';
+import { useDispatch } from "react-redux";
+import { fetchReservations } from '@/app/redux/actions/reservations';
 
 const BookingDetailsModal = (props) => {
 
     const [openSendMessageBox, setOpenSendMessageBox] = useState(false);
+    const dispatch = useDispatch();
+    const {isRefreshing, setIsRefreshing} = useContext(Context);
     const [reservationInfo, setReservationInfo] = useState(null);
     const router = useRouter();
     const useBooking = useBookingDetailsModal();
@@ -36,6 +41,16 @@ const BookingDetailsModal = (props) => {
         useBooking.onClose();
         router.push(`/listingDetails?listingID=${listingID}`);
     }
+
+    const cancelReservation = (reservationID) => {
+        console.log('how about here2 reservationID is:',reservationID);
+        deleteReservation(reservationID);
+        useBooking.onClose();
+        dispatch(fetchReservations(reservationInfo.userID));
+        router.push('/reservation');
+    }
+
+    console.log('reservationInfo:',reservationInfo);
 
     const bodyContent = (
         <div className='md:h-148 h-full overflow-scroll no-scrollbar text-neutral-700'>
@@ -158,6 +173,7 @@ const BookingDetailsModal = (props) => {
                         label='Cancel Reservation'
                         small
                         backgroundColor='bg-red-500'
+                        onClick={() => cancelReservation(reservationInfo?._id)}
                     />
                 </div>
             </div>

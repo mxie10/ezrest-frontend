@@ -23,7 +23,7 @@ const Header = () => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
 
-  const listItemStyle = 'cursor-pointer hover:bg-slate-200 rounded-lg p-2 font-md text-black';
+  const listItemStyle = 'cursor-pointer hover:bg-slate-200 rounded-lg p-2 font-md text-black font-serif';
   const { user,setUser, setIsRefreshing } = useContext(Context);
 
   const openLoginModal = () => {

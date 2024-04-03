@@ -15,16 +15,6 @@ import Map from './Map';
 
 const Page = () => {
 
-  const [reservation, setReservation] = useState({
-    checkinDate: '',
-    checkoutDate: '',
-    guests: {
-      adults: 0,
-      children: 0,
-      infants: 0,
-      pets: 0
-    }
-  });
   const router = useRouter();
   const dispatch = useDispatch();
   const { user } = useContext(Context);
@@ -36,6 +26,17 @@ const Page = () => {
   const [showMore, setShowMore] = useState(false);
   const [error, setError] = useState(null);
   const [occupiedDates, setOccupiedDates] = useState(null);
+  const [reservation, setReservation] = useState({
+    checkinDate: '',
+    checkoutDate: '',
+    guests: {
+      adults: 0,
+      children: 0,
+      infants: 0,
+      pets: 0
+    }
+  });
+
   const guestsCategory = ['adults', 'children', 'infants', 'pets'];
 
   //listing info
@@ -180,13 +181,13 @@ const Page = () => {
         <div className='flex flex-row justify-between mt-6'>
           <div className='flex flex-col w-2/3'>
             <h1 className='text-2xl font-semibold'>{listingData?.title}</h1>
-            <div className='flex flex-row justify-between mr-2 border-b border-gray-300'>
+            <div className='flex flex-row justify-between mr-2 border-b-2 pb-2'>
               <div className='flex flex-row mt-2'>
                 {listingData?.basicInformation?.livingroom} Living rooms | {listingData?.basicInformation?.bedroom} Bedrooms | {listingData?.basicInformation?.kitchen} Kitchen | {listingData?.basicInformation?.bathroom} Bathroom
               </div>
             </div>
 
-            <div className='flex flex-row mt-4 items-center gap-2'>
+            <div className='flex flex-row mt-4 items-center gap-2 border-b-2 pb-2'>
               <Avatar className='mt-2'>
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>CN</AvatarFallback>
@@ -194,7 +195,7 @@ const Page = () => {
               <h1 className='font-semibold'>Hosted By {listingData?.landlordName}</h1>
             </div>
 
-            <div className="relative mt-4 mr-2 border-t border-b border-gray-300">
+            <div className="relative mt-2 mr-2 border-gray-300">
               <div className={`overflow-hidden transition-all duration-500 ${showMore ? 'max-h-full' : 'max-h-20'}`}>
                 <p className="mt-2 mr-4 text-justify text-gray-500">{listingData?.description}</p>
               </div>
@@ -207,7 +208,7 @@ const Page = () => {
             </div>
 
             <div className='mt-4'>
-              <h1 className='text-xl font-semibold'>What this place offers</h1>
+              <h1 className='text-xl font-semibold border-b-2 pb-2'>What this place offers</h1>
             </div>
 
             <div className="flex flex-row w-[50%] justify-between mt-4 mr-4">
@@ -244,11 +245,11 @@ const Page = () => {
               </button>
             </div>
           </div>
-
-
+          
+          {/* reservation area */}
           <div className='flex flex-col h-full py-4 rounded-lg shadow-md shadow-gray-500 2xl:w-1/3 '>
             <div className='flex flex-row'>
-              <h1 className='ml-5 text-lg font-semibold'>{listingData.weekdayPrice} CAD</h1>
+              <h1 className='ml-5 text-lg font-semibold'>${listingData.weekdayPrice} CAD</h1>
               <p className='mt-1 ml-2 text-gray-500'>/night</p>
             </div>
             <div className='flex flex-col justify-center'>

@@ -56,6 +56,7 @@ const BookingScreen = () => {
             className='
               font-bold
               text-3xl
+              font-serif
             '
           >
             My Reservations
@@ -80,8 +81,7 @@ const BookingScreen = () => {
                     onClick={() => handleBookingOnClick(reservation)} 
                     reservation={reservation} key={index}
                   />
-                )
-              })
+                )})
             }
           </div>
         </div>
