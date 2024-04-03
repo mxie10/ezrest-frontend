@@ -30,7 +30,7 @@ const BookingScreen = () => {
   }
 
   if(isLoading){
-    return <>...Loading</>
+    return <></>
   }
 
   return (

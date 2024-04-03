@@ -18,11 +18,11 @@ export default function Home() {
   const [selectedPriceIndex, setSelectedPriceIndex] = useState(-1);
   const [selectedBedroomIndex, setSelectedBedroomIndex] = useState(-1);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [checkinDate, setCheckinDate] = useState(null);
   
   const [filterOptions, setFilterOptions] = useState({
     apply:false,
-    checkinDate: '',
-    location: '',
     province: '',
     price: {
       min: 0,
@@ -41,10 +41,11 @@ export default function Home() {
   }, [dispatch,pageNumber,filterOptions])
 
   console.log('filterOptions:', filterOptions);
+  console.log('location:', location);
 
   if (isLoading) {
     return (
-      <div>Loading....</div>
+      <></>
     )
   }
 
@@ -56,7 +57,9 @@ export default function Home() {
         '
     >
       <div className="flex flex-row justify-center">
-        <SearchBarAlt />
+        <SearchBarAlt 
+          setLocation = {setLocation}
+        />
       </div>
       <div className="pb-4 px-4">
         <CategoryFilter 

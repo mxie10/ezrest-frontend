@@ -161,7 +161,7 @@ const Page = () => {
     setShowAmenities(!showAmenities);
   };
 
-  if (isLoadingListing || isLoadinglistingReservations) return <>...Loading</>
+  if (isLoadingListing || isLoadinglistingReservations) return <></>
 
   console.log('listingData.basicInformation:', listingData.basicInformation);
 

@@ -4,8 +4,11 @@ import { FaSearch } from "react-icons/fa";
 import DatePicker from 'react-datepicker';
 import { FaCalendarAlt } from "react-icons/fa";
 
-const SearchBarAlt = () => {
+const SearchBarAlt = (props) => {
+
+    const {setLocation} = props;
     const [startDate, setStartDate] = useState(null);
+
     return (
         <div
             className='
@@ -19,10 +22,11 @@ const SearchBarAlt = () => {
                 w-full
             '
         >
-            <Input
+            <input
                 type="text"
                 placeholder="Enter an address, ciy or ZIP code"
-                className='w-3/12 h-14 text-lg border-2 rounded-3xl border-red-300'
+                className='w-3/12 h-14 text-lg border-2 rounded-3xl border-red-300 px-2'
+                onChange = {e => setLocation(e.target.value)}
             />
             <div className='flex flex-row items-center'>
                 <DatePicker
