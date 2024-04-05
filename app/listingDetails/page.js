@@ -100,7 +100,9 @@ const Page = () => {
     const encodedListingData = encodeURIComponent(JSON.stringify(listingData));
     const encodedReservationData = encodeURIComponent(JSON.stringify(reservation));
     const ecodedUserID = encodeURIComponent(JSON.stringify(user._id));
-    const queryString = `?listingData=${encodedListingData}&reservation=${encodedReservationData}&userID=${ecodedUserID}`;
+    const ecodedOccupiedDates = encodeURIComponent(JSON.stringify(occupiedDates));
+    console.log("ecodedOccupiedDates:",occupiedDates);
+    const queryString = `?listingData=${encodedListingData}&reservation=${encodedReservationData}&userID=${ecodedUserID}&ecodedOccupiedDates=${ecodedOccupiedDates}`;
     router.push(`/payment${queryString}`);
   };
 

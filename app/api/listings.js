@@ -8,3 +8,9 @@ export const fetchListing = (listingID) => {
     return axios.get(`${url}/api/listing/${listingID}`)
 }
 
+export const updateAvailableDate = (listingID,availableDate) => {
+    return axios.put(`${url}/api/listing/availableDate/${listingID}`,{
+        availableDate:availableDate
+    })
+}
+
