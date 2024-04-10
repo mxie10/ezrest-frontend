@@ -87,7 +87,8 @@ const PaymentScreen = () => {
       totalPrice:totalPrice
     }))
     
-  },[user])
+  },[user,listingData._id,listingData.address.addressLine1,listingData.address.addressLine2,listingData.address.city,
+    listingData.address.country,listingData.address.state,listingData.imageSrc,listingData.weekdayPrice,reservation,userID])
 
   const calculateNight = (startDate, endDate) => {
     const start = new Date(startDate);
