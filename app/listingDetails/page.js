@@ -9,7 +9,7 @@ import ImagePresenter from './ImagePresenter';
 import { Context } from '../context/useContext';
 import { fetchListing } from '@/app/redux/actions/listings';
 import { fetchReservationByListingID } from '../redux/actions/reservations';
-import AmenitiesModal from './AmenitiesModal';
+import AmenitiesModal from './Amenities';
 import { iconsMap } from '../../public/static/icons';
 import Map from './Map';
 
