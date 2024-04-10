@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useFooterModal from '../hooks/useFooterModal';
 import { FaTwitter, FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa";
-import { MdCancel } from "react-icons/md";
 
 const leftSideItems = [
     { name: 'Privacy' },
@@ -33,24 +32,18 @@ const Footer = () => {
         setShowModal(true);
     }
     const onClose = () => {
-        setShowModal(false); // Instead of calling footerModal.onClose();
+        setShowModal(false); 
     };
 
     let slidingWindowClasses = showModal ? 'translate-y-0' : 'translate-y-full';
 
-    // For desktop view
     let desktopClasses = `fixed bottom-0 w-full h-2/3 bg-neutral-200 transform transition-transform duration-300 ease-in-out overflow-auto shadow-inner rounded-md z-10 ${slidingWindowClasses}`;
 
-    // For mobile view
     let mobileClasses = `fixed inset-0 w-full h-full bg-neutral-200 transform transition-transform duration-300 ease-in-out overflow-auto shadow-inner rounded-md z-40 ${slidingWindowClasses}`;
 
-    // Use a media query to apply different styles based on the screen size
-    // let slidingWindowStyles = window.innerWidth >= 768 ? desktopClasses : mobileClasses;
-
-    // JSX for the modal's close button
     let closeButton = (
         <button className="absolute text-xl top-5 right-5" onClick={onClose}>
-            &times; {/* This creates a '×' symbol for closing the modal */}
+            &times; 
         </button>
     );
 
@@ -127,23 +120,8 @@ const Footer = () => {
                     </SectionContainer>
                 </SectionContainer>
             </div>
-            {/* <div className={`${slidingWindowStyles} shadow-none border-none`}>
-                <button
-                    className="absolute z-50 p-3 text-lg leading-none text-gray-700 bg-white border border-gray-300 rounded-full top-2 left-2 hover:bg-gray-100"
-                    onClick={onClose}
-                    aria-label="Close" 
-                >
-                    &#10005; 
-                </button>
-                <div className='relative'>
-                </div>
-            </div> */}
-
         </div>
-
-
     );
-
 
     return bodyContent;
 };

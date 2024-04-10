@@ -10,7 +10,7 @@ const useFetchReservations = (userID) => {
 
         dispatch(fetchReservations(userID));
 
-    }, [dispatch])
+    }, [dispatch,userID])
 }
 
 export default useFetchReservations;

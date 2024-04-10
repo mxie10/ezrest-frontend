@@ -40,7 +40,9 @@ export default function Home() {
       filterOptions:filterOptions
     }
     dispatch(fetchListings(params));
-  }, [dispatch,pageNumber,filterOptions])
+  }, [dispatch,pageNumber,filterOptions.apply,filterOptions.province,filterOptions.price,filterOptions.bedrooms,
+    filterOptions.category,filterOptions.location,filterOptions.checkinDate
+  ])
 
   console.log('filterOptions:', filterOptions);
   console.log('location:', location);

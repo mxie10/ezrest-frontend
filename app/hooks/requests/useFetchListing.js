@@ -10,7 +10,7 @@ const useFetchListing = (listingID) => {
 
         dispatch(fetchListing(listingID));
 
-    }, [dispatch])
+    }, [dispatch,listingID])
 }
 
 export default useFetchListing;

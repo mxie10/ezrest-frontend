@@ -359,10 +359,10 @@ const Page = () => {
           </div>
         </div>
         {/* map area */}
-        <div className='mt-5 w-full'>
+        {/* <div className='mt-5 w-full'>
           <div className='text-xl font-bold border-b-2 border-neutral-200 py-1'>Find the place on map</div>
           <Map/>
-        </div>
+        </div> */}
       </div>
       <AmenitiesModal
         showAmenities={showAmenities}
