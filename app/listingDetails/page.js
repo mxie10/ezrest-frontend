@@ -11,7 +11,7 @@ import { fetchListing } from '@/app/redux/actions/listings';
 import { fetchReservationByListingID } from '../redux/actions/reservations';
 import AmenitiesModal from './Amenities';
 import { iconsMap } from '../../public/static/icons';
-import Map from './Map';
+// import Map from './Map';
 
 const Page = () => {
 
