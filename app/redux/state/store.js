@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import listingsReducer from "./listings/listingsSlicer";
 import listingReducer from "./listings/listingSlicer";
 import wishListsReducer from "./wishList/wishListSlicer";
+import reservationsReducer from "./reservation/reservationsSlicer";
 import reservationReducer from "./reservation/reservationSlicer";
 
 const store = configureStore({
@@ -9,7 +10,8 @@ const store = configureStore({
         listings: listingsReducer,
         listing: listingReducer,
         wishLists: wishListsReducer,
-        reservations: reservationReducer
+        reservations: reservationsReducer,
+        reservation: reservationReducer
     }
 })
 

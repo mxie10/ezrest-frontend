@@ -30,6 +30,10 @@ export const ContextProvider = ({ children }) => {
         initUser()
     }, [])
 
+    useEffect(()=>{
+        
+    },[isRefreshing])
+
     const contextValue = {
         user: user,
         setUser: setUser,

@@ -22,7 +22,7 @@ import biance from '../../public/images/paymentMethod/binance.png';
 import wechat from '../../public/images/paymentMethod/wechat.png';
 import banktransfer from '../../public/images/paymentMethod/banktransfer.png';
 
-const iconsMap = [
+export const iconsMap = [
     { name: "Wifi", icon: <FaWifi /> },
     { name: "Free Parking", icon: <FaParking /> },
     { name: "Laundry Facilities", icon: <MdLocalLaundryService /> },

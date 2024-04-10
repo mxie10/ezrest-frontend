@@ -41,11 +41,6 @@ export const categories = [
         description: 'This property is close to a lake!'
     },
     {
-        label: 'Sking',
-        icon: FaSkiing,
-        description: 'This property has skiing activities!'
-    },
-    {
         label: 'Castles',
         icon: GiCastle,
         description: 'This property is in a castle!'
@@ -59,11 +54,6 @@ export const categories = [
         label: 'Arctic',
         icon: BsSnow,
         description: 'This property has snow!'
-    },
-    {
-        label: 'Cave',
-        icon: GiCaveEntrance,
-        description: 'This property in a cave!'
     },
     {
         label: 'Desert',
@@ -84,7 +74,7 @@ export const categories = [
 
 export const pricesRange = ['Less than $200', '$200 - $500', '$500 - $1000', '$1000 - $1500', '$1500 - $2000', 'More than $2000']
 
-export const bedRooms = ['1','2','3','4','5','6','7+'];
+export const bedRooms = ['Only 1','2 bedrooms','3 bedrooms','4 bedrooms','5 bedrooms','6 bedrooms','More than 7+'];
 
 export const features = ["Wifi", "Free Parking", "Laundry Facilities", "Heating", "AC", "Paid Parking", "Coffee Maker", "Essential Kitchen Applicances", "Stove", "Kitchen Utensils", "Fridge", "Tvs", "Beddings", "Hangers"];
 export const amenities = ["Hot Tub", "BBQ Grill", "Patio", "Outdoor/ Backyard Dinning Area", "Lake Access", "Mountain View", "GYM", "Pool Table", "Fireplace", "Swimming Pool", "Sauna"];

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Select,
     SelectContent,
@@ -11,7 +11,62 @@ import { canadianProvinces } from '../../public/static/province';
 import { pricesRange, categories, bedRooms } from '../../public/static/listingFilterOptions';
 import CategoryBox from './CategoryBox';
 
-const CategoryFilter = () => {
+const priceRanges = [
+    { min: 0, max: 200 },
+    { min: 200, max: 500 },
+    { min: 500, max: 1000 },
+    { min: 1000, max: 1500 },
+    { min: 1500, max: 2000 },
+    { min: 2000, max: 99999 },
+];
+
+const CategoryFilter = (props) => {
+
+    const {setFilterOptions,selectedPriceIndex,selectedBedroomIndex,selectedCategory,setSelectedPriceIndex,setSelectedBedroomIndex,setSelectedCategory} = props;
+
+    const handlePriceFilterOptions = (index) => {
+        setSelectedPriceIndex(index);
+        setFilterOptions((previousValue) => ({
+            ...previousValue,
+            apply:true,
+            price: priceRanges[index] || { min: 0, max: -1 },
+        }));
+    };
+
+    const handleBedroomsFilterOptions = (index) => {
+        setSelectedBedroomIndex(index);
+        setFilterOptions((previousValue) => ({
+            ...previousValue,
+            apply:true,
+            bedrooms: index + 1
+        }));
+    }
+
+    const handleCategoryFilterOptions = (category) => {
+        setSelectedCategory(category);
+        setFilterOptions((previousValue) => ({
+            ...previousValue,
+            apply:true,
+            category: category
+        }));
+    }
+
+    const clearFilterOptions = () => {
+        setFilterOptions((previousValue) => ({
+            ...previousValue,
+            apply:false,
+            province: '',
+            price: {
+                min: 0,
+                max: 0
+            },
+            bedrooms: 0,
+            category: ''
+        }));
+        setSelectedPriceIndex(-1);
+        setSelectedBedroomIndex(-1);
+        setSelectedCategory(null);
+    }
 
     const Location = () => (
         <div className='flex flex-row gap-2 text-neutral-600 items-center font-serif'>
@@ -21,12 +76,12 @@ const CategoryFilter = () => {
             <div>
                 <Select>
                     <SelectTrigger className="w-[180px] border-2 border-neutral-300">
-                        <SelectValue placeholder="Ontario"/>
+                        <SelectValue placeholder="Unselected" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                            {canadianProvinces.map((province, index) => {
-                                return <SelectItem value="apple" key={index}>{province}</SelectItem>
+                            {canadianProvinces.map((province) => {
+                                return <SelectItem value={province} key={province}>{province}</SelectItem>
                             })}
                         </SelectGroup>
                     </SelectContent>
@@ -34,8 +89,6 @@ const CategoryFilter = () => {
             </div>
         </div>
     )
-
-
 
     const Category = () => (
         <div className='flex flex-row gap-2 text-neutral-600 items-center font-serif'>
@@ -45,10 +98,15 @@ const CategoryFilter = () => {
             <div className='flex flex-row gap-4'>
                 {categories.map((category) => {
                     return (
-                        <div key={category.label} className='flex flex-col items-center'>
+                        <div
+                            key={category.label}
+                            className={`flex flex-col items-center cursor-pointer hover:bg-neutral-200 p-1 rounded-md`}
+                            onClick={() => handleCategoryFilterOptions(category.label)}
+                        >
                             <CategoryBox
                                 label={category.label}
                                 icon={category.icon}
+                                selectedCategory={selectedCategory}
                             />
                         </div>
                     )
@@ -58,15 +116,28 @@ const CategoryFilter = () => {
     )
 
     const ListingPrice = () => (
-        <div className='flex flex-row gap-2 text-neutral-600 items-center font-serif'>
+        <div
+            className='flex flex-row gap-2 text-neutral-600 items-center font-serif'
+        >
             <div className='font-serif font-semibold'>
                 Price:
             </div>
             <div className='flex flex-row gap-2 text-neutral-600 items-center'>
                 <div className='flex flex-row gap-5'>
-                    {pricesRange.map((price) => {
+                    {pricesRange.map((price, index) => {
                         return (
-                            <div key={price}>
+                            <div
+                                key={price}
+                                className={`
+                                    cursor-pointer 
+                                    hover:bg-neutral-200 
+                                    px-2
+                                    py-1 
+                                    rounded-lg
+                                    ${selectedPriceIndex === index ? 'text-green-600' : ''}
+                                `}
+                                onClick={() => handlePriceFilterOptions(index)}
+                            >
                                 {price}
                             </div>
                         )
@@ -83,18 +154,23 @@ const CategoryFilter = () => {
             </div>
             <div className='flex flex-row gap-2 text-neutral-600 items-center'>
                 <div className='flex flex-row gap-5'>
-                    {bedRooms.map((bedroom) => {
-                        return bedroom === '1' ? 
-                            <div key={bedroom}>
-                                Only 1
-                            </div> : 
-                            bedroom === '7+' ?
-                            <div key={bedroom}>
-                                more than 7
-                            </div> :
-                            <div key={bedroom}>
-                                {bedroom} bedrooms
+                    {bedRooms.map((bedroom, index) => {
+                        return (
+                            <div
+                                key={bedroom}
+                                className={`
+                                    cursor-pointer 
+                                    hover:bg-neutral-200 
+                                    py-1
+                                    px-2 
+                                    rounded-md
+                                    ${selectedBedroomIndex === index ? 'text-green-600' : ''}
+                                `}
+                                onClick={() => handleBedroomsFilterOptions(index)}
+                            >
+                                {bedroom}
                             </div>
+                        )
                     })}
                 </div>
             </div>
@@ -104,12 +180,29 @@ const CategoryFilter = () => {
     return (
         <>
             <div
-                className='flex flex-col gap-7 px-6 mt-2'
+                className='flex flex-col gap-6 px-6 mt-2'
             >
                 <Location />
                 <ListingPrice />
-                <ListingBedrooms/>
+                <ListingBedrooms />
                 <Category />
+            </div>
+            <div
+                className='
+                    p-1 
+                    ml-6 
+                    mt-4
+                    w-44 
+                    bg-red-600 
+                    text-center 
+                    rounded-md 
+                    text-white 
+                    cursor-pointer 
+                    hover:bg-red-500
+                '
+                onClick={clearFilterOptions}
+            >
+                X Clear Filter
             </div>
         </>
     )

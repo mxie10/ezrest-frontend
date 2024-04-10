@@ -9,3 +9,12 @@ export const makeReservation = (requestData) => {
 export const getReservation = (userID) => {
     return axios.get(`${url}/api/reservation/${userID}`);
 }
+
+export const getReservationByListingID = (listingID,userID) => {
+    return axios.get(`${url}/api/reservation/listings/${listingID}?userID=${userID}`);
+}
+
+export const deleteReservation = (reservationID) => {
+    console.log('how about here reservationID is:',reservationID);
+    return axios.delete(`${url}/api/reservation/${reservationID}`);
+}

@@ -23,7 +23,7 @@ const Page = () => {
   }, [dispatch,user]);
 
   if(isLoading){
-    return <>...Loading</>
+    return <></>
   }
 
   return (

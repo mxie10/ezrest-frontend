@@ -23,7 +23,7 @@ const Header = () => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
 
-  const listItemStyle = 'cursor-pointer hover:bg-slate-200 rounded-lg p-2 font-md text-black';
+  const listItemStyle = 'cursor-pointer hover:bg-slate-200 rounded-lg p-2 font-md text-black font-serif';
   const { user,setUser, setIsRefreshing } = useContext(Context);
 
   const openLoginModal = () => {
@@ -61,10 +61,8 @@ const Header = () => {
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem className='cursor-pointer font-bold' onClick={() => router.push('/accountsettings')}>Account Setting</DropdownMenuItem>
+            <DropdownMenuItem className='cursor-pointer font-bold' onClick={() => router.push('/accountSettings')}>Account Setting</DropdownMenuItem>
             <DropdownMenuItem className='cursor-pointer' onClick={() => router.push('/helpcenter')}>Help Center</DropdownMenuItem>
-            <DropdownMenuItem className='cursor-pointer text-blue-700' onClick={() => router.push('/listingdetails')}>Property Detail(for testing)</DropdownMenuItem>
-            <DropdownMenuItem className='cursor-pointer text-blue-700' onClick={() => router.push('/payment')}>Make payment(for testing)</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem 
               className='cursor-pointer text-red-600 font-bold'

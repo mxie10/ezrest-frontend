@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchReservationByListingID } from '../../actions/reservations';
+import { fetchReservations } from '../../actions/reservations';
 
-const reservationSlicer = createSlice({
+const reservationsSlice = createSlice({
     name:'reservations',
     initialState:{
         isLoading: false,
@@ -9,17 +9,17 @@ const reservationSlicer = createSlice({
         error: false
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchReservationByListingID.pending, (state) => {
+        builder.addCase(fetchReservations.pending, (state) => {
             state.isLoading = true
         });
-        builder.addCase(fetchReservationByListingID.fulfilled, (state,action) => {
+        builder.addCase(fetchReservations.fulfilled, (state,action) => {
             state.isLoading = false;
             state.data = action.payload
         });
-        builder.addCase(fetchReservationByListingID.rejected, (state) => {
+        builder.addCase(fetchReservations.rejected, (state) => {
             state.error = true;
         });
     }
 })
 
-export default reservationSlicer.reducer;
+export default reservationsSlice.reducer;

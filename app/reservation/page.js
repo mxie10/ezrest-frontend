@@ -1,12 +1,12 @@
 'use client';
-import React, { useContext,useEffect } from 'react';
+import React, { useContext,useEffect,useState } from 'react';
 import BookingCard from '../components/BookingCard';
 import useReservationDetailsModal from '@/app/hooks/useReservationDetailsModal'
-import { bookings } from '@/public/static/testBookingData';
 import { useSelector } from "react-redux";
 import { Context } from '../context/useContext';
 import { useDispatch } from "react-redux";
 import { fetchReservations } from '@/app/redux/actions/reservations';
+import BookingDetailsModal from '@/app/components/modals/BookingDetailsModal';
 
 const BookingScreen = () => {
 
@@ -16,6 +16,7 @@ const BookingScreen = () => {
   const isLoading = useSelector(state => state.reservations.isLoading);
   const reservations = useSelector(state => state.reservations.data);
   const reservationData = reservations?.data || [];
+  const [reservationInfo, setReservationInfo] = useState(null);
 
   useEffect(() => {
     if(user) {
@@ -23,12 +24,13 @@ const BookingScreen = () => {
     }
   }, [dispatch,user]);
 
-  const handleBookingOnClick = () => {
+  const handleBookingOnClick = (reservationInfo) => {
+    setReservationInfo(reservationInfo);
     useReservation.onOpen();
   }
 
   if(isLoading){
-    return <>...Loading</>
+    return <></>
   }
 
   return (
@@ -54,6 +56,7 @@ const BookingScreen = () => {
             className='
               font-bold
               text-3xl
+              font-serif
             '
           >
             My Reservations
@@ -71,22 +74,19 @@ const BookingScreen = () => {
               mt-7
             '
           >
-
             {
               reservationData && reservationData.map((reservation, index) => {
                 return (
-                  <BookingCard onClick={handleBookingOnClick} reservation={reservation} key={index}/>
-                )
-              })
+                  <BookingCard 
+                    onClick={() => handleBookingOnClick(reservation)} 
+                    reservation={reservation} key={index}
+                  />
+                )})
             }
           </div>
         </div>
       </div>
-
-      <div className='h-20'>
-
-      </div>
-
+      <BookingDetailsModal reservationInfo={reservationInfo}/>
     </div>
   )
 }

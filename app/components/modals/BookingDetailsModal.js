@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Modal from './Modal';
 import { useRouter } from 'next/navigation';
 import CardMedia from '@mui/material/CardMedia';
@@ -7,11 +7,26 @@ import { RiMessage2Fill } from "react-icons/ri";
 import { FaHome } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import TextField from '@mui/material/TextField';
+import { deleteReservation } from '../../api/reservation'
 import Button from './components/ButtonAlt';
+import { Context } from '@/app/context/useContext';
+import { useDispatch } from "react-redux";
+import { fetchReservations } from '@/app/redux/actions/reservations';
 
-const BookingDetailsModal = () => {
+const BookingDetailsModal = (props) => {
+
     const [openSendMessageBox, setOpenSendMessageBox] = useState(false);
+    const dispatch = useDispatch();
+    const {isRefreshing, setIsRefreshing} = useContext(Context);
+    const [reservationInfo, setReservationInfo] = useState(null);
+    const router = useRouter();
     const useBooking = useBookingDetailsModal();
+
+    useEffect(() => {
+        if (props.reservationInfo) {
+            setReservationInfo(props.reservationInfo);
+        }
+    }, [props.reservationInfo]);
 
     const handleOnClose = () => {
         useBooking.onClose();
@@ -21,23 +36,39 @@ const BookingDetailsModal = () => {
         setOpenSendMessageBox(!openSendMessageBox);
     }
 
+    const navigateToListingDetails = (e,listingID) => {
+        e.stopPropagation();
+        useBooking.onClose();
+        router.push(`/listingDetails?listingID=${listingID}`);
+    }
+
+    const cancelReservation = (reservationID) => {
+        console.log('how about here2 reservationID is:',reservationID);
+        deleteReservation(reservationID);
+        useBooking.onClose();
+        dispatch(fetchReservations(reservationInfo.userID));
+        router.push('/reservation');
+    }
+
+    console.log('reservationInfo:',reservationInfo);
+
     const bodyContent = (
         <div className='md:h-148 h-full overflow-scroll no-scrollbar text-neutral-700'>
             {/* booking status title */}
             <div className='text-2xl font-bold font-sans'>
-                Your reservation was confirmed! 
+                Your reservation was confirmed!
             </div>
             {/* property image */}
-             <CardMedia
+            <CardMedia
                 component="img"
-                image='https://a0.muscache.com/im/pictures/a4140371-0e56-4554-b593-4f64242d5419.jpg?im_w=720'
+                image={reservationInfo?.listingImageSrc}
                 alt="Paella dish"
                 className='mt-4'
             />
             {/* message host option */}
             <div className={`py-4 flex flex-row items-center gap-2 mt-6 border-t-2 cursor-pointer`} onClick={toogle}>
-                <RiMessage2Fill size={30}/>
-                <div 
+                <RiMessage2Fill size={30} />
+                <div
                     className='
                         text-neutral-500
                          text-lg
@@ -47,7 +78,7 @@ const BookingDetailsModal = () => {
                 </div>
             </div>
             {/* input box area for sending messages to landlord */}
-            {openSendMessageBox ? 
+            {openSendMessageBox ?
                 <div>
                     <TextField
                         id="outlined-multiline-static"
@@ -57,14 +88,14 @@ const BookingDetailsModal = () => {
                         className='w-full'
                     />
                     <div className='mt-2'>
-                        <Button    
+                        <Button
                             label='Send'
-                            small            
+                            small
                         />
                     </div>
                 </div> : <></>
             }
-            
+
             {/* dividing line */}
             <div className='h-3 bg-neutral-200 rounded-md mt-2'></div>
             {/* reservation details */}
@@ -83,15 +114,15 @@ const BookingDetailsModal = () => {
                 >
                     Reservation details
                 </div>
-                 {/* listing address */}
-                 <div
+                {/* listing address */}
+                <div
                     className='
                         py-4
                         border-b-2
                     '
                 >
                     <div className='font-semibold'>Listing address</div>
-                    <div className='text-neutral-500'>16514 blenham way, Chesterfield, MO, 63005</div>
+                    <div className='text-neutral-500'>{reservationInfo?.listingAddress}</div>
                 </div>
                 {/* confirmation code */}
                 <div
@@ -101,10 +132,10 @@ const BookingDetailsModal = () => {
                     '
                 >
                     <div className='font-semibold'>Confirmation Code</div>
-                    <div>HMAMNBWYF5</div>
+                    <div>{reservationInfo?.confirmationCode?reservationInfo?.confirmationCode:'HWJ9S1'}</div>
                 </div>
-                 {/* cancel policy */}
-                 <div
+                {/* cancel policy */}
+                <div
                     className='
                         py-4
                         border-b-2
@@ -123,20 +154,26 @@ const BookingDetailsModal = () => {
                     '
                 >
                     <div className='font-semibold'>Payment Detalis</div>
-                    <div>Total cost: $912.21 CAD</div>
+                    <div>Total cost: ${reservationInfo?.totalPrice} CAD</div>
                 </div>
                 {/* Show listing */}
-                <div className='flex flex-row gap-3 items-center py-4 justify-center cursor-pointer hover:bg-neutral-200'>
+                <div 
+                    className='flex flex-row gap-3 items-center py-4 justify-center cursor-pointer hover:bg-neutral-200'
+                    onClick={(e) => navigateToListingDetails(e,reservationInfo?.listingID)}
+                >
                     <FaHome />
-                    <div>Show listing</div>
-                    <MdKeyboardArrowRight size={20}/>
+                    <div>
+                        Show listing
+                    </div>
+                    <MdKeyboardArrowRight size={20} />
                 </div>
                 {/* Cancel reservation button */}
                 <div className='mt-2'>
-                    <Button    
+                    <Button
                         label='Cancel Reservation'
-                        small       
-                        backgroundColor='bg-red-500'     
+                        small
+                        backgroundColor='bg-red-500'
+                        onClick={() => cancelReservation(reservationInfo?._id)}
                     />
                 </div>
             </div>
@@ -144,7 +181,7 @@ const BookingDetailsModal = () => {
     )
 
     return (
-        <Modal 
+        <Modal
             isOpen={useBooking.isOpen}
             onClose={handleOnClose}
             body={bodyContent}

@@ -64,7 +64,8 @@ const Footer = () => {
                     items-center
                     w-full md:w-auto
                     text-neutral-500
-                    gap-4 md:gap-2
+                    gap-4 
+                    md:gap-2
                     my-2
                 `}
             >
@@ -84,7 +85,7 @@ const Footer = () => {
 
     let bodyContent = (
         <div className='flex flex-col'>
-            <div className='bottom-0 left-0 right-0 z-20 px-6 py-1 bg-white border-t-2 shadow-inner md:flex md:flex-row md:justify-between border-neutral-200'>
+            <div className='bottom-0 left-0 right-0 z-20 px-6 bg-white border-t-2 shadow-inner md:flex md:flex-row md:justify-between border-neutral-200'>
                 {/* Left Side */}
                 <SectionContainer>
                     {leftSideItems.map((item) => (
@@ -95,7 +96,7 @@ const Footer = () => {
                 </SectionContainer>
 
                 <SectionContainer>
-                    <div className='p-2 rounded-lg'>© 2024 EZrest, Inc</div>
+                    <div className='p-1 rounded-lg'>© 2024 EZrest, Inc</div>
                 </SectionContainer>
                 {/* Right Side */}
                 <SectionContainer className="items-end">

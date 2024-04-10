@@ -7,8 +7,8 @@ import CardContent from '@mui/material/CardContent';
 
 const BookingCard = (props) => {
 
-  const {onClick,reservation} = props;
-  const {listingImageSrc,listingAddress,checkinDate, checkoutDate} = reservation;
+  const {onClick} = props;
+  const {listingImageSrc,listingAddress,checkinDate, checkoutDate} = props.reservation;
 
   const addressArray = listingAddress.split(',');
   const lastThreeElements = addressArray.slice(-3);

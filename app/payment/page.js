@@ -10,20 +10,29 @@ import SelectPaymentMethodScreen from './screens/SelectPaymentMethodScreen';
 import Button from './Button';
 import { Context } from '../context/useContext';
 import { makeReservation } from '../api/reservation';
+import { updateAvailableDate } from '../api/listings';
+import {findFirstAvailableDate} from '../utils/findAvailableDate';
 
 const PaymentScreen = () => {
 
+  const router = useRouter();
   const [step, setStep] = useState(0);
-  const [error, setError] = useState('');
   const searchParams = useSearchParams();
   const { user } = useContext(Context);
 
   const listingData = JSON.parse(decodeURIComponent(searchParams.get('listingData')));
   const reservation = JSON.parse(decodeURIComponent(searchParams.get('reservation')));
+  const occupiedDates = JSON.parse(decodeURIComponent(searchParams.get('ecodedOccupiedDates')));
   const userID = JSON.parse(decodeURIComponent(searchParams.get('userID')));
 
-  console.log('listingData:', listingData);
-  console.log('reservation:', reservation);
+
+  // console.log('listingData:', listingData);
+  // console.log('reservation:', reservation);
+  // console.log('occupiedDates:', occupiedDates);
+
+  const firstAvailableDate = findFirstAvailableDate(occupiedDates,reservation);
+
+  // console.log('firstAvailableDate:',firstAvailableDate);
 
   const [tripDetails, setTripDetails] = useState({
     userID: '',
@@ -124,7 +133,7 @@ const PaymentScreen = () => {
     }))
   }
 
-  console.log('tripDetails:', tripDetails);
+  // console.log('tripDetails:', tripDetails);
 
   const confirmAndPay = () => {
     if (step !== 2) {
@@ -141,8 +150,10 @@ const PaymentScreen = () => {
           payment:{
             ...prevDetails.payment,
           }
-        }))
+        }));
+        updateAvailableDate(listingData._id,firstAvailableDate);
         makeReservation(tripDetails);
+        router.push('/appreciate');
       }
     }
   }
