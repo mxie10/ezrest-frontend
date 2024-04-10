@@ -58,7 +58,7 @@ const Page = () => {
       dispatch(fetchListing(listingID));
       dispatch(fetchReservationByListingID({ listingID: listingID, userID: user._id }));
     }
-  }, [dispatch, user]);
+  }, [dispatch, user,listingID]);
 
   useEffect(() => {
     if (reservation.checkinDate !== '' && reservation.checkoutDate !== '' && totalGuests !== 0) {
