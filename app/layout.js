@@ -54,7 +54,7 @@ export default function RootLayout({ children }) {
                 <div className="mt-12">
                   {children}
                 </div>
-                {/* <Footer /> */}
+                <Footer />
             </ContextProvider>
           </div>
         </body>
