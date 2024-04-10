@@ -16,7 +16,7 @@ const Listing = (props) => {
   const iconRef = useRef(null);
   const router = useRouter();
   const { user } = useContext(Context);
-  const { _id, address, startDate, weekdayPrice, weekendPrice, imageSrc } = props.listing;
+  const { _id, address, availableDate, weekdayPrice, weekendPrice, imageSrc } = props.listing;
   const { liked } = props;
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const Listing = (props) => {
             </IconButton>
           </div>
           <div className='font-serif text-sm text-neutral-500'>
-            Avilable from {startDate ?? startDate}
+            Available from {availableDate?.substring(0,10)}
           </div>
           <div className='font-bold text-sm'>
             <div>

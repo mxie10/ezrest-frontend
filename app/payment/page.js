@@ -26,13 +26,13 @@ const PaymentScreen = () => {
   const userID = JSON.parse(decodeURIComponent(searchParams.get('userID')));
 
 
-  console.log('listingData:', listingData);
-  console.log('reservation:', reservation);
-  console.log('occupiedDates:', occupiedDates);
+  // console.log('listingData:', listingData);
+  // console.log('reservation:', reservation);
+  // console.log('occupiedDates:', occupiedDates);
 
   const firstAvailableDate = findFirstAvailableDate(occupiedDates,reservation);
 
-  console.log('firstAvailableDate:',firstAvailableDate);
+  // console.log('firstAvailableDate:',firstAvailableDate);
 
   const [tripDetails, setTripDetails] = useState({
     userID: '',

@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
-import { Input } from "@/app/components/ui/input";
-import { FaSearch } from "react-icons/fa";
+import React from 'react';
 import DatePicker from 'react-datepicker';
 import { FaCalendarAlt } from "react-icons/fa";
 
 const SearchBarAlt = (props) => {
 
-    const {setLocation} = props;
-    const [startDate, setStartDate] = useState(null);
+    const {location,setLocation,setCheckinDate,handleSearchOnClick} = props;
 
     return (
         <div
@@ -24,15 +21,17 @@ const SearchBarAlt = (props) => {
         >
             <input
                 type="text"
-                placeholder="Enter an address, ciy or ZIP code"
+                placeholder="Enter a ciy or ZIP code"
                 className='w-3/12 h-14 text-lg border-2 rounded-3xl border-red-300 px-2'
                 onChange = {e => setLocation(e.target.value)}
+                value={location}
             />
             <div className='flex flex-row items-center'>
                 <DatePicker
                     placeholderText='Check in date'
-                    selected={startDate}
+                    selected={null}
                     className='h-14 pl-3 w-40 rounded-3xl border-2 border-red-300'
+                    onChange={(date) => setCheckinDate(date)}
                 />
                 <FaCalendarAlt className='-ml-8 z-20' size={17} />
             </div>
@@ -50,7 +49,10 @@ const SearchBarAlt = (props) => {
                     ml-4
                     bg-red-500 
                     text-white
+                    cursor-pointer
+                    hover:bg-red-600
                 '
+                onClick={handleSearchOnClick}
             >
                 Search
             </div>
