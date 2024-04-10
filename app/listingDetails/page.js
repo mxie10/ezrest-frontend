@@ -11,7 +11,7 @@ import { fetchListing } from '@/app/redux/actions/listings';
 import { fetchReservationByListingID } from '../redux/actions/reservations';
 import AmenitiesModal from './Amenities';
 import { iconsMap } from '../../public/static/icons';
-// import Map from './Map';
+import Map from './Map';
 
 const Page = () => {
 
@@ -171,14 +171,14 @@ const Page = () => {
     <div className='flex justify-center min-h-screen'>
       <div className='justify-center 2xl:w-[60%] xl:w-3/4 sm:w-[90%] my-12 rounded-lg'>
 
-        <div className='flex mt-4'>
+        {/* <div className='flex mt-4'>
           <ImagePresenter
             handleImageClick={(imageUrl) => handleImageClick(imageUrl)}
             handleCloseFullScreen={handleCloseFullScreen}
             selectedImage={selectedImage}
             imageSrc={listingData?.imageSrc}
           />
-        </div>
+        </div> */}
 
         <div className='flex flex-row justify-between mt-6'>
           <div className='flex flex-col w-2/3'>
@@ -359,10 +359,10 @@ const Page = () => {
           </div>
         </div>
         {/* map area */}
-        {/* <div className='mt-5 w-full'>
+        <div className='mt-5 w-full'>
           <div className='text-xl font-bold border-b-2 border-neutral-200 py-1'>Find the place on map</div>
           <Map/>
-        </div> */}
+        </div>
       </div>
       <AmenitiesModal
         showAmenities={showAmenities}
