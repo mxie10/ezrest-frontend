@@ -21,8 +21,9 @@ const PaymentScreen = () => {
     router.push('/'); 
     return; 
   }
-  const [step, setStep] = useState(0);
+  
   const searchParams = useSearchParams();
+  const [step, setStep] = useState(0);
   const listingData = JSON.parse(decodeURIComponent(searchParams.get('listingData')));
   const reservation = JSON.parse(decodeURIComponent(searchParams.get('reservation')));
   const occupiedDates = JSON.parse(decodeURIComponent(searchParams.get('ecodedOccupiedDates')));
