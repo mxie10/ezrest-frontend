@@ -12,6 +12,7 @@ import { Context } from '../context/useContext';
 import { makeReservation } from '../api/reservation';
 import { updateAvailableDate } from '../api/listings';
 import {findFirstAvailableDate} from '../utils/findAvailableDate';
+import { list } from 'postcss';
 
 const PaymentScreen = () => {
 
@@ -87,8 +88,7 @@ const PaymentScreen = () => {
       totalPrice:totalPrice
     }))
     
-  },[user,listingData._id,listingData.address.addressLine1,listingData.address.addressLine2,listingData.address.city,
-    listingData.address.country,listingData.address.state,listingData.imageSrc,listingData.weekdayPrice,reservation,userID])
+  }, [])
 
   const calculateNight = (startDate, endDate) => {
     const start = new Date(startDate);

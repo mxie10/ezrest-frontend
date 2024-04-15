@@ -17,7 +17,6 @@ const BookingDetailsModal = (props) => {
 
     const [openSendMessageBox, setOpenSendMessageBox] = useState(false);
     const dispatch = useDispatch();
-    const {isRefreshing, setIsRefreshing} = useContext(Context);
     const [reservationInfo, setReservationInfo] = useState(null);
     const router = useRouter();
     const useBooking = useBookingDetailsModal();
