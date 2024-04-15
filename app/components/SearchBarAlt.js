@@ -4,7 +4,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 
 const SearchBarAlt = (props) => {
 
-    const {location,setLocation,setCheckinDate,handleSearchOnClick} = props;
+    const {location,setLocation,setCheckinDate,checkinDate,handleSearchOnClick} = props;
 
     return (
         <div
@@ -29,9 +29,10 @@ const SearchBarAlt = (props) => {
             <div className='flex flex-row items-center'>
                 <DatePicker
                     placeholderText='Check in date'
-                    selected={null}
+                    selected={checkinDate}
                     className='h-14 pl-3 w-40 rounded-3xl border-2 border-red-300'
                     onChange={(date) => setCheckinDate(date)}
+                    minDate={new Date()}
                 />
                 <FaCalendarAlt className='-ml-8 z-20' size={17} />
             </div>

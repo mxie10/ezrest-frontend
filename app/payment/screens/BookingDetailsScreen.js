@@ -5,7 +5,9 @@ import PriceDetails from '../PriceDetails';
 
 const BookingDetailsScreen = (props) => {
 
-    const { step } = props;
+    const { step,price,nights,totalCost } = props;
+
+    console.log('totalCost:',totalCost);
 
     return (
         <div className={`flex flex-col transition-opacity duration-500 ease-in-out ${step === 0 ? 'block opacity-100' : 'hidden opacity-0'}`}>
@@ -14,7 +16,11 @@ const BookingDetailsScreen = (props) => {
           {/* trip details */}
           <TripDetails />
           {/* Price details */}
-          <PriceDetails />
+          <PriceDetails 
+            price={price}
+            nights={nights}
+            totalCost={totalCost}
+          />
         </div>
       )
 }

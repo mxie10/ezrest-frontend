@@ -72,7 +72,7 @@ export const categories = [
     },
 ]
 
-export const pricesRange = ['Less than $200', '$200 - $500', '$500 - $1000', '$1000 - $1500', '$1500 - $2000', 'More than $2000']
+export const pricesRange = ['Under $200', '$200 - $500', '$500 - $1000', '$1000 - $1500', '$1500 - $2000', 'More than $2000']
 
 export const bedRooms = ['Only 1','2 bedrooms','3 bedrooms','4 bedrooms','5 bedrooms','6 bedrooms','More than 7+'];
 

@@ -11,12 +11,14 @@ import { fetchListing } from '@/app/redux/actions/listings';
 import { fetchReservationByListingID } from '../redux/actions/reservations';
 import AmenitiesModal from './Amenities';
 import { iconsMap } from '../../public/static/icons';
+import useLoginModal from '../hooks/useLoginModal';
 // import Map from './Map';
 
 const Page = () => {
 
   const router = useRouter();
   const dispatch = useDispatch();
+  const {onOpen} = useLoginModal();
   const { user } = useContext(Context);
   const searchParams = useSearchParams();
   const listingID = searchParams.get('listingID');
@@ -51,14 +53,10 @@ const Page = () => {
 
   const totalGuests = reservation.guests.adults + reservation.guests.children + reservation.guests.infants + reservation.guests.pets;
 
-  console.log('listingData:', listingData);
-  console.log('reservation:',reservation);
   useEffect(() => {
-    if (user) {
-      dispatch(fetchListing(listingID));
-      dispatch(fetchReservationByListingID({ listingID: listingID, userID: user._id }));
-    }
-  }, [dispatch, user]);
+    dispatch(fetchListing(listingID));
+    dispatch(fetchReservationByListingID({ listingID: listingID}));
+  }, [dispatch, user,listingID]);
 
   useEffect(() => {
     if (reservation.checkinDate !== '' && reservation.checkoutDate !== '' && totalGuests !== 0) {
@@ -89,6 +87,10 @@ const Page = () => {
   }
 
   const navigateToCheckout = () => {
+    if(!user){
+      onOpen();
+      return;
+    }
     if (reservation.checkinDate === '' || reservation.checkoutDate === '') {
       setError('Check-in date and check-out date cannot be empty!');
       return;
@@ -101,7 +103,6 @@ const Page = () => {
     const encodedReservationData = encodeURIComponent(JSON.stringify(reservation));
     const ecodedUserID = encodeURIComponent(JSON.stringify(user._id));
     const ecodedOccupiedDates = encodeURIComponent(JSON.stringify(occupiedDates));
-    console.log("ecodedOccupiedDates:",occupiedDates);
     const queryString = `?listingData=${encodedListingData}&reservation=${encodedReservationData}&userID=${ecodedUserID}&ecodedOccupiedDates=${ecodedOccupiedDates}`;
     router.push(`/payment${queryString}`);
   };
@@ -163,7 +164,8 @@ const Page = () => {
     setShowAmenities(!showAmenities);
   };
 
-  if (isLoadingListing || isLoadinglistingReservations) return <></>
+  if (isLoadingListing) return <></>;
+  if (isLoadinglistingReservations) return <></>;
 
   console.log('listingData.basicInformation:', listingData.basicInformation);
 

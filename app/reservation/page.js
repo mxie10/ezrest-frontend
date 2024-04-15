@@ -6,7 +6,9 @@ import { useSelector } from "react-redux";
 import { Context } from '../context/useContext';
 import { useDispatch } from "react-redux";
 import { fetchReservations } from '@/app/redux/actions/reservations';
+import { FaCartPlus } from "react-icons/fa6";
 import BookingDetailsModal from '@/app/components/modals/BookingDetailsModal';
+
 
 const BookingScreen = () => {
 
@@ -31,6 +33,17 @@ const BookingScreen = () => {
 
   if(isLoading){
     return <></>
+  }
+
+  if(!reservationData.length){
+    return (
+      <div className='min-h-screen flex flex-col items-center justify-center gap-2'>
+        <div className=' text-2xl font-bold'>
+          You do not have any reservations at the monent!
+        </div>
+        <FaCartPlus size={40}/>
+      </div>
+    )
   }
 
   return (

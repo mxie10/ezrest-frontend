@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { Context } from '../context/useContext';
 import { useDispatch } from "react-redux";
 import { fetchWishLists } from '@/app/redux/actions/wishLists';
+import { FaCartPlus } from "react-icons/fa6";
 
 const Page = () => {
 
@@ -24,6 +25,17 @@ const Page = () => {
 
   if(isLoading){
     return <></>
+  }
+
+  if(!listingArray.length){
+    return (
+      <div className='min-h-screen flex flex-col items-center justify-center gap-2'>
+        <div className=' text-2xl font-bold'>
+          You do not have any favorite properties at the moment!
+        </div>
+        <FaCartPlus size={40}/>
+      </div>
+    )
   }
 
   return (

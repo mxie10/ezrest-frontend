@@ -9,7 +9,6 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import TextField from '@mui/material/TextField';
 import { deleteReservation } from '../../api/reservation'
 import Button from './components/ButtonAlt';
-import { Context } from '@/app/context/useContext';
 import { useDispatch } from "react-redux";
 import { fetchReservations } from '@/app/redux/actions/reservations';
 
@@ -17,7 +16,6 @@ const BookingDetailsModal = (props) => {
 
     const [openSendMessageBox, setOpenSendMessageBox] = useState(false);
     const dispatch = useDispatch();
-    const {isRefreshing, setIsRefreshing} = useContext(Context);
     const [reservationInfo, setReservationInfo] = useState(null);
     const router = useRouter();
     const useBooking = useBookingDetailsModal();
@@ -26,7 +24,7 @@ const BookingDetailsModal = (props) => {
         if (props.reservationInfo) {
             setReservationInfo(props.reservationInfo);
         }
-    }, [props.reservationInfo]);
+    }, [props.reservationInfo,dispatch]);
 
     const handleOnClose = () => {
         useBooking.onClose();
@@ -43,7 +41,6 @@ const BookingDetailsModal = (props) => {
     }
 
     const cancelReservation = (reservationID) => {
-        console.log('how about here2 reservationID is:',reservationID);
         deleteReservation(reservationID);
         useBooking.onClose();
         dispatch(fetchReservations(reservationInfo.userID));
