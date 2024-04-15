@@ -17,17 +17,17 @@ const PaymentScreen = () => {
 
   const { user } = useContext(Context);
   const router = useRouter();
-  if(!user) { 
-    router.push('/'); 
-    return; 
-  }
-  
   const searchParams = useSearchParams();
   const [step, setStep] = useState(0);
   const listingData = JSON.parse(decodeURIComponent(searchParams.get('listingData')));
   const reservation = JSON.parse(decodeURIComponent(searchParams.get('reservation')));
   const occupiedDates = JSON.parse(decodeURIComponent(searchParams.get('ecodedOccupiedDates')));
   const userID = JSON.parse(decodeURIComponent(searchParams.get('userID')));
+
+  if(!user) { 
+    router.push('/'); 
+    return; 
+  }
 
   const firstAvailableDate = findFirstAvailableDate(occupiedDates,reservation);
 

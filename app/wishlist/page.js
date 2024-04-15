@@ -31,7 +31,7 @@ const Page = () => {
     return (
       <div className='min-h-screen flex flex-col items-center justify-center gap-2'>
         <div className=' text-2xl font-bold'>
-          You don't have any favorite properties at the moment!
+          You do not have any favorite properties at the moment!
         </div>
         <FaCartPlus size={40}/>
       </div>

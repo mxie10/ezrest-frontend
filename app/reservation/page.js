@@ -39,7 +39,7 @@ const BookingScreen = () => {
     return (
       <div className='min-h-screen flex flex-col items-center justify-center gap-2'>
         <div className=' text-2xl font-bold'>
-          You don't have any reservations at the monent!
+          You do not have any reservations at the monent!
         </div>
         <FaCartPlus size={40}/>
       </div>
