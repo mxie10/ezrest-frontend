@@ -44,7 +44,7 @@ export default function RootLayout({ children }) {
     <Provider store={store}>
       <html lang="en">
         <body>
-          <div className="bg-neutral-50 flex flex-col min-h-screen relative z-10">
+          <div className="bg-white flex flex-col min-h-screen relative z-10">
             <ContextProvider>
                 <ToggleIcon />
                 <SideBar />

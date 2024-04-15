@@ -9,6 +9,7 @@ import Listings from './components/Listings';
 export default function Home() {
 
   const [pageNumber, setPageNumber] = useState(1);
+  const [selectedProvince, setSelectedProvince] = useState('');
   const [selectedPriceIndex, setSelectedPriceIndex] = useState(-1);
   const [selectedBedroomIndex, setSelectedBedroomIndex] = useState(-1);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -29,11 +30,21 @@ export default function Home() {
   });
 
   const handleSearchOnClick = () => {
-    if(location.trim() !== '' || checkinDate.trim() !== ''){
+    if(location.trim() !== '' || checkinDate !== ''){
       setFilterOptions((prev) => ({
         ...prev,
-        location:location,
+        apply:true,
+        price: {
+          min:0,
+          max: 99999 
+        },
+        location:location.trim(),
         checkinDate:checkinDate
+      }))
+    }else if(!location.trim().length){
+      setFilterOptions((prev)=>({
+        ...prev,
+        apply:false
       }))
     }
   }
@@ -51,6 +62,7 @@ export default function Home() {
           location = {location}
           setCheckinDate = {setCheckinDate}
           handleSearchOnClick = {handleSearchOnClick}
+          checkinDate = {checkinDate}
         />
       </div>
       <div className="pb-4 px-4">
@@ -62,6 +74,9 @@ export default function Home() {
           setSelectedPriceIndex = {setSelectedPriceIndex}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
+          setSelectedProvince={setSelectedProvince}
+          selectedProvince={selectedProvince}
+          setCheckinDate={setCheckinDate}
         />
       </div>
 

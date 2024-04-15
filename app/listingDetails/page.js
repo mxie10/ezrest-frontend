@@ -51,8 +51,6 @@ const Page = () => {
 
   const totalGuests = reservation.guests.adults + reservation.guests.children + reservation.guests.infants + reservation.guests.pets;
 
-  console.log('listingData:', listingData);
-  console.log('reservation:',reservation);
   useEffect(() => {
     if (user) {
       dispatch(fetchListing(listingID));
@@ -101,7 +99,6 @@ const Page = () => {
     const encodedReservationData = encodeURIComponent(JSON.stringify(reservation));
     const ecodedUserID = encodeURIComponent(JSON.stringify(user._id));
     const ecodedOccupiedDates = encodeURIComponent(JSON.stringify(occupiedDates));
-    console.log("ecodedOccupiedDates:",occupiedDates);
     const queryString = `?listingData=${encodedListingData}&reservation=${encodedReservationData}&userID=${ecodedUserID}&ecodedOccupiedDates=${ecodedOccupiedDates}`;
     router.push(`/payment${queryString}`);
   };
