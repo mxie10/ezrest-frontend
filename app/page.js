@@ -2,18 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import SearchBarAlt from './components/SearchBarAlt';
 import CategoryFilter from './components/CategoryFilter';
-import Listing from './components/Listing';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import { useDispatch, useSelector } from "react-redux";
-import { fetchListings } from '@/app/redux/actions/listings';
+import Listings from './components/Listings';
 
 export default function Home() {
 
-  const dispatch = useDispatch();
-  const listings = useSelector(state => state.listings.data);
-  const isLoading = useSelector(state => state.listings.isLoading);
-  const listingArray = listings?.data || [];
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedPriceIndex, setSelectedPriceIndex] = useState(-1);
   const [selectedBedroomIndex, setSelectedBedroomIndex] = useState(-1);
@@ -34,20 +28,6 @@ export default function Home() {
     checkinDate:''
   });
 
-  useEffect(() => {
-    const params = {
-      pageNumber:pageNumber,
-      filterOptions:filterOptions
-    }
-    dispatch(fetchListings(params));
-  }, [dispatch,pageNumber,filterOptions.apply,filterOptions.province,filterOptions.price,filterOptions.bedrooms,
-    filterOptions.category,filterOptions.location,filterOptions.checkinDate
-  ])
-
-  console.log('filterOptions:', filterOptions);
-  console.log('location:', location);
-  console.log('checkinDate:', checkinDate);
-
   const handleSearchOnClick = () => {
     if(location.trim() !== '' || checkinDate.trim() !== ''){
       setFilterOptions((prev) => ({
@@ -56,12 +36,6 @@ export default function Home() {
         checkinDate:checkinDate
       }))
     }
-  }
-
-  if (isLoading) {
-    return (
-      <></>
-    )
   }
 
   return (
@@ -94,30 +68,10 @@ export default function Home() {
       <hr />
 
       <div className='flex items-center justify-center'>
-        <div
-          className="
-              grid 
-              grid-cols-1
-              sm:grid-cols-2
-              md:grid-cols-3 
-              lg:grid-cols-4 
-              gap-12
-              px-10
-              mb-10
-              mt-7
-          "
-        >
-          {
-            listingArray.map((listing, index) => {
-              return (
-                <Listing
-                  listing={listing}
-                  key={index}
-                />
-              )
-            })
-          }
-        </div>
+        <Listings
+          filterOptions = {filterOptions}
+          pageNumber = {pageNumber}
+        />
       </div>
       <div className='flex justify-center mb-10'>
         <Stack spacing={10}>
