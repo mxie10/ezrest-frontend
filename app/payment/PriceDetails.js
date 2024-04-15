@@ -1,7 +1,9 @@
 import React from 'react';
 import Title from '../components/Title';
 
-const PriceDetails = () => {
+const PriceDetails = (props) => {
+
+    const {price,nights,totalCost} = props;
 
     const ListItemContainer = (props) => {
         const {children} = props;
@@ -16,8 +18,8 @@ const PriceDetails = () => {
         <div className='flex flex-col gap-2 pb-4'>
             <Title title='Price details' fontSize='text-xl' />
             <ListItemContainer>
-                <div>$400 x 2 nights</div>
-                <div>$800</div>
+                <div>${price} x {nights} nights</div>
+                <div>${price * nights}</div>
             </ListItemContainer>
             <ListItemContainer>
                 <div>Cleaning fee</div>
@@ -34,7 +36,7 @@ const PriceDetails = () => {
             <hr/>
             <ListItemContainer>
                 <div>Total</div>
-                <div>$1320</div>
+                <div>${totalCost}</div>
             </ListItemContainer>
         </div>
     )

@@ -1,4 +1,6 @@
 export function findFirstAvailableDate(occupiedDates, reservation) {
+  
+    if(!occupiedDates || !reservation) return;
     const today = new Date(); 
     let currentDate = new Date(today); 
     let occupiedDatesArray  = [];

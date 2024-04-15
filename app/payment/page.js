@@ -11,31 +11,22 @@ import Button from './Button';
 import { Context } from '../context/useContext';
 import { makeReservation } from '../api/reservation';
 import { updateAvailableDate } from '../api/listings';
-import {findFirstAvailableDate} from '../utils/findAvailableDate';
+import { findFirstAvailableDate } from '../utils/findAvailableDate';
+import { useRedirectIfAuthed } from '../hooks/useRedirectIfAuthed';
 
 const PaymentScreen = () => {
 
-  const { user } = useContext(Context);
+  const user = useRedirectIfAuthed();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [step, setStep] = useState(0);
-  const listingData = JSON.parse(decodeURIComponent(searchParams.get('listingData')));
-  const reservation = JSON.parse(decodeURIComponent(searchParams.get('reservation')));
-  const occupiedDates = JSON.parse(decodeURIComponent(searchParams.get('ecodedOccupiedDates')));
-  const userID = JSON.parse(decodeURIComponent(searchParams.get('userID')));
-
-  if(!user) { 
-    router.push('/'); 
-    return; 
-  }
-
-  const firstAvailableDate = findFirstAvailableDate(occupiedDates,reservation);
-
+  const [nights, setNights] = useState(0);
+  const [totalCost, setTotalCost] = useState(0);
   const [tripDetails, setTripDetails] = useState({
     userID: '',
     listingID: '',
-    listingSrc:'',
-    listingAddress:'',
+    listingSrc: '',
+    listingAddress: '',
     checkinDate: '',
     checkoutDate: '',
     guests: {
@@ -56,35 +47,45 @@ const PaymentScreen = () => {
     },
     totalPrice: ''
   })
+  const listingData = JSON.parse(decodeURIComponent(searchParams.get('listingData')));
+  const reservation = JSON.parse(decodeURIComponent(searchParams.get('reservation')));
+  const occupiedDates = JSON.parse(decodeURIComponent(searchParams.get('ecodedOccupiedDates')));
+  const userID = JSON.parse(decodeURIComponent(searchParams.get('userID')));
+  const firstAvailableDate = findFirstAvailableDate(occupiedDates, reservation);
 
   useEffect(() => {
+    if (reservation && listingData) {
 
-    let nights = calculateNight(reservation.checkinDate,reservation.checkoutDate);
-    let totalPrice = calculateTotalPrice(listingData.weekdayPrice,reservation,nights);
-    let listingAddress = listingData.address.addressLine1 + ',' + listingData.address.addressLine2 + 
-    listingData.address.city + ',' + listingData.address.state + ',' + listingData.address.country 
+      console.log('listingData is:',listingData);
 
-    setTripDetails((prevDetails) => ({
-      ...prevDetails,
-      userID:userID,
-      listingID:listingData._id,
-      listingImageSrc:listingData.imageSrc,
-      listingAddress:listingAddress,
-      checkinDate:reservation.checkinDate,
-      checkoutDate:reservation.checkoutDate,
-      guests:{
-        ...prevDetails.guests,
-        adults:reservation.guests.adults,
-        children:reservation.guests.children,
-        infants:reservation.guests.infants,
-        pets:reservation.guests.pets
-      },
-      nights:nights,
-      listingPrice: listingData.weekdayPrice,
-      totalPrice:totalPrice
-    }))
-    
-  }, [])
+      let nights = calculateNight(reservation.checkinDate, reservation.checkoutDate);
+      setNights(nights);
+      let totalCost = calculateTotalPrice(listingData.weekdayPrice, reservation, nights);
+      setTotalCost(totalCost);
+      let listingAddress = listingData.address.addressLine1 + ',' + listingData.address.addressLine2 +
+        listingData.address.city + ',' + listingData.address.state + ',' + listingData.address.country
+
+      setTripDetails((prevDetails) => ({
+        ...prevDetails,
+        userID: userID,
+        listingID: listingData._id,
+        listingImageSrc: listingData.imageSrc,
+        listingAddress: listingAddress,
+        checkinDate: reservation.checkinDate,
+        checkoutDate: reservation.checkoutDate,
+        guests: {
+          ...prevDetails.guests,
+          adults: reservation.guests.adults,
+          children: reservation.guests.children,
+          infants: reservation.guests.infants,
+          pets: reservation.guests.pets
+        },
+        nights: nights,
+        listingPrice: listingData.weekdayPrice,
+        totalPrice: totalCost
+      }))
+    }
+  }, [user])
 
   const calculateNight = (startDate, endDate) => {
     const start = new Date(startDate);
@@ -95,29 +96,31 @@ const PaymentScreen = () => {
   }
 
   const calculateTotalPrice = (listingPrice, reservation, nights) => {
-    let totalPrice = 0;
-    let adults = reservation.guests.adults;
-    let children = reservation.guests.children;
-    let infants = reservation.guests.infants;
-    let pets = reservation.guests.pets;
-
-    if(adults > 1){
-      totalPrice += listingPrice + (adults-1) * (listingPrice * 0.5)
-    }else if(adults === 1){
-      totalPrice += listingPrice;
+    if(reservation){
+      let totalPrice = 0;
+      let adults = reservation.guests.adults;
+      let children = reservation.guests.children;
+      let infants = reservation.guests.infants;
+      let pets = reservation.guests.pets;
+  
+      if (adults > 1) {
+        totalPrice += listingPrice + (adults - 1) * (listingPrice * 0.5)
+      } else if (adults === 1) {
+        totalPrice += listingPrice;
+      }
+      if (children > 1) {
+        totalPrice += listingPrice * 0.5 + (children - 1) * (listingPrice * 0.5 * 0.5)
+      } else if (children === 1) {
+        totalPrice += listingPrice * 0.5
+      }
+      if (infants >= 1) {
+        totalPrice += 50
+      }
+      if (pets >= 1) {
+        totalPrice += 50
+      }
+      return totalPrice * nights;
     }
-    if(children > 1){
-      totalPrice += listingPrice * 0.5 + (children-1) * (listingPrice * 0.5 * 0.5)
-    }else if(children === 1){
-      totalPrice += listingPrice * 0.5
-    }
-    if(infants >= 1){
-      totalPrice += 50
-    }
-    if(pets >= 1){
-      totalPrice += 50
-    }
-    return totalPrice * nights;
   }
 
   const updateFields = (e) => {
@@ -135,25 +138,27 @@ const PaymentScreen = () => {
   const confirmAndPay = () => {
     if (step !== 2) {
       setStep(pre => pre + 1)
-    }else {
-      if(tripDetails.payment.cardNumber === '' || tripDetails.payment.cvv === '' ||
-          tripDetails.payment.expirayDate === '' || tripDetails.payment.method === ''
-      ){
+    } else {
+      if (tripDetails.payment.cardNumber === '' || tripDetails.payment.cvv === '' ||
+        tripDetails.payment.expirayDate === '' || tripDetails.payment.method === ''
+      ) {
         alert('Please fill out card info');
         return;
-      }else{
-        setTripDetails((prevDetails)=>({
+      } else {
+        setTripDetails((prevDetails) => ({
           ...prevDetails,
-          payment:{
+          payment: {
             ...prevDetails.payment,
           }
         }));
-        updateAvailableDate(listingData._id,firstAvailableDate);
+        updateAvailableDate(listingData._id, firstAvailableDate);
         makeReservation(tripDetails);
         router.push('/appreciate');
       }
     }
   }
+
+  if(!user) return <></>
 
   return (
     <div className='min-h-screen flex flex-col items-center mt-6'>
@@ -168,19 +173,25 @@ const PaymentScreen = () => {
         <div className='flex flex-row justify-between gap-8'>
           <div className='flex flex-col md:w-2/3 w-full relative'>
             {
-              step === 0 ? <BookingDetailsScreen step={step} /> :
+              step === 0 ? 
+                <BookingDetailsScreen 
+                  step={step} 
+                  price = {listingData.weekdayPrice}
+                  nights = {nights}
+                  totalCost = {totalCost}
+                /> :
                 step === 1 ?
                   <SelectPaymentMethodScreen
                     tripDetails={tripDetails}
                     setTripDetails={setTripDetails}
                     step={step}
                   /> :
-                step === 2 ?
-                  <ConfirmPaymentScreen
-                    updateFields={updateFields}
-                    step={step}
-                  /> :
-                <></>
+                  step === 2 ?
+                    <ConfirmPaymentScreen
+                      updateFields={updateFields}
+                      step={step}
+                    /> :
+                    <></>
             }
             <div className='mt-10'>
               {
