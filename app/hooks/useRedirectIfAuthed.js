@@ -10,7 +10,6 @@ export const useRedirectIfAuthed = (path) => {
 
   useEffect(() => {
     if (!user){
-      console.log('user???');
       router.push('/');
     }
   }, [user, router]);

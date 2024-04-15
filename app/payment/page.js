@@ -56,8 +56,6 @@ const PaymentScreen = () => {
   useEffect(() => {
     if (reservation && listingData) {
 
-      console.log('listingData is:',listingData);
-
       let nights = calculateNight(reservation.checkinDate, reservation.checkoutDate);
       setNights(nights);
       let totalCost = calculateTotalPrice(listingData.weekdayPrice, reservation, nights);
@@ -132,8 +130,6 @@ const PaymentScreen = () => {
       }
     }))
   }
-
-  // console.log('tripDetails:', tripDetails);
 
   const confirmAndPay = () => {
     if (step !== 2) {
