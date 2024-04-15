@@ -10,8 +10,8 @@ export const getReservation = (userID) => {
     return axios.get(`${url}/api/reservation/${userID}`);
 }
 
-export const getReservationByListingID = (listingID,userID) => {
-    return axios.get(`${url}/api/reservation/listings/${listingID}?userID=${userID}`);
+export const getReservationByListingID = (listingID) => {
+    return axios.get(`${url}/api/reservation/listings/${listingID}`);
 }
 
 export const deleteReservation = (reservationID) => {

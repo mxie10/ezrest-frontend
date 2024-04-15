@@ -9,6 +9,7 @@ export const ContextProvider = ({ children }) => {
     const [isRefreshing, setIsRefreshing] = useState(false);
 
     const updateUser = (user) => {
+        
         setUser(user)
     }
 

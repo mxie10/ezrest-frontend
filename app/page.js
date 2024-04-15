@@ -1,14 +1,11 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import SearchBarAlt from './components/SearchBarAlt';
 import CategoryFilter from './components/CategoryFilter';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
 import Listings from './components/Listings';
 
 export default function Home() {
 
-  const [pageNumber, setPageNumber] = useState(1);
   const [selectedProvince, setSelectedProvince] = useState('');
   const [selectedPriceIndex, setSelectedPriceIndex] = useState(-1);
   const [selectedBedroomIndex, setSelectedBedroomIndex] = useState(-1);
@@ -26,7 +23,7 @@ export default function Home() {
     bedrooms: 0,
     category: '',
     location:'',
-    checkinDate:''
+    checkinDate:'',
   });
 
   const handleSearchOnClick = () => {
@@ -85,13 +82,7 @@ export default function Home() {
       <div className='flex items-center justify-center'>
         <Listings
           filterOptions = {filterOptions}
-          pageNumber = {pageNumber}
         />
-      </div>
-      <div className='flex justify-center mb-10'>
-        <Stack spacing={10}>
-          <Pagination count={15} color="primary" />
-        </Stack>
       </div>
     </div>
   );

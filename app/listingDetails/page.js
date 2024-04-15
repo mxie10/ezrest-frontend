@@ -11,12 +11,14 @@ import { fetchListing } from '@/app/redux/actions/listings';
 import { fetchReservationByListingID } from '../redux/actions/reservations';
 import AmenitiesModal from './Amenities';
 import { iconsMap } from '../../public/static/icons';
+import useLoginModal from '../hooks/useLoginModal';
 // import Map from './Map';
 
 const Page = () => {
 
   const router = useRouter();
   const dispatch = useDispatch();
+  const {onOpen} = useLoginModal();
   const { user } = useContext(Context);
   const searchParams = useSearchParams();
   const listingID = searchParams.get('listingID');
@@ -52,10 +54,8 @@ const Page = () => {
   const totalGuests = reservation.guests.adults + reservation.guests.children + reservation.guests.infants + reservation.guests.pets;
 
   useEffect(() => {
-    if (user) {
-      dispatch(fetchListing(listingID));
-      dispatch(fetchReservationByListingID({ listingID: listingID, userID: user._id }));
-    }
+    dispatch(fetchListing(listingID));
+    dispatch(fetchReservationByListingID({ listingID: listingID}));
   }, [dispatch, user,listingID]);
 
   useEffect(() => {
@@ -87,6 +87,10 @@ const Page = () => {
   }
 
   const navigateToCheckout = () => {
+    if(!user){
+      onOpen();
+      return;
+    }
     if (reservation.checkinDate === '' || reservation.checkoutDate === '') {
       setError('Check-in date and check-out date cannot be empty!');
       return;

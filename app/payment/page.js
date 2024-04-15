@@ -12,28 +12,23 @@ import { Context } from '../context/useContext';
 import { makeReservation } from '../api/reservation';
 import { updateAvailableDate } from '../api/listings';
 import {findFirstAvailableDate} from '../utils/findAvailableDate';
-import { list } from 'postcss';
 
 const PaymentScreen = () => {
 
+  const { user } = useContext(Context);
   const router = useRouter();
+  if(!user) { 
+    router.push('/'); 
+    return; 
+  }
   const [step, setStep] = useState(0);
   const searchParams = useSearchParams();
-  const { user } = useContext(Context);
-
   const listingData = JSON.parse(decodeURIComponent(searchParams.get('listingData')));
   const reservation = JSON.parse(decodeURIComponent(searchParams.get('reservation')));
   const occupiedDates = JSON.parse(decodeURIComponent(searchParams.get('ecodedOccupiedDates')));
   const userID = JSON.parse(decodeURIComponent(searchParams.get('userID')));
 
-
-  // console.log('listingData:', listingData);
-  // console.log('reservation:', reservation);
-  // console.log('occupiedDates:', occupiedDates);
-
   const firstAvailableDate = findFirstAvailableDate(occupiedDates,reservation);
-
-  // console.log('firstAvailableDate:',firstAvailableDate);
 
   const [tripDetails, setTripDetails] = useState({
     userID: '',

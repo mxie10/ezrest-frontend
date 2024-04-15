@@ -8,12 +8,14 @@ export const updateFavoriteList = (userID,listingID) => {
         listingID: listingID
     }
 
-    return axios.put(`${url}/api/user/addFavorite/${userID}`,updateData)
-        .then(res=>{
-            console.log('Favorite list updated successfully:', res.data);
-            return res.data; 
-        }).catch(error=>{
-            console.error('Error updating favorite list:', error);
-            throw error; 
-        })
+    return axios.put(`${url}/api/user/addFavorite/${userID}`,updateData);
+}
+
+export const deleteFavoriteList = (userID,listingID) => {
+
+    const updateData = {
+        listingID: listingID
+    }
+
+    return axios.put(`${url}/api/user/deleteFavorite/${userID}`,updateData);
 }

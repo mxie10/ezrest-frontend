@@ -12,8 +12,7 @@ export const fetchReservations = createAsyncThunk("fetchReservations", async (us
 
 export const fetchReservationByListingID = createAsyncThunk("fetchReservationByListingID", async (params) => {
     try{
-        console.log("userID is:",params.userID);
-        const res = await api.getReservationByListingID(params.listingID,params.userID);
+        const res = await api.getReservationByListingID(params.listingID);
         return res.data;
     }catch(error){
         console.log(error);
