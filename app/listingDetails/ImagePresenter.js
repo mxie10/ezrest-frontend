@@ -2,7 +2,7 @@ import React from 'react'
 
 const ImagePresenter = (props) => {
 
-  const {handleImageClick,handleCloseFullScreen,selectedImage,imageSrc, propertyImg} = props;
+  const {handleImageClick,handleCloseFullScreen,selectedImage,propertyImg} = props;
 
   return (
     <>
