@@ -18,3 +18,12 @@ export const fetchReservationByListingID = createAsyncThunk("fetchReservationByL
         console.log(error);
     }
 })
+
+export const deleteReservation = createAsyncThunk("deleteReservation", async (listingID) => {
+    try{
+        const res = await api.deleteReservation(listingID);
+        return res.data;
+    }catch(error){
+        console.log(error);
+    }
+})

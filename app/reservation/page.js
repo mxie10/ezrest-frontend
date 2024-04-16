@@ -1,5 +1,6 @@
 'use client';
 import React, { useContext,useEffect,useState } from 'react';
+import {useRouter} from 'next/navigation';
 import BookingCard from '../components/BookingCard';
 import useReservationDetailsModal from '@/app/hooks/useReservationDetailsModal'
 import { useSelector } from "react-redux";
@@ -7,29 +8,39 @@ import { Context } from '../context/useContext';
 import { useDispatch } from "react-redux";
 import { fetchReservations } from '@/app/redux/actions/reservations';
 import { FaCartPlus } from "react-icons/fa6";
+import { deleteReservation } from '@/app/redux/actions/reservations';
 import BookingDetailsModal from '@/app/components/modals/BookingDetailsModal';
-
+import useBookingDetailsModal from '@/app/hooks/useReservationDetailsModal';
 
 const BookingScreen = () => {
 
   const { user } = useContext(Context);
+  const router = useRouter();
   const dispatch = useDispatch();
   const useReservation = useReservationDetailsModal();
   const isLoading = useSelector(state => state.reservations.isLoading);
   const reservations = useSelector(state => state.reservations.data);
+  const ifDeleteLoading = useSelector(state => state.deleteReservation.isLoading);
   const reservationData = reservations?.data || [];
   const [reservationInfo, setReservationInfo] = useState(null);
+  const useBooking = useBookingDetailsModal();
 
   useEffect(() => {
     if(user) {
       dispatch(fetchReservations(user._id));
     }
-  }, [dispatch,user]);
+  }, [dispatch,user,ifDeleteLoading]);
 
   const handleBookingOnClick = (reservationInfo) => {
     setReservationInfo(reservationInfo);
     useReservation.onOpen();
   }
+
+  const cancelReservation = (reservationID) => {
+    dispatch(deleteReservation(reservationID));
+    dispatch(fetchReservations(reservationInfo.userID));
+    useBooking.onClose();
+}
 
   if(isLoading){
     return <></>
@@ -99,7 +110,10 @@ const BookingScreen = () => {
           </div>
         </div>
       </div>
-      <BookingDetailsModal reservationInfo={reservationInfo}/>
+      <BookingDetailsModal 
+        reservationInfo={reservationInfo}
+        cancelReservation={cancelReservation}
+      />
     </div>
   )
 }
