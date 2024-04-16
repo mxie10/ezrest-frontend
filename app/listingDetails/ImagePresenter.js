@@ -12,8 +12,8 @@ const ImagePresenter = (props) => {
             <div className="flex w-full">
             <img
                 className="object-cover cursor-pointer rounded-tl-xl rounded-bl-xl"
-                src={propertyImg[0]}
-                onClick={() => handleImageClick(propertyImg[0])}
+                src={propertyImg?.[0]}
+                onClick={() => handleImageClick(propertyImg?.[0])}
                 alt="Image"
               />
             </div>
@@ -21,28 +21,28 @@ const ImagePresenter = (props) => {
               <div className="flex flex-row w-full mb-2">
                 <img
                   className="object-cover w-1/2 h-auto mx-2 cursor-pointer"
-                  src={propertyImg[1]}
-                  onClick={() => handleImageClick(propertyImg[1])}
+                  src={propertyImg?.[1]}
+                  onClick={() => handleImageClick(propertyImg?.[1])}
                   alt="Image"
                 />
                 <img
                   className="object-cover w-1/2 h-auto cursor-pointer rounded-tr-xl"
-                  src={propertyImg[2]}
-                  onClick={() => handleImageClick(propertyImg[2])}
+                  src={propertyImg?.[2]}
+                  onClick={() => handleImageClick(propertyImg?.[2])}
                   alt="Image"
                 />
               </div>
               <div className="flex flex-row">
                 <img
                   className="object-cover w-1/2 h-auto mx-2 cursor-pointer"
-                  src={propertyImg[3]}
-                  onClick={() => handleImageClick(propertyImg[3])}
+                  src={propertyImg?.[3]}
+                  onClick={() => handleImageClick(propertyImg?.[3])}
                   alt="Image"
                 />
                 <img
                   className="object-cover w-1/2 h-auto cursor-pointer rounded-br-xl"
-                  src={propertyImg[4]}
-                  onClick={() => handleImageClick(propertyImg[4])}
+                  src={propertyImg?.[4]}
+                  onClick={() => handleImageClick(propertyImg?.[4])}
                   alt="Image"
                 />
               </div>
