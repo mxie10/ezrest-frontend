@@ -7,12 +7,14 @@ import { RiMessage2Fill } from "react-icons/ri";
 import { FaHome } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import TextField from '@mui/material/TextField';
-import { deleteReservation } from '../../api/reservation'
+import { deleteReservation } from '@/app/redux/actions/reservations';
 import Button from './components/ButtonAlt';
 import { useDispatch } from "react-redux";
 import { fetchReservations } from '@/app/redux/actions/reservations';
 
 const BookingDetailsModal = (props) => {
+
+    const {cancelReservation} = props;
 
     const [openSendMessageBox, setOpenSendMessageBox] = useState(false);
     const dispatch = useDispatch();
@@ -40,12 +42,11 @@ const BookingDetailsModal = (props) => {
         router.push(`/listingDetails?listingID=${listingID}`);
     }
 
-    const cancelReservation = (reservationID) => {
-        deleteReservation(reservationID);
-        useBooking.onClose();
-        dispatch(fetchReservations(reservationInfo.userID));
-        // router.push('/reservation');
-    }
+    // const cancelReservation = (reservationID) => {
+    //     dispatch(deleteReservation(reservationID));
+    //     // dispatch(fetchReservations(reservationInfo.userID));
+    //     useBooking.onClose();
+    // }
 
     console.log('reservationInfo:',reservationInfo);
 

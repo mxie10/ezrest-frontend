@@ -4,6 +4,7 @@ import listingReducer from "./listings/listingSlicer";
 import wishListsReducer from "./wishList/wishListSlicer";
 import reservationsReducer from "./reservation/reservationsSlicer";
 import reservationReducer from "./reservation/reservationSlicer";
+import deleteReservationSlicer from "./reservation/deleteReservationSlicer";
 
 const store = configureStore({
     reducer:{
@@ -11,7 +12,8 @@ const store = configureStore({
         listing: listingReducer,
         wishLists: wishListsReducer,
         reservations: reservationsReducer,
-        reservation: reservationReducer
+        reservation: reservationReducer,
+        deleteReservation: deleteReservationSlicer
     }
 })
 

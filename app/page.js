@@ -18,7 +18,7 @@ export default function Home() {
     province: '',
     price: {
       min: 0,
-      max: 0
+      max: 99999,
     },
     bedrooms: 0,
     category: '',
