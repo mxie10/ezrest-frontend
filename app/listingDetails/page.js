@@ -167,7 +167,7 @@ const Page = () => {
   if (isLoadingListing) return <></>;
   if (isLoadinglistingReservations) return <></>;
 
-  console.log('listingData.basicInformation:', listingData.basicInformation);
+  console.log('listingData:',listingData);
 
   return (
     <div className='flex justify-center min-h-screen'>
@@ -179,6 +179,7 @@ const Page = () => {
             handleCloseFullScreen={handleCloseFullScreen}
             selectedImage={selectedImage}
             imageSrc={listingData?.imageSrc}
+            propertyImg = {listingData?.propertyImg}
           />
         </div>
 
