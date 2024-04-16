@@ -196,7 +196,7 @@ const Page = () => {
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-              <h1 className='font-semibold'>Hosted By {listingData?.landlordName}</h1>
+              <h1 className='font-semibold'>Hosted By {listingData?.landlordName?.firstName} {listingData?.landlordName?.lastName}</h1>
             </div>
 
             <div className="relative mt-2 mr-2 border-gray-300">

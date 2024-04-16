@@ -44,7 +44,7 @@ const BookingDetailsModal = (props) => {
         deleteReservation(reservationID);
         useBooking.onClose();
         dispatch(fetchReservations(reservationInfo.userID));
-        router.push('/reservation');
+        // router.push('/reservation');
     }
 
     console.log('reservationInfo:',reservationInfo);
