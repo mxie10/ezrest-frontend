@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useRef,useEffect } from 'react'
 import useSidebar from '../hooks/useSideBar';
 import { MdCancel } from "react-icons/md";

@@ -1,7 +1,7 @@
 /*
  * Testing Selection of Start Date and End Date for the Property Reservation
  * Date: 27/03/2024
- * Author: Baran Diloglu
+ * Author: Mingyuan Xie
 */
 
 
