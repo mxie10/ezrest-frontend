@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, useState, useEffect } from "react";
 import { getToken } from '../utils/functions';
 import { getUser } from '../auth/auth';

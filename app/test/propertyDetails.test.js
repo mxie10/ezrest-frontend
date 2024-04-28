@@ -1,7 +1,7 @@
 /*
  * Testing Page Rendering, Title, Image Rendering and Testing Guest Selection Button
  * Date: 27/03/2024
- * Author: Baran Diloglu
+ * Author: Mingyuan Xie
 */
 
 
